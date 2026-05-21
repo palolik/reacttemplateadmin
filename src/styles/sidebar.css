@@ -1,0 +1,13 @@
+.smain{
+    @apply bg-[#121445] h-screen  w-48 gap-1;
+}
+.sdiv{
+   @apply collapse collapse-arrow rounded-none ;
+}
+.sudiv{
+    @apply collapse-title text-white text-center border-b-[1px] border-cyan-100 rounded-none bg-black h-4;
+}
+
+.spdiv{
+    @apply collapse-content m-0 p-0 bg-[#121445]
+}

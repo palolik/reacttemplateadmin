@@ -1,0 +1,39 @@
+.banner-main{
+    @apply h-screen lg:h-screen bg-blue-900 flex flex-col lg:flex-row  rounded-bl-[200px] lg:mb-32 ;
+}
+.taglines{
+    @apply justify-start lg:h-[700px] items-start lg:text-start  flex flex-col   text-black lg:w-1/2;
+}
+.maintag{
+    @apply text-3xl  ml-20  lg:text-[80px] lg:leading-tight mt-20 z-20 absolute w-[900px];
+}
+.subtag{
+    @apply text-[20px]  ml-20  z-20 absolute mt-80 w-[700px];
+}
+.applybuttonbox{
+    @apply absolute z-20 mt-[500px] ml-20;
+}
+.manback{
+    @apply w-1/2  flex flex-col justify-end items-center align-bottom;
+}
+.manback2{
+    @apply bg-orange-500 h-[600px] w-[450px] rounded-t-[70px]  ;
+}
+.manimg{
+    @apply h-[700px] -mt-[100px] z-10 absolute;
+}
+.manfire{
+    @apply w-1/2 right-0 mt-[220px];
+}
+.points{
+    @apply flex flex-col -mt-[400px] text-white;
+}
+.pointdivs{
+    @apply flex flex-row mb-20 items-center;
+}
+.bullet{
+    @apply bg-red-800 h-5 w-5 rounded-full;
+}
+.moshal{
+    @apply absolute opacity-15 items-center h-screen right-0 flex flex-row ;
+}

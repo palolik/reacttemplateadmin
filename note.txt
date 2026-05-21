@@ -1,0 +1,55 @@
+   <label className="lbl">
+                        <div>
+                            <span>2nd Pic</span>
+                        </div>
+                        <input
+                            type="file"
+                            className="flin"
+                            name="secondPic"
+                            
+                        />
+                    </label>
+                    <label className="lbl">
+                        <div>
+                            <span>3rd Pic</span>
+                        </div>
+                        <input
+                            type="file"
+                            className="flin"
+                            name="thirdPic"
+                            
+                        />
+                    </label>
+                    <label className="lbl">
+                        <div>
+                            <span>4th Pic</span>
+                        </div>
+                        <input
+                            type="file"
+                            className="flin"
+                            name="fourthPic"
+                            
+                        />
+                    </label>
+                    <label className="lbl">
+                        <div>
+                            <span>5th Pic</span>
+                        </div>
+                        <input
+                            type="file"
+                            className="flin"
+                            name="fifthPic"
+                            
+                        />
+                    </label>
+                    <label className="lbl">
+                        <div>
+                            <span>6th Pic</span>
+                        </div>
+                        <input
+                            type="file"
+                            className="flin"
+                            name="sixthPic"
+                            
+                        />
+                    </label>
