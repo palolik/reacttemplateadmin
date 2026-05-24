@@ -53,6 +53,7 @@ import FaqAll from "../Layout/Pripacklab/faq/faq";
 import { base_url } from "../config/config";
 import PaymentMethod from "../Layout/Pripacklab/PaymentMethod/paymentmethod";
 import Invoice from "../Layout/Pripacklab/Income/invoice";
+import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
 
 export const router = createBrowserRouter([
   {
@@ -141,7 +142,7 @@ export const router = createBrowserRouter([
         element: <Advertise></Advertise>,
         loader: ()=> fetch(`${base_url}/advertise`),
         },
-           {
+        {
         path: "/pripacklab/banners",
         element: <Banners></Banners>,
         loader: ()=> fetch(`${base_url}/getbanners`),
@@ -149,6 +150,10 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/income',
         element: <PIncome />
+      },
+      {
+        path: '/pripacklab/sellers',
+        element: <PSellers />
       },
       {
         path: '/pripacklab/expense',

@@ -66,10 +66,23 @@ const Sidebar = () => {
             { id: 2, name: 'Cancelled Orders', path: '/skillnup/orders/canorders' },
         ],
 
-        // ── pripacklab: grouped sub-sections ──────────────────
         pripacklab: {
             _grouped: true,
             sections: [
+                 {
+                    id: 'overview',
+                    label: 'Overview',
+                    items: [
+                        { id: 19, name: 'Dashboard', path: '/pripacklab/dashboard' },
+                    ],
+                },
+                 {
+                    id: 'Seller Center',
+                    label: 'Seller Center',
+                    items: [
+                        { id: 20, name: 'Seller List', path: '/pripacklab/sellers' },
+                    ],
+                },
                 {
                     id: 'catalogue',
                     label: 'Catalogue',
@@ -124,13 +137,7 @@ const Sidebar = () => {
                         { id: 18, name: 'Ordering Process', path: '/pripacklab/process' },
                     ],
                 },
-                {
-                    id: 'overview',
-                    label: 'Overview',
-                    items: [
-                        { id: 19, name: 'Dashboard', path: '/pripacklab/dashboard' },
-                    ],
-                },
+               
             ],
         },
 

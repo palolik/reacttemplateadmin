@@ -31,7 +31,7 @@
 }
 
 .hdr{
-    @apply text-[40px] bg-[#010103] text-white pl-4 ;
+    @apply text-[40px] bg-white text-black pl-4 border-b-[1px] border-sky-100 ;
     
 }
 /* this part is all for labeling  */
@@ -162,7 +162,7 @@
     @apply label-text ;
 }
 .flbl div input[type="text"]{
-    @apply input input-bordered input-sm w-[350px] max-w-xs ;
+    @apply input input-bordered input-sm w-[350px] max-w-xs bg-white;
 }
 
 .flbl{
