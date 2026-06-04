@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { RiCloseLargeFill } from "react-icons/ri";
-import { base_url } from "../../../config/config";
-
+import '../../../styles/pripack.css';
 const emptyForm = { method: "", number: "", extradetails: "" };
 
 const PaymentMethod = () => {
@@ -96,44 +95,40 @@ const PaymentMethod = () => {
   };
 
   const PaymentForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
-    <form onSubmit={onSubmit} className="flex flex-col gap-3">
-      <label className="flbl">
-        <span>Payment Method</span>
-        <select name="method" defaultValue={defaultValues.method || ""} className="fflin" required>
-          <option value="" disabled>Select method</option>
-          <option value="bKash">bKash</option>
-          <option value="Nagad">Nagad</option>
-          <option value="Rocket">Rocket</option>
-          <option value="Bank Transfer">Bank Transfer</option>
-          <option value="Cash on Delivery">Cash on Delivery</option>
-          <option value="Card">Card</option>
-          <option value="Other">Other</option>
-        </select>
-      </label>
-      <label className="flbl">
-        <span>Number / Account</span>
-        <input
-          name="number"
-          type="text"
-          defaultValue={defaultValues.number}
-          className="fflin"
-          placeholder="e.g. 01XXXXXXXXX"
-          required
-        />
-      </label>
-      <label className="flbl">
-        <span>Extra Details</span>
-        <textarea
-          name="extradetails"
-          defaultValue={defaultValues.extradetails}
-          className="fflin h-24 resize-none"
-          placeholder="e.g. Send money to personal, mention order ID"
-        />
-      </label>
-      <button type="submit" className="btn btn-sm btn-primary mt-2 w-full">
-        {submitLabel}
-      </button>
-    </form>
+   <form onSubmit={onSubmit} className="flex flex-col gap-3">
+
+  <select name="method" defaultValue={defaultValues.method || ""} className="pridrop" required>
+    <option value="" disabled>Select method</option>
+    <option value="bKash">bKash</option>
+    <option value="Nagad">Nagad</option>
+    <option value="Rocket">Rocket</option>
+    <option value="Bank Transfer">Bank Transfer</option>
+    <option value="Cash on Delivery">Cash on Delivery</option>
+    <option value="Card">Card</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <input
+    name="number"
+    type="text"
+    defaultValue={defaultValues.number}
+    className="priinput"
+    placeholder="e.g. 01XXXXXXXXX"
+    required
+  />
+
+  <textarea
+    name="extradetails"
+    defaultValue={defaultValues.extradetails}
+    className="pritextarea"
+    placeholder="e.g. Send money to personal, mention order ID"
+  />
+
+  <button type="submit" className="pributton">
+    {submitLabel}
+  </button>
+
+</form>
   );
 
   return (

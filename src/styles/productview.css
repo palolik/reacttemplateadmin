@@ -152,9 +152,7 @@
     
 }
 
-.flbl{
-    @apply form-control w-[350px] max-w-xs ;
-}
+
 .flbl div{
     @apply label ;
 }
@@ -166,5 +164,8 @@
 }
 
 .flbl{
-    @apply form-control w-[350px] max-w-xs ;
+    @apply form-control w-[350px] input input-bordered text-black bg-white flex items-center gap-2 mb-4;
 }
+
+ 
+       

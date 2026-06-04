@@ -5,37 +5,32 @@ import { base_url } from '../../../Config/config';
 import '../../../styles/productview.css';
 
 const CATEGORIES = [
-  '1️⃣ Cost of Goods Sold (COGS)',
-  '2️⃣ Shipping & Fulfillment',
-  '3️⃣ Marketing & Advertising',
-  '4️⃣ Technology & Software',
-  '5️⃣ Payroll & Contractors',
-  '6️⃣ Office & Administrative',
-  '7️⃣ Payment Processing Fees',
-  '8️⃣ Financial & Legal',
-  '9️⃣ Communication & Support',
-  '🔟 Miscellaneous',
+  'Cost of Goods Sold (COGS)',
+  'Shipping & Fulfillment',
+  'Marketing & Advertising',
+  'Technology & Software',
+  'Payroll & Contractors',
+  'Office & Administrative',
+  'Payment Processing Fees',
+  'Financial & Legal',
+  'Communication & Support',
+  'Miscellaneous',
 ];
 
 const emptyForm = {
-  category: '',
-  title: '',
-  description: '',
-  date: '',
-  amount: '',
-  note: '',
-  spender: '',
+  category: '', title: '', description: '',
+  date: '', amount: '', note: '', spender: '',
 };
 
 const PExpense = () => {
-  const [salesData, setSalesData]   = useState([]);
-  const [form, setForm]             = useState(emptyForm);
+  const [salesData, setSalesData]     = useState([]);
+  const [form, setForm]               = useState(emptyForm);
   const [invoiceFile, setInvoiceFile] = useState(null);
-  const [isEditing, setIsEditing]   = useState(false);
-  const [editId, setEditId]         = useState(null);
-  const [search, setSearch]         = useState('');
+  const [isEditing, setIsEditing]     = useState(false);
+  const [editId, setEditId]           = useState(null);
+  const [search, setSearch]           = useState('');
+  const [modalOpen, setModalOpen]     = useState(false);
 
-  // ── Fetch ──────────────────────────────────────────────
   const fetchExpenses = () => {
     fetch(`${base_url}/getexpenses`)
       .then(res => res.json())
@@ -45,15 +40,40 @@ const PExpense = () => {
 
   useEffect(() => { fetchExpenses(); }, []);
 
-  // ── Handlers ───────────────────────────────────────────
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const openAddModal = () => {
+    setIsEditing(false);
+    setEditId(null);
+    setForm(emptyForm);
+    setInvoiceFile(null);
+    setModalOpen(true);
+  };
+
+  const handleEdit = (item) => {
+    setIsEditing(true);
+    setEditId(item._id);
+    setInvoiceFile(null);
+    setForm({
+      category: item.category, title: item.title,
+      description: item.description, date: item.date,
+      amount: item.amount, note: item.note, spender: item.spender,
+    });
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setIsEditing(false);
+    setEditId(null);
+    setInvoiceFile(null);
+    setForm(emptyForm);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Use FormData so we can send the invoice file
     const formData = new FormData();
     Object.entries(form).forEach(([key, val]) => formData.append(key, val));
     if (invoiceFile) formData.append('invoice', invoiceFile);
@@ -72,10 +92,7 @@ const PExpense = () => {
           isEditing ? 'Expense updated successfully.' : 'Expense added successfully.',
           'success'
         );
-        setForm(emptyForm);
-        setInvoiceFile(null);
-        setIsEditing(false);
-        setEditId(null);
+        closeModal();
         fetchExpenses();
       } else {
         Swal.fire('No Changes', 'No changes were detected.', 'info');
@@ -83,23 +100,6 @@ const PExpense = () => {
     } catch {
       Swal.fire('Error!', 'An unexpected error occurred.', 'error');
     }
-  };
-
-  const handleEdit = (item) => {
-    setIsEditing(true);
-    setEditId(item._id);
-    setInvoiceFile(null); // reset file picker; existing invoice kept unless replaced
-    setForm({
-      category:    item.category,
-      title:       item.title,
-      description: item.description,
-      date:        item.date,
-      amount:      item.amount,
-      note:        item.note,
-      spender:     item.spender,
-    });
-    // Scroll form into view
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id) => {
@@ -123,14 +123,6 @@ const PExpense = () => {
     }
   };
 
-  const cancelEdit = () => {
-    setIsEditing(false);
-    setEditId(null);
-    setInvoiceFile(null);
-    setForm(emptyForm);
-  };
-
-  // ── Derived ────────────────────────────────────────────
   const filtered = salesData.filter(item =>
     [item.title, item.category, item.spender, item.description]
       .some(v => v?.toLowerCase().includes(search.toLowerCase()))
@@ -138,17 +130,12 @@ const PExpense = () => {
 
   const totalAmount = salesData.reduce((sum, i) => sum + Number(i.amount || 0), 0);
 
-  // ── Export ─────────────────────────────────────────────
   const exportToExcel = () => {
     const data = salesData.map(item => ({
-      Category:    item.category,
-      Title:       item.title,
-      Description: item.description,
-      Date:        item.date,
-      Amount:      item.amount,
-      Spender:     item.spender,
-      Note:        item.note,
-      Invoice:     item.invoice ? `${base_url}${item.invoice}` : 'N/A',
+      Category: item.category, Title: item.title,
+      Description: item.description, Date: item.date,
+      Amount: item.amount, Spender: item.spender,
+      Note: item.note, Invoice: item.invoice ? `${base_url}${item.invoice}` : 'N/A',
     }));
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
@@ -156,139 +143,63 @@ const PExpense = () => {
     XLSX.writeFile(wb, 'expenses.xlsx');
   };
 
-  // ── UI ─────────────────────────────────────────────────
   return (
     <div className="w-full">
       <h1 className="text-[40px] bg-[#010103] text-white pl-4">Expense</h1>
 
-      <div className="flex flex-row p-2 w-full gap-4">
+      <div className="w-full p-2">
 
-        {/* ── Form ── */}
-        <div className="flex flex-col gap-2 p-2  shrink-0">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-
-            {/* Category dropdown */}
-            <label className="lbl">
-              <span>Category</span>
-              <select name="category" className="grow" value={form.category} onChange={handleChange} required>
-                <option value="">Select category</option>
-                {CATEGORIES.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
+        {/* Toolbar */}
+        <div className="bg-white pl-2 mb-2 flex flex-row justify-between items-center">
+          <div className="flex gap-2">
+            <button className="smbut" onClick={openAddModal}>+ Add Expense</button>
+            <button className="smbut">Import</button>
+            <button className="smbut" onClick={exportToExcel}>Export</button>
+          </div>
+          <div className="w-[300px]">
+            <label className="input input-bordered flex input-sm items-center gap-2">
+              <input type="text" className="grow" placeholder="Search"
+                value={search} onChange={e => setSearch(e.target.value)} />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                fill="currentColor" className="h-4 w-4 opacity-70">
+                <path fillRule="evenodd"
+                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                  clipRule="evenodd" />
+              </svg>
             </label>
-
-            {/* Text fields */}
-            {[
-              { label: 'Title',       name: 'title',       type: 'text' },
-              { label: 'Description', name: 'description', type: 'text' },
-              { label: 'Date',        name: 'date',        type: 'date' },
-              { label: 'Amount',      name: 'amount',      type: 'number' },
-              { label: 'Spender',     name: 'spender',     type: 'text' },
-            ].map(({ label, name, type }) => (
-              <label key={name} className="lbl">
-                <span>{label}</span>
-                <input
-                  type={type} name={name} className="grow"
-                  placeholder={label} value={form[name]}
-                  onChange={handleChange} required
-                />
-              </label>
-            ))}
-
-            {/* Note (textarea, optional) */}
-            <label className="lbl">
-              <span>Note</span>
-              <textarea
-                name="note" className="grow" placeholder="Optional note..."
-                value={form.note} onChange={handleChange} rows={2}
-              />
-            </label>
-
-            {/* Invoice uploader (optional) */}
-            <label className="lbl flex-col items-start">
-              <span>Invoice <span className="text-gray-400 text-xs">(optional)</span></span>
-              <input
-                type="file"
-                accept="image/*,application/pdf"
-                className="file-input file-input-bordered file-input-sm w-full mt-1"
-                onChange={e => setInvoiceFile(e.target.files[0] || null)}
-              />
-              {/* Show existing invoice link when editing */}
-              {isEditing && !invoiceFile && (() => {
-                const existing = salesData.find(i => i._id === editId)?.invoice;
-                return existing ? (
-                  <a href={`${base_url}${existing}`} target="_blank" rel="noreferrer"
-                    className="text-xs text-blue-500 underline mt-1">
-                    View current invoice
-                  </a>
-                ) : null;
-              })()}
-            </label>
-
-            <button type="submit" className="btn mt-10 btn-sm w-[200px]">
-              {isEditing ? 'Update Expense' : 'Add Expense'}
-            </button>
-
-            {isEditing && (
-              <button type="button" onClick={cancelEdit}
-                className="btn btn-sm w-full bg-red-500 text-white">
-                Cancel Edit
-              </button>
-            )}
-          </form>
+          </div>
         </div>
 
-        {/* ── Table ── */}
-        <div className="w-full p-2 overflow-x-auto">
-
-          {/* Toolbar */}
-          <div className="bg-white pl-2 mb-2 flex flex-row justify-between items-center">
-            <div>
-              <button className="smbut mr-2">Import</button>
-              <button className="smbut" onClick={exportToExcel}>Export</button>
-            </div>
-            <div className="w-[300px]">
-              <label className="input input-bordered flex input-sm items-center gap-2">
-                <input type="text" className="grow" placeholder="Search"
-                  value={search} onChange={e => setSearch(e.target.value)} />
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                  fill="currentColor" className="h-4 w-4 opacity-70">
-                  <path fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd" />
-                </svg>
-              </label>
-            </div>
-          </div>
-
-          {/* Header */}
+        {/* Table */}
+        <div className="overflow-x-auto">
           <div className="tabst">
             <div>Category</div>
             <div>Title</div>
             <div>Description</div>
             <div>Date</div>
             <div>Amount</div>
+            <div>Spender</div>
             <div>Note & Invoice</div>
             <div>Actions</div>
           </div>
 
-          {/* Rows */}
           <div className="flex flex-col">
+            {filtered.length === 0 && (
+              <div className="text-center text-gray-400 py-8">No expense entries found.</div>
+            )}
             {filtered.map((item, index) => (
               <div className="tabc" key={index}>
                 <div>{item.category}</div>
                 <div>{item.title}</div>
                 <div>{item.description}</div>
                 <div>{item.date}</div>
-                <div>${Number(item.amount || 0).toLocaleString()}-{item.spender}</div>
-               
-                <div>{item.note}
+                <div>${Number(item.amount || 0).toLocaleString()}</div>
+                <div>{item.spender}</div>
+                <div className="flex flex-col gap-1">
+                  <span>{item.note}</span>
                   {item.invoice
                     ? <a href={`${base_url}${item.invoice}`} target="_blank"
-                        rel="noreferrer" className="text-blue-500 underline text-sm">
-                        View
-                      </a>
+                        rel="noreferrer" className="text-blue-500 underline text-sm">View</a>
                     : <span className="text-gray-400 text-sm">—</span>
                   }
                 </div>
@@ -300,12 +211,103 @@ const PExpense = () => {
             ))}
           </div>
 
-          {/* Summary */}
-          <div className="total-income mt-4">
+          <div className="mt-4 pl-2">
             <p><strong>Total Expenses: ${totalAmount.toLocaleString()}</strong></p>
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
+
+            {/* Modal Header */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-gray-800">
+                {isEditing ? 'Edit Expense' : 'Add Expense'}
+              </h2>
+              <button onClick={closeModal}
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            </div>
+
+            {/* Modal Form */}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+
+              <label className="lbl">
+                <span>Category</span>
+                <select name="category" className="pridrop" value={form.category} onChange={handleChange} required>
+                  <option value="">Select category</option>
+                  {CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </label>
+
+              {[
+                { label: 'Title',       name: 'title',       type: 'text'   },
+                { label: 'Date',        name: 'date',        type: 'date'   },
+                { label: 'Amount',      name: 'amount',      type: 'number' },
+                { label: 'Spender',     name: 'spender',     type: 'text'   },
+              ].map(({ label, name, type }) => (
+                <label key={name} className="lbl">
+                  <span>{label}</span>
+                  <input
+                    type={type} name={name} className="priinput"
+                    placeholder={label} value={form[name]}
+                    onChange={handleChange} required
+                  />
+                </label>
+              ))}
+
+              <label className="lbl">
+                <span>Description</span>
+                <textarea name="description" className="pritextarea"
+                  placeholder="Optional description..." value={form.description}
+                  onChange={handleChange} rows={2} />
+              </label>
+
+              <label className="lbl">
+                <span>Note</span>
+                <textarea name="note" className="pritextarea"
+                  placeholder="Optional note..." value={form.note}
+                  onChange={handleChange} rows={2} />
+              </label>
+
+              <label className="lbl flex-col items-start">
+                <span>Invoice <span className="text-gray-400 text-xs">(optional)</span></span>
+                <input
+                  type="file"
+                  accept="image/*,application/pdf"
+                  className="file-input file-input-bordered file-input-sm w-full mt-1"
+                  onChange={e => setInvoiceFile(e.target.files[0] || null)}
+                />
+                {isEditing && !invoiceFile && (() => {
+                  const existing = salesData.find(i => i._id === editId)?.invoice;
+                  return existing ? (
+                    <a href={`${base_url}${existing}`} target="_blank" rel="noreferrer"
+                      className="text-xs text-blue-500 underline mt-1">
+                      View current invoice
+                    </a>
+                  ) : null;
+                })()}
+              </label>
+
+              <div className="flex gap-2 mt-2">
+                <button type="submit" className="pributton flex-1">
+                  {isEditing ? 'Update Expense' : 'Add Expense'}
+                </button>
+                <button type="button" onClick={closeModal}
+                  className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">
+                  Cancel
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };

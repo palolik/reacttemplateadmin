@@ -1,22 +1,21 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useContext } from 'react';
 import '../../styles/sidebar.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../Provider/Authprovider';
 
 const ListLink = ({ route, listClass, isActive }) => {
     return (
         <li>
-            <a
-                href={route.path}
+            <Link
+                to={route.path}
                 className={`${listClass} ${isActive ? 'bg-[#141414] text-sky-300' : ''}`}
             >
                 {route.name}
-            </a>
+            </Link>
         </li>
     );
 };
-
 const Sidebar = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();

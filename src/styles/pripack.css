@@ -1,0 +1,17 @@
+
+
+.priinput {
+    @apply input input-bordered text-black bg-white  font-medium;
+}
+
+.pridrop {
+    @apply select select-bordered text-black bg-white w-full ;
+}
+
+.pritextarea {
+    @apply textarea textarea-bordered text-black bg-white w-full ;
+}
+
+.pributton {
+    @apply btn btn-primary bg-black text-white hover:bg-blue-950;
+}

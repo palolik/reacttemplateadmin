@@ -43,7 +43,7 @@ const Login = () => {
         <div className="text-2xl text-center font-bold mb-10">Sign In</div>
 
         <form onSubmit={handleLogin}>
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered text-black bg-white flex items-center gap-2 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -63,7 +63,7 @@ const Login = () => {
             />
           </label>
 
-          <label className="input input-bordered flex items-center gap-2 mb-4">
+          <label className="input input-bordered text-black bg-white flex items-center gap-2 mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
@@ -87,7 +87,7 @@ const Login = () => {
           </label>
 
           <input
-            className="btn my-2 w-full bg-blue-500 text-white"
+            className="btn my-2 w-full bg-blue-500 border-none text-white"
             type="submit"
             value="Sign In"
           />
