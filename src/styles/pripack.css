@@ -1,7 +1,7 @@
 
 
 .priinput {
-    @apply input input-bordered text-black bg-white  font-medium;
+    @apply input input-bordered text-black bg-white  font-medium w-full;
 }
 
 .pridrop {
@@ -14,4 +14,7 @@
 
 .pributton {
     @apply btn btn-primary bg-black text-white hover:bg-blue-950;
+}
+.prifile {
+    @apply file-input file-input-md w-full bg-white text-black border-gray-300;
 }

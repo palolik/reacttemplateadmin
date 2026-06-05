@@ -213,7 +213,7 @@ const PSellers = () => {
                   type="text"
                   placeholder="Name"
                   defaultValue={editingSeller?.name || ""}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
 
@@ -222,7 +222,7 @@ const PSellers = () => {
                   type="email"
                   placeholder="Email"
                   defaultValue={editingSeller?.email || ""}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
 
@@ -231,7 +231,7 @@ const PSellers = () => {
                   type="text"
                   placeholder="Phone"
                   defaultValue={editingSeller?.phone || ""}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
 
@@ -239,7 +239,7 @@ const PSellers = () => {
                   name="password"
                   type="password"
                   placeholder={editingSeller ? "New Password (optional)" : "Password"}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required={!editingSeller}
                 />
 
@@ -248,7 +248,7 @@ const PSellers = () => {
                   type="text"
                   placeholder="Zilla"
                   defaultValue={editingSeller?.zilla || ""}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
 
@@ -257,7 +257,7 @@ const PSellers = () => {
                   type="text"
                   placeholder="Active Time, e.g. 9 AM - 8 PM"
                   defaultValue={editingSeller?.activetime || ""}
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
 
@@ -266,7 +266,7 @@ const PSellers = () => {
                   type="text"
                   placeholder="Services, comma separated"
                   defaultValue={formatServices(editingSeller?.services)}
-                  className="input input-bordered w-full md:col-span-2"
+                  className="priinput md:col-span-2"
                   required
                 />
 
@@ -278,7 +278,7 @@ const PSellers = () => {
                   required
                 />
 
-                <button type="submit" className="btn btn-primary w-full mt-3 md:col-span-2">
+                <button type="submit" className="pributton md:col-span-2">
                   {editingSeller ? "Update Seller" : "Add Seller"}
                 </button>
               </form>

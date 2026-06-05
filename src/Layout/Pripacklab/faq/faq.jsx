@@ -135,17 +135,17 @@ const FaqAll = () => {
                 name="faqquestion"
                 type="text"
                 placeholder="Question"
-                className="input input-bordered w-full"
+                className="priinput"
                 required
               />
               <input
                 name="faqanswer"
                 type="text"
                 placeholder="Answer"
-                className="input input-bordered w-full"
+                className="priinput"
                 required
               />
-              <button type="submit" className="btn btn-primary w-full mt-3">
+              <button type="submit" className="pributton">
                 Add FAQ
               </button>
             </form>

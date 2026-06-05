@@ -95,7 +95,6 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         setVariants([]);
     };
 
-    // ── Generate variants ─────────────────────────────────────────────────────
     const generateVariants = () => {
         const active = criteria.filter(c => c.values.length > 0);
         if (!active.length) return;
@@ -107,7 +106,6 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
             );
         });
 
-        // Keep prices from existing variants where combination matches
         const existingMap = {};
         variants.forEach(v => { existingMap[v.label] = v; });
 
@@ -126,7 +124,6 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         }));
     };
 
-    // ── Variant field update ──────────────────────────────────────────────────
     const handleVariantChange = (id, field, value) => {
         setVariants(prev => prev.map(v => v.id === id ? { ...v, [field]: value } : v));
     };
@@ -135,7 +132,6 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         setVariants(prev => prev.map(v => v.id === id ? { ...v, is_active: !v.is_active } : v));
     };
 
-    // ── Image helpers ─────────────────────────────────────────────────────────
     const handleNewImages = (e) => {
         setNewImages(prev => [...prev, ...Array.from(e.target.files)]);
     };
@@ -148,13 +144,11 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         setNewImages(prev => prev.filter((_, i) => i !== index));
     };
 
-    // ── Tag helpers ───────────────────────────────────────────────────────────
     const handleAddTag = () => {
         const t = tagInput.trim();
         if (t && !tags.includes(t)) { setTags(prev => [...prev, t]); setTagInput(""); }
     };
 
-    // ── Submit ────────────────────────────────────────────────────────────────
     const handleSave = async () => {
         setSaving(true);
         const formData = new FormData();

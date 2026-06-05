@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from "react";
+import { base_url } from "../config/config";
 
 const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task description here..." }) => {
   const iframeRef     = useRef(null);
@@ -361,14 +362,27 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
     setActiveFormats(prev => ({ ...prev, [command]: doc.queryCommandState(command) }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => insertImageIntoEditor(ev.target.result);
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  };
+ const handleImageUpload = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  e.target.value = "";
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const res = await fetch(`${base_url}/uploadrichtextimage`, {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.url) {
+      insertImageIntoEditor(`${base_url}${data.url}`);
+    }
+  } catch (err) {
+    console.error("Image upload failed:", err);
+  }
+};
 
   const insertImageFromURL = () => {
     const url = prompt("Enter image URL:", "https://");

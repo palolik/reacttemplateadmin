@@ -116,45 +116,45 @@ const Delivery = () => {
 
   const DeliveryForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
     <form onSubmit={onSubmit} className="flex flex-col gap-3">
-      <label className="flbl">
+      <label >
         <span>Area</span>
         <input
           name="area"
           type="text"
           defaultValue={defaultValues.area}
-          className="fflin"
+          className="priinput"
           placeholder="e.g. Dhaka City"
           required
         />
       </label>
-      <label className="flbl">
+      <label >
         <span>Charge (৳)</span>
         <input
           name="charge"
           type="number"
           defaultValue={defaultValues.charge}
-          className="fflin"
+          className="priinput"
           placeholder="e.g. 60"
           required
         />
       </label>
-      <label className="flbl">
+      <label >
         <span>Delivery Period</span>
         <input
           name="period"
           type="text"
           defaultValue={defaultValues.period}
-          className="fflin"
+          className="priinput"
           placeholder="e.g. 1-2 days"
           required
         />
       </label>
-      <label className="flbl">
+      <label >
         <span>Service Category</span>
         <select
           name="servicecategory"
           defaultValue={defaultValues.servicecategory || ""}
-          className="fflin"
+          className="priinput"
           required
         >
           <option value="" disabled>Select category</option>
@@ -165,7 +165,7 @@ const Delivery = () => {
           ))}
         </select>
       </label>
-      <button type="submit" className="btn btn-sm btn-primary mt-2 w-full">
+      <button type="submit" className="pributton">
         {submitLabel}
       </button>
     </form>

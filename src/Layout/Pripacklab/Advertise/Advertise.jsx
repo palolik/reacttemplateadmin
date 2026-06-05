@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { base_url
-  
- } from "../../../config/config";
+import {
+  base_url
+
+} from "../../../config/config";
 const Advertise = () => {
   const [ima, setIma] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -15,7 +16,7 @@ const Advertise = () => {
       .catch((error) => console.error("Error fetching advertisements:", error));
   }, []);
 
- 
+
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -76,45 +77,45 @@ const Advertise = () => {
       Swal.fire("Error!", "Unexpected error occurred.", "error");
     }
   };
-const handleStatusChange = (adId, newStatus) => {
-  fetch(`${base_url}/adstatus/${adId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ status: newStatus }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.modifiedCount > 0 || data.acknowledged) {
-        Swal.fire({
-          icon: "success",
-          title: "Status Updated!",
-          text: `Status changed to ${newStatus}`,
-          timer: 1200,
-          showConfirmButton: false,
-        });
-
-        setIma((prev) =>
-          prev.map((ad) =>
-            ad._id === adId ? { ...ad, status: newStatus } : ad
-          )
-        );
-      } else {
-        Swal.fire({
-          icon: "info",
-          title: "No Changes",
-          text: "Status was already set to this value.",
-        });
-      }
+  const handleStatusChange = (adId, newStatus) => {
+    fetch(`${base_url}/adstatus/${adId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
     })
-    .catch((error) => {
-      console.error("Error updating status:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Failed!",
-        text: "Could not update status.",
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0 || data.acknowledged) {
+          Swal.fire({
+            icon: "success",
+            title: "Status Updated!",
+            text: `Status changed to ${newStatus}`,
+            timer: 1200,
+            showConfirmButton: false,
+          });
+
+          setIma((prev) =>
+            prev.map((ad) =>
+              ad._id === adId ? { ...ad, status: newStatus } : ad
+            )
+          );
+        } else {
+          Swal.fire({
+            icon: "info",
+            title: "No Changes",
+            text: "Status was already set to this value.",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating status:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Could not update status.",
+        });
       });
-    });
-};
+  };
 
   return (
     <div className="w-full">
@@ -127,80 +128,60 @@ const handleStatusChange = (adId, newStatus) => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border">
-            <thead className="bg-gray-100">
-              <tr className="text-center font-semibold">
-                <th>Image</th>
-                <th>Location</th>
-                <th>Redirect Link</th>
-                 <th>Start Date</th>
+     <div className="overflow-x-auto">
+  <div className="tabst">
+    <div>Image</div>
+    <div>Location</div>
+    <div>Redirect Link</div>
+    <div>Start Date</div>
+    <div>Till Date</div>
+    <div>Clicks</div>
+    <div>Status</div>
+    <div>Change Status</div>
+    <div>Actions</div>
+  </div>
 
-                <th>Till Date</th>
-                <th>Clicks</th>
-                <th>Status</th>
-
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ima.map((ad) => (
-                <tr key={ad._id} className="text-center border-b">
-                  <td className="flex justify-center">
-                    <img
-                      src={ad.imglink}
-                      alt="Advert"
-                      className="w-12 h-12 object-cover rounded-full"
-                    />
-                  </td>
-                  <td>{ad.location}</td>
-                  <td className="truncate max-w-xs text-blue-600 underline">
-                    <a href={ad.rdlink} target="_blank" rel="noopener noreferrer">
-                      {ad.rdlink}
-                    </a>
-                  </td>
-                  <td>{ad.startdate}</td>
-
-                  <td>{ad.tilldate}</td>
-                     <td>{ad.clicks}</td>
-                  <td>{ad.status}</td>   <td className="py-2 px-3">
-              <select
-                value={ad.status || "pending"}
-                onChange={(e) =>
-                  handleStatusChange(ad._id, e.target.value)
-                }
-                className={`border rounded px-2 py-1 text-sm cursor-pointer ${
-                  ad.status === "approved"
-                    ? "bg-green-100 text-green-800"
-                    : ad.status === "rejected"
-                    ? "bg-red-100 text-red-800"
-                    : "bg-yellow-100 text-yellow-800"
-                }`}
-              >   <option value="pending">Pending</option>
-                <option value="active">Active</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </td>
-                  <td className="flex justify-center gap-2">
-                    <button
-                      onClick={() => handleDelete(ad._id)}
-                      className="btn btn-xs btn-error"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-              {ima.length === 0 && (
-                <tr>
-                  <td colSpan="6" className="text-center py-4 text-gray-500">
-                    No advertisements found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+  <div className="flex flex-col">
+    {ima.length === 0 && (
+      <div className="text-center text-gray-400 py-8">No advertisements found.</div>
+    )}
+    {ima.map((ad) => (
+      <div key={ad._id} className="tabc">
+        <div>
+          <img src={ad.imglink} alt="Advert"
+            className="w-12 h-12 object-cover rounded-full" />
         </div>
+        <div>{ad.location}</div>
+        <div className="truncate max-w-xs">
+          <a href={ad.rdlink} target="_blank" rel="noopener noreferrer"
+            className="text-blue-600 underline">{ad.rdlink}</a>
+        </div>
+        <div>{ad.startdate}</div>
+        <div>{ad.tilldate}</div>
+        <div>{ad.clicks}</div>
+        <div>{ad.status}</div>
+        <div>
+          <select
+            value={ad.status || "pending"}
+            onChange={(e) => handleStatusChange(ad._id, e.target.value)}
+            className={`border rounded px-2 py-1 text-sm cursor-pointer ${
+              ad.status === "approved" ? "bg-green-100 text-green-800"
+              : ad.status === "rejected" ? "bg-red-100 text-red-800"
+              : "bg-yellow-100 text-yellow-800"
+            }`}
+          >
+            <option value="pending">Pending</option>
+            <option value="active">Active</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div className="flex gap-1">
+          <button onClick={() => handleDelete(ad._id)} className="smbut">Delete</button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
 
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -219,46 +200,45 @@ const handleStatusChange = (adId, newStatus) => {
                   name="imglink"
                   type="text"
                   placeholder="Image URL"
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
-           <select
-    name="location"
-    className="select select-bordered w-full"
-    required
-    defaultValue=""
-  >
-    <option value="" disabled>
-      Select Ad Location
-    </option>
-    <option value="Header">Header</option>
-    <option value="hls">home leftSidebar</option>
-        <option value="hrs">home right Sidebar</option>
-
-    <option value="Footer">Footer</option>
-    <option value="Homepage Banner">Homepage Banner</option>
-    <option value="Popup">Popup</option>
-  </select>
+                <select
+                  name="location"
+                  className="pridrop"
+                  required
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select Ad Location
+                  </option>
+                  <option value="Header">Header</option>
+                  <option value="hls">home left Sidebar</option>
+                  <option value="hrs">home right Sidebar</option>
+                  <option value="Footer">Footer</option>
+                  <option value="Homepage Banner">Homepage Banner</option>
+                  <option value="Popup">Popup</option>
+                </select>
                 <input
                   name="rdlink"
                   type="text"
                   placeholder="Redirect Link"
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
                 <input
                   name="startdate"
                   type="date"
-                  className="input input-bordered w-full"
+                  className="priinput"
                   required
                 />
-                  <input
+                <input
                   name="tilldate"
                   type="date"
-                  className="input input-bordered w-full"
+                  className="priinput text-black"
                   required
                 />
-                <button type="submit" className="btn btn-primary w-full mt-3">
+                <button type="submit" className="pributton">
                   Add Advertisement
                 </button>
               </form>

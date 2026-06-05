@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
-import { base_url } from '../../../Config/config';
 import '../../../styles/productview.css';
+import { base_url } from '../../../config/config';
 
 const CATEGORIES = [
   'Cost of Goods Sold (COGS)',

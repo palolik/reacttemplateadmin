@@ -104,28 +104,28 @@ const Process = () => {
 
   const ProcessForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
     <form onSubmit={onSubmit} className="flex flex-col gap-3">
-      <label className="flbl">
+      <label >
         <span>Category</span>
-        <select name="category" defaultValue={defaultValues.category || ""} className="fflin" required>
+        <select name="category" defaultValue={defaultValues.category || ""} className="pridrop" required>
           <option value="" disabled>Select category</option>
           {cats.map((cat) => (
             <option key={cat._id} value={cat._id}>{cat.catname}</option>
           ))}
         </select>
       </label>
-      <label className="flbl">
+      <label >
         <span>Step 1</span>
-        <input name="step1" type="text" defaultValue={defaultValues.step1} className="fflin" placeholder="e.g. Place your order online" required />
+        <input name="step1" type="text" defaultValue={defaultValues.step1} className="priinput " placeholder="e.g. Place your order online" required />
       </label>
-      <label className="flbl">
+      <label >
         <span>Step 2</span>
-        <input name="step2" type="text" defaultValue={defaultValues.step2} className="fflin" placeholder="e.g. We process and print" required />
+        <input name="step2" type="text" defaultValue={defaultValues.step2} className="priinput" placeholder="e.g. We process and print" required />
       </label>
-      <label className="flbl">
+      <label >
         <span>Step 3</span>
-        <input name="step3" type="text" defaultValue={defaultValues.step3} className="fflin" placeholder="e.g. Delivered to your door" required />
+        <input name="step3" type="text" defaultValue={defaultValues.step3} className="priinput" placeholder="e.g. Delivered to your door" required />
       </label>
-      <button type="submit" className="btn btn-sm btn-primary mt-2 w-full">
+      <button type="submit" className="pributton">
         {submitLabel}
       </button>
     </form>

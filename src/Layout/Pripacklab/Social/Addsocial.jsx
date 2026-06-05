@@ -133,17 +133,17 @@ const AddSocial = () => {
                 name="certilink"
                 type="text"
                 placeholder="Image URL"
-                className="input input-bordered w-full"
+                className="priinput"
                 required
               />
               <input
                 name="link"
                 type="text"
                 placeholder="Social Media Link"
-                className="input input-bordered w-full"
+                className="priinput"
                 required
               />
-              <button type="submit" className="btn btn-primary w-full mt-3">
+              <button type="submit" className="pributton">
                 Add Social Media
               </button>
             </form>

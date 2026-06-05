@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { RiCloseLargeFill } from "react-icons/ri";
 import '../../../styles/pripack.css';
+import { base_url } from "../../../config/config";
 const emptyForm = { method: "", number: "", extradetails: "" };
 
 const PaymentMethod = () => {
