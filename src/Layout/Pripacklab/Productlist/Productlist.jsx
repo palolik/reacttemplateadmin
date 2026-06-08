@@ -81,16 +81,27 @@ const ProductDetailDrawer = ({ p, onClose }) => {
 {p.productDescription && (
   <div>
     <p className="text-[10px] text-gray-400 uppercase tracking-wide font-semibold mb-2">Description</p>
-   <div
-  className="prose prose-sm max-w-none text-gray-700 text-sm  leading-relaxed border border-gray-100 rounded-xl p-4 bg-white"
-  style={{ overflow: "hidden" }}
-  dangerouslySetInnerHTML={{
-    __html: p.productDescription
-      .replace(/(<(p|div|br)\s*\/?>\s*)+$/gi, "")
-      .replace(/<img /gi, '<img style="max-width:100%;max-height:400px;object-fit:contain;display:block;" ')
-      .trim()
-  }}
-/>
+    <div
+      className="text-gray-700 text-sm leading-relaxed border border-gray-100 rounded-xl p-4 bg-white"
+      style={{
+        overflow: "hidden",
+      }}
+      dangerouslySetInnerHTML={{
+        __html: p.productDescription
+          .replace(/(<(p|div|br)\s*\/?>\s*)+$/gi, "")
+          .replace(/<img /gi, '<img style="max-width:100%;max-height:400px;object-fit:contain;display:block;margin:8px 0;" ')
+          .replace(/<h1/gi, '<h1 style="font-size:1.8em;font-weight:700;margin:8px 0;"')
+          .replace(/<h2/gi, '<h2 style="font-size:1.5em;font-weight:700;margin:8px 0;"')
+          .replace(/<h3/gi, '<h3 style="font-size:1.25em;font-weight:600;margin:6px 0;"')
+          .replace(/<h4/gi, '<h4 style="font-size:1.1em;font-weight:600;margin:6px 0;"')
+          .replace(/<p/gi,  '<p style="margin:4px 0;"')
+          .replace(/<ul/gi, '<ul style="list-style:disc;padding-left:20px;margin:4px 0;"')
+          .replace(/<ol/gi, '<ol style="list-style:decimal;padding-left:20px;margin:4px 0;"')
+          .replace(/<blockquote/gi, '<blockquote style="border-left:3px solid #3b82f6;padding-left:12px;color:#6b7280;margin:4px 0;"')
+          .replace(/<a /gi, '<a style="color:#3b82f6;text-decoration:underline;" ')
+          .trim()
+      }}
+    />
   </div>
 )}
         </div>
