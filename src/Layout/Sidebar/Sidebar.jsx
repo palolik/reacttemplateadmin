@@ -36,35 +36,6 @@ const Sidebar = () => {
     const [activeSubSection, setActiveSubSection] = useState(null);
 
     const routes = {
-        ecommerce: [
-            { id: 1, name: 'Category',     path: '/ecommerce/dashboard' },
-            { id: 2, name: 'Category',     path: '/ecommerce/category' },
-            { id: 3, name: 'Subcategory',  path: '/ecommerce/subcategory' },
-            { id: 4, name: 'Product List', path: '/ecommerce/productlist' },
-            { id: 5, name: 'Add Product',  path: '/ecommerce/addproducts' },
-            { id: 6, name: 'Comments',     path: '/ecommerce/comments' },
-            { id: 7, name: 'Reviews',      path: '/ecommerce/reviews' },
-        ],
-        eorders: [
-            { id: 1, name: 'All Orders',        path: '/ecommerce/orders/allorders' },
-            { id: 2, name: 'Cancelled Orders',   path: '/ecommerce/orders/canorders' },
-            { id: 3, name: 'On Shipment',        path: '/ecommerce/orders/shiporders' },
-            { id: 4, name: 'Delivered Orders',   path: '/ecommerce/orders/delorders' },
-        ],
-        skillnup: [
-            { id: 1, name: 'Course Category',    path: '/skillnup/category' },
-            { id: 2, name: 'Course Subcategory', path: '/skillnup/subcategory' },
-            { id: 3, name: 'Add Course',         path: '/skillnup/addcourse' },
-            { id: 4, name: 'Add Modules',        path: '/skillnup/addmodules' },
-            { id: 5, name: 'Course List',        path: '/skillnup/courselist' },
-            { id: 6, name: 'Comments',           path: '/skillnup/comments' },
-            { id: 7, name: 'Reviews',            path: '/skillnup/reviews' },
-        ],
-        sorders: [
-            { id: 1, name: 'All Orders',       path: '/skillnup/orders/allorders' },
-            { id: 2, name: 'Cancelled Orders', path: '/skillnup/orders/canorders' },
-        ],
-
         pripacklab: {
             _grouped: true,
             sections: [
@@ -136,27 +107,9 @@ const Sidebar = () => {
                         { id: 18, name: 'Ordering Process', path: '/pripacklab/process' },
                     ],
                 },
-               
+
             ],
         },
-
-        marketing: [
-            { id: 1, name: 'Coupon code',    path: '/marketing/coupons' },
-            { id: 2, name: 'Advertisement',  path: '/marketing/advertisement' },
-        ],
-        accounts: [
-            { id: 1, name: 'Income',  path: '/accounts/income' },
-            { id: 2, name: 'expense', path: '/accounts/expense' },
-        ],
-        roles: [
-            { id: 1, name: 'Roles', path: '/roles/roles' },
-              ],
-        ccinvestment: [
-            { id: 1, name: 'Startups',    path: '/ccinvestments/startups' },
-            { id: 2, name: 'Add Startups', path: '/ccinvestments/addstartups' },
-            { id: 3, name: 'Investors',   path: '/ccinvestments/investors' },
-            { id: 4, name: 'Investments', path: '/ccinvestments/investments' },
-        ],
     };
 
     const clsList = 'btn bg-[#121445] hover:bg-[#1b1e70] text-white border-0 w-full mt-1';
