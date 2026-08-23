@@ -9,7 +9,11 @@ const ListLink = ({ route, listClass, isActive }) => {
         <li>
             <Link
                 to={route.path}
-                className={`${listClass} ${isActive ? 'bg-[#141414] text-sky-300' : ''}`}
+                className={`${listClass} ${
+                    isActive
+                        ? 'bg-indigo-500/10 text-indigo-400 border-l-2 border-indigo-500 font-medium'
+                        : 'border-l-2 border-transparent'
+                }`}
             >
                 {route.name}
             </Link>
@@ -51,6 +55,13 @@ const Sidebar = () => {
                     label: 'Seller Center',
                     items: [
                         { id: 20, name: 'Seller List', path: '/pripacklab/sellers' },
+                    ],
+                },
+                {
+                    id: 'geolocation',
+                    label: 'Geo Location',
+                    items: [
+                        { id: 21, name: 'Districts & Areas', path: '/pripacklab/geolocation' },
                     ],
                 },
                 {
@@ -112,8 +123,10 @@ const Sidebar = () => {
         },
     };
 
-    const clsList = 'btn bg-[#121445] hover:bg-[#1b1e70] text-white border-0 w-full mt-1';
-    const clsSubBtn = 'btn bg-[#0d0f33] hover:bg-[#181b5e] text-sky-200 border-0 w-full mt-1 text-xs justify-between';
+    const clsList =
+        'flex items-center h-9 px-3 rounded-md text-[13px] text-slate-300 hover:bg-slate-800 hover:text-white transition-colors w-full';
+    const clsSubBtn =
+        'flex items-center justify-between h-9 px-3 rounded-md text-[13px] font-medium text-slate-200 hover:bg-slate-800/60 hover:text-white transition-colors w-full';
 
     // Auto-open section & sub-section based on current path
     useEffect(() => {
@@ -148,84 +161,88 @@ const Sidebar = () => {
 
     return (
         <div className="smain">
-           
+            <div className="h-14 flex items-center px-4 border-b border-slate-800/80 shrink-0">
+                <span className="text-white text-sm font-semibold tracking-wide">Admin Panel</span>
+            </div>
 
-            {Object.keys(routes).map((section) => {
-                if (!userTabs.includes(section)) return null;
-                const def = routes[section];
+            <div className="flex-1 py-2">
+                {Object.keys(routes).map((section) => {
+                    if (!userTabs.includes(section)) return null;
+                    const def = routes[section];
 
-                return (
-                    <div key={section} className="sdiv">
-                        <input
-                            type="radio"
-                            name="my-accordion-2"
-                            checked={activeSection === section}
-                            onChange={() => handleSectionToggle(section)}
-                        />
-                        <div className="collapse-title text-white text-m text-center border-b-[1px] border-cyan-100 rounded-none bg-black h-4">
-                            {section.charAt(0).toUpperCase() + section.slice(1)}
-                        </div>
-
-                        {activeSection === section && (
-                            <div className="collapse-content m-0 p-0 bg-[#121445]">
-
-                                {/* ── Grouped (pripacklab-style) ── */}
-                                {def._grouped ? (
-                                    <div className="flex flex-col p-1 gap-0.5">
-                                        {def.sections.map((sub) => (
-                                            <div key={sub.id}>
-                                                {/* Sub-section toggle button */}
-                                                <button
-                                                    onClick={() => handleSubToggle(sub.id)}
-                                                    className={clsSubBtn}
-                                                >
-                                                    <span>{sub.label}</span>
-                                                    <span className="text-[10px] opacity-60">
-                                                        {activeSubSection === sub.id ? '▲' : '▼'}
-                                                    </span>
-                                                </button>
-
-                                                {/* Sub-section items */}
-                                                {activeSubSection === sub.id && (
-                                                    <ul className="flex flex-col pl-2 pr-1 py-1 gap-0 bg-[#0a0c28]">
-                                                        {sub.items.map((route) => (
-                                                            <ListLink
-                                                                key={route.id}
-                                                                route={route}
-                                                                listClass={clsList}
-                                                                isActive={window.location.pathname === route.path}
-                                                            />
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    /* ── Flat list (all other sections) ── */
-                                    <ul className="flex flex-col p-1">
-                                        {def.map((route) => (
-                                            <ListLink
-                                                key={route.id}
-                                                route={route}
-                                                listClass={clsList}
-                                                isActive={window.location.pathname === route.path}
-                                            />
-                                        ))}
-                                    </ul>
-                                )}
+                    return (
+                        <div key={section} className="sdiv">
+                            <div
+                                className="sudiv"
+                                onClick={() => handleSectionToggle(section)}
+                            >
+                                <span>{section.charAt(0).toUpperCase() + section.slice(1)}</span>
+                                <span className="text-[10px] opacity-50">
+                                    {activeSection === section ? '▲' : '▼'}
+                                </span>
                             </div>
-                        )}
-                    </div>
-                );
-            })}
 
-            <div
-                className="collapse-title text-white text-m text-center border-b-[1px] border-cyan-100 rounded-none bg-black h-4"
+                            {activeSection === section && (
+                                <div className="spdiv">
+
+                                    {/* ── Grouped (pripacklab-style) ── */}
+                                    {def._grouped ? (
+                                        <div className="flex flex-col px-2 gap-0.5">
+                                            {def.sections.map((sub) => (
+                                                <div key={sub.id}>
+                                                    {/* Sub-section toggle button */}
+                                                    <button
+                                                        onClick={() => handleSubToggle(sub.id)}
+                                                        className={clsSubBtn}
+                                                    >
+                                                        <span>{sub.label}</span>
+                                                        <span className="text-[10px] opacity-50">
+                                                            {activeSubSection === sub.id ? '▲' : '▼'}
+                                                        </span>
+                                                    </button>
+
+                                                    {/* Sub-section items */}
+                                                    {activeSubSection === sub.id && (
+                                                        <ul className="flex flex-col gap-0.5 pl-3 pr-0 py-1">
+                                                            {sub.items.map((route) => (
+                                                                <ListLink
+                                                                    key={route.id}
+                                                                    route={route}
+                                                                    listClass={clsList}
+                                                                    isActive={window.location.pathname === route.path}
+                                                                />
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        /* ── Flat list (all other sections) ── */
+                                        <ul className="flex flex-col gap-0.5 px-2">
+                                            {def.map((route) => (
+                                                <ListLink
+                                                    key={route.id}
+                                                    route={route}
+                                                    listClass={clsList}
+                                                    isActive={window.location.pathname === route.path}
+                                                />
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+
+            <button
                 onClick={handleLogout}
+                className="flex items-center gap-2 mx-2 mb-3 mt-1 px-3 h-9 rounded-md text-[13px] font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors shrink-0"
             >
                 Logout
-            </div>
+            </button>
         </div>
     );
 };

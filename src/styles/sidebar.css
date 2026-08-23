@@ -1,13 +1,15 @@
-.smain{
-    @apply bg-[#121445] h-screen  w-48 gap-1;
-}
-.sdiv{
-   @apply collapse collapse-arrow rounded-none ;
-}
-.sudiv{
-    @apply collapse-title text-white text-center border-b-[1px] border-cyan-100 rounded-none bg-black h-4;
+.smain {
+    @apply bg-slate-900 h-screen w-60 flex flex-col shrink-0 overflow-y-auto border-r border-slate-800/80;
 }
 
-.spdiv{
-    @apply collapse-content m-0 p-0 bg-[#121445]
+.sdiv {
+    @apply border-b border-slate-800/60 last:border-b-0;
+}
+
+.sudiv {
+    @apply text-slate-400 text-[11px] font-semibold uppercase tracking-wider px-4 py-3 cursor-pointer select-none flex items-center justify-between hover:text-slate-200 hover:bg-slate-800/40 transition-colors;
+}
+
+.spdiv {
+    @apply bg-slate-900/60 pb-1;
 }

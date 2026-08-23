@@ -26,6 +26,7 @@ import { base_url } from "../config/config";
 import PaymentMethod from "../Layout/Pripacklab/PaymentMethod/paymentmethod";
 import Invoice from "../Layout/Pripacklab/Income/invoice";
 import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
+import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/sellers',
         element: <PSellers />
+      },
+      {
+        path: '/pripacklab/geolocation',
+        element: <GeoLocation />
       },
       {
         path: '/pripacklab/expense',
