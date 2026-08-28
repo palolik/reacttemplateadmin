@@ -1,5 +1,15 @@
 .smain {
-    @apply bg-slate-900 h-screen w-60 flex flex-col shrink-0 overflow-y-auto border-r border-slate-800/80;
+    @apply bg-slate-900 h-screen w-64 flex flex-col shrink-0 overflow-y-auto border-r border-slate-800/80;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
+}
+
+.smain::-webkit-scrollbar {
+    width: 6px;
+}
+.smain::-webkit-scrollbar-thumb {
+    background-color: #334155;
+    border-radius: 9999px;
 }
 
 .sdiv {

@@ -6,20 +6,29 @@ import {
 } from "recharts";
 import { base_url } from "../../../config/config.jsx";
 import ChartCard from "./ChartCard.jsx";
+import {
+  FiBox, FiShoppingCart, FiUsers, FiStar,
+  FiDollarSign, FiTrendingDown, FiTrendingUp, FiEye,
+} from "react-icons/fi";
 
-const COLORS = ['#c0f4fe', '#c0c2ff'];
+const COLORS = ['#4f46e5', '#06b6d4', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
 
-const StatCard = ({ label, value, color = '#c0c2ff', icon }) => (
+const StatCard = ({ label, value, color = '#4f46e5', icon: Icon }) => (
   <motion.div
     whileHover={{ scale: 1.04 }}
     transition={{ type: 'spring', stiffness: 200 }}
-    className="bg-white  shadow-md p-4 flex flex-col gap-2"
+    className="bg-white shadow-md rounded-xl p-4 flex flex-col gap-3 border border-gray-100"
   >
     <div className="flex justify-between items-center">
       <span className="text-sm text-gray-500 font-medium">{label}</span>
-      {/* <span className="text-2xl">{icon}</span> */}
+      <span
+        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+        style={{ backgroundColor: `${color}1a`, color }}
+      >
+        <Icon className="w-4 h-4" />
+      </span>
     </div>
-    <div className={`text-3xl font-bold text-[#121445]`}>{value}</div>
+    <div className="text-3xl font-bold text-[#121445]">{value}</div>
   </motion.div>
 );
 
@@ -42,14 +51,14 @@ const Dashboard = () => {
   if (!stats) return <div className="p-10 text-center text-red-500">Failed to load dashboard data.</div>;
 
   const topStatCards = [
-    { label: 'Total Products', value: stats.totalProducts, icon: '📦', color: '#c0c2ff' },
-    { label: 'Total Orders', value: stats.totalOrders, icon: '🛒', color: '#c0c2ff' },
-    { label: 'Total Customers', value: stats.totalCustomers, icon: '👥', color: '#c0c2ff' },
-    { label: 'Total Reviews', value: stats.totalReviews, icon: '⭐', color: '#c0c2ff' },
-    { label: 'Total Income', value: `${stats.totalIncome.toLocaleString()}৳`, icon: '💰', color: '#c0c2ff' },
-    { label: 'Total Expenses', value: `${stats.totalExpense.toLocaleString()}৳`, icon: '💸', color: '#c0c2ff' },
-    { label: 'Net Profit', value: `${stats.netProfit.toLocaleString()}৳`, icon: '📈', color: '#c0c2ff' },
-    { label: 'Product Views', value: stats.totalProductViews, icon: '👁', color: '#c0c2ff' },
+    { label: 'Total Products', value: stats.totalProducts, icon: FiBox, color: '#4f46e5' },
+    { label: 'Total Orders', value: stats.totalOrders, icon: FiShoppingCart, color: '#06b6d4' },
+    { label: 'Total Customers', value: stats.totalCustomers, icon: FiUsers, color: '#8b5cf6' },
+    { label: 'Total Reviews', value: stats.totalReviews, icon: FiStar, color: '#f59e0b' },
+    { label: 'Total Income', value: `${stats.totalIncome.toLocaleString()}৳`, icon: FiDollarSign, color: '#10b981' },
+    { label: 'Total Expenses', value: `${stats.totalExpense.toLocaleString()}৳`, icon: FiTrendingDown, color: '#ef4444' },
+    { label: 'Net Profit', value: `${stats.netProfit.toLocaleString()}৳`, icon: FiTrendingUp, color: '#10b981' },
+    { label: 'Product Views', value: stats.totalProductViews, icon: FiEye, color: '#06b6d4' },
   ];
 
   const orderPieData = Object.entries(stats.orderStatusMap || {}).map(([name, value]) => ({ name, value }));
@@ -135,8 +144,8 @@ const Dashboard = () => {
                   <YAxis />
                   <Tooltip formatter={v => `${v.toLocaleString()}৳`} />
                   <Legend />
-                  <Bar dataKey="income" fill="#c0c2ff" radius={[4, 4, 0, 0]} name="Income" />
-                  <Bar dataKey="expense" fill="#c0f4fe" radius={[4, 4, 0, 0]} name="Expense" />
+                  <Bar dataKey="income" fill="#4f46e5" radius={[4, 4, 0, 0]} name="Income" />
+                  <Bar dataKey="expense" fill="#06b6d4" radius={[4, 4, 0, 0]} name="Expense" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -216,8 +225,8 @@ const Dashboard = () => {
                       className="w-9 h-9 rounded-lg object-cover border border-gray-100 shrink-0"
                     />
                   ) : (
-                    <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 text-xs shrink-0">
-                      📦
+                    <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 shrink-0">
+                      <FiBox className="w-4 h-4" />
                     </div>
                   )}
 
@@ -231,13 +240,13 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2 shrink-0">
                     <div className="w-20 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-[#c0c2ff] rounded-full"
+                        className="h-full bg-indigo-500 rounded-full"
                         style={{
                           width: `${Math.round((product.viewCount / (stats.topViewedProducts[0]?.viewCount || 1)) * 100)}%`
                         }}
                       />
                     </div>
-                    <span className="text-xs font-semibold text-[#c0c2ff] w-8 text-right">{product.viewCount}</span>
+                    <span className="text-xs font-semibold text-indigo-600 w-8 text-right">{product.viewCount}</span>
                   </div>
 
                 </div>

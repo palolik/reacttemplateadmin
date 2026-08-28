@@ -34,6 +34,11 @@ export const router = createBrowserRouter([
     element: <Main></Main>,
     children: [
       {
+        index: true,
+        element: <Dashboard></Dashboard>,
+        loader: ()=> fetch(`${base_url}/admindashboard`),
+      },
+      {
         path: '/login',
         element: <Login/>
       },

@@ -20,9 +20,11 @@ const Main = () => {
   }
 
   return (
-    <div className="flex flex-row bg-white">
-      {!isLoginPage && <Sidebar />} 
-      <Outlet  /> 
+    <div className="flex flex-row bg-white h-screen overflow-hidden">
+      {!isLoginPage && <Sidebar />}
+      <div className="flex-1 h-screen overflow-y-auto">
+        <Outlet />
+      </div>
     </div>
   );
 };

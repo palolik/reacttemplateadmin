@@ -3,6 +3,23 @@ import { useState, useEffect, useContext } from 'react';
 import '../../styles/sidebar.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../Provider/Authprovider';
+import {
+    FiGrid, FiUsers, FiMapPin, FiBox, FiShoppingCart,
+    FiDollarSign, FiTrendingUp, FiMessageSquare, FiFileText,
+    FiChevronDown, FiLogOut,
+} from 'react-icons/fi';
+
+const SECTION_ICONS = {
+    overview: FiGrid,
+    'Seller Center': FiUsers,
+    geolocation: FiMapPin,
+    catalogue: FiBox,
+    orders: FiShoppingCart,
+    finance: FiDollarSign,
+    marketing: FiTrendingUp,
+    customer: FiMessageSquare,
+    content: FiFileText,
+};
 
 const ListLink = ({ route, listClass, isActive }) => {
     return (
@@ -11,7 +28,7 @@ const ListLink = ({ route, listClass, isActive }) => {
                 to={route.path}
                 className={`${listClass} ${
                     isActive
-                        ? 'bg-indigo-500/10 text-indigo-400 border-l-2 border-indigo-500 font-medium'
+                        ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-500 font-medium'
                         : 'border-l-2 border-transparent'
                 }`}
             >
@@ -149,6 +166,10 @@ const Sidebar = () => {
     }, []);
 
     const handleSectionToggle = (section) => {
+        if (section === 'overview') {
+            navigate('/pripacklab/dashboard');
+            return;
+        }
         setActiveSection(activeSection === section ? null : section);
         setActiveSubSection(null);
     };
@@ -161,14 +182,21 @@ const Sidebar = () => {
 
     return (
         <div className="smain">
-            <div className="h-14 flex items-center px-4 border-b border-slate-800/80 shrink-0">
-                <span className="text-white text-sm font-semibold tracking-wide">Admin Panel</span>
+            <div className="h-16 flex items-center gap-2.5 px-4 border-b border-slate-800/80 shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    P
+                </div>
+                <div className="min-w-0">
+                    <p className="text-white text-sm font-semibold tracking-wide leading-tight truncate">PriPackLab</p>
+                    <p className="text-slate-500 text-[10px] font-medium uppercase tracking-wider leading-tight">Admin Panel</p>
+                </div>
             </div>
 
             <div className="flex-1 py-2">
                 {Object.keys(routes).map((section) => {
                     if (!userTabs.includes(section)) return null;
                     const def = routes[section];
+                    const SectionIcon = SECTION_ICONS[section];
 
                     return (
                         <div key={section} className="sdiv">
@@ -176,10 +204,15 @@ const Sidebar = () => {
                                 className="sudiv"
                                 onClick={() => handleSectionToggle(section)}
                             >
-                                <span>{section.charAt(0).toUpperCase() + section.slice(1)}</span>
-                                <span className="text-[10px] opacity-50">
-                                    {activeSection === section ? '▲' : '▼'}
+                                <span className="flex items-center gap-2">
+                                    {SectionIcon && <SectionIcon className="w-3.5 h-3.5 shrink-0" />}
+                                    {section.charAt(0).toUpperCase() + section.slice(1)}
                                 </span>
+                                <FiChevronDown
+                                    className={`w-3 h-3 opacity-50 transition-transform duration-200 ${
+                                        activeSection === section ? 'rotate-180' : ''
+                                    }`}
+                                />
                             </div>
 
                             {activeSection === section && (
@@ -196,9 +229,11 @@ const Sidebar = () => {
                                                         className={clsSubBtn}
                                                     >
                                                         <span>{sub.label}</span>
-                                                        <span className="text-[10px] opacity-50">
-                                                            {activeSubSection === sub.id ? '▲' : '▼'}
-                                                        </span>
+                                                        <FiChevronDown
+                                                            className={`w-3 h-3 opacity-50 transition-transform duration-200 ${
+                                                                activeSubSection === sub.id ? 'rotate-180' : ''
+                                                            }`}
+                                                        />
                                                     </button>
 
                                                     {/* Sub-section items */}
@@ -237,12 +272,24 @@ const Sidebar = () => {
                 })}
             </div>
 
-            <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 mx-2 mb-3 mt-1 px-3 h-9 rounded-md text-[13px] font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors shrink-0"
-            >
-                Logout
-            </button>
+            <div className="border-t border-slate-800/80 p-2 shrink-0">
+                <div className="flex items-center gap-2.5 px-2 py-2">
+                    <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-300 font-semibold text-xs shrink-0 uppercase">
+                        {(user?.remail || '?').charAt(0)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                        <p className="text-slate-300 text-[12px] font-medium truncate">{user?.remail}</p>
+                        <p className="text-slate-500 text-[10px]">Administrator</p>
+                    </div>
+                </div>
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 w-full mt-1 px-3 h-9 rounded-md text-[13px] font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors"
+                >
+                    <FiLogOut className="w-4 h-4" />
+                    Logout
+                </button>
+            </div>
         </div>
     );
 };
