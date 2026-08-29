@@ -25,8 +25,10 @@ import FaqAll from "../Layout/Pripacklab/faq/faq";
 import { base_url } from "../config/config";
 import PaymentMethod from "../Layout/Pripacklab/PaymentMethod/paymentmethod";
 import Invoice from "../Layout/Pripacklab/Income/invoice";
+import OrderLabel from "../Layout/POrders/AllOrders/OrderLabel";
 import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
 import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
+import AboutUs from "../Layout/Pripacklab/AboutUs/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -135,8 +137,15 @@ export const router = createBrowserRouter([
         element: <FaqAll></FaqAll>,
         loader: ()=> fetch(`${base_url}/faq`),
         },
+           {
+        path: "/pripacklab/aboutus",
+        element: <AboutUs></AboutUs>,
+        loader: ()=> fetch(`${base_url}/aboutus`),
+        },
         { path: '/invoice/:orderId',
            element: <Invoice /> },
+        { path: '/label/:orderId',
+           element: <OrderLabel /> },
       {
         path: '/pripacklab/comments',
         element: <PComments />

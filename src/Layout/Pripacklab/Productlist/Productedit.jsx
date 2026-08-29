@@ -16,14 +16,18 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [filteredSubs, setFilteredSubs] = useState([]);
+    const [sellers, setSellers] = useState([]);
 
     const [form, setForm] = useState({
-        category:           p.category           || "",
-        subCategory:        p.subCategory        || "",
-        productName:        p.productName        || "",
-        productDescription: p.productDescription || "",
-        productSupplier:    p.productSupplier    || "",
-        deliveryTime:       p.deliveryTime       || "",
+        category:             p.category             || "",
+        subCategory:          p.subCategory          || "",
+        productName:          p.productName          || "",
+        productNameBn:        p.productNameBn        || "",
+        productDescription:   p.productDescription   || "",
+        productDescriptionBn: p.productDescriptionBn || "",
+        productSupplier:      p.productSupplier      || "",
+        deliveryTime:         p.deliveryTime         || "",
+        sellerId:             p.sellerId             || "",
     });
 
     // ── Images ────────────────────────────────────────────────────────────────
@@ -50,6 +54,11 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         fetch(`${base_url}/getcatnsub`)
             .then(r => r.json())
             .then(d => { setCategories(d.categories); setSubcategories(d.subcategories); })
+            .catch(console.error);
+
+        fetch(`${base_url}/sellers`)
+            .then(r => r.json())
+            .then(d => setSellers(Array.isArray(d) ? d : []))
             .catch(console.error);
     }, []);
 
@@ -154,14 +163,22 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         const formData = new FormData();
         formData.append("category",           form.category);
         formData.append("subCategory",        form.subCategory);
-        formData.append("productName",        form.productName);
-        formData.append("productDescription", form.productDescription);
+        formData.append("productName",          form.productName);
+        formData.append("productNameBn",        form.productNameBn);
+        formData.append("productDescription",   form.productDescription);
+        formData.append("productDescriptionBn", form.productDescriptionBn);
         formData.append("productSupplier",    form.productSupplier);
         formData.append("deliveryTime",       form.deliveryTime);
         formData.append("tags",              JSON.stringify(tags));
         formData.append("criteria",          JSON.stringify(criteria));
         formData.append("variants",          JSON.stringify(variants));
         formData.append("existingPics",      JSON.stringify(existingPics));
+
+        const selectedSeller = sellers.find(s => s._id === form.sellerId);
+        formData.append("sellerId",    form.sellerId || "");
+        formData.append("sellerName",  form.sellerId ? (selectedSeller?.name || "") : "");
+        formData.append("sellerPhone", form.sellerId ? (selectedSeller?.phone || "") : "");
+
         newImages.forEach(f => formData.append("mainPics", f));
 
         try {
@@ -234,6 +251,12 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                 onChange={e => setForm({ ...form, productName: e.target.value })} />
                         </label>
 
+                        <label className="flex flex-col gap-1">
+                            <span className="text-xs text-gray-500">Product Name (Bangla)</span>
+                            <input className="flin" value={form.productNameBn}
+                                onChange={e => setForm({ ...form, productNameBn: e.target.value })} />
+                        </label>
+
                         <div className="grid grid-cols-2 gap-3">
                             <label className="flex flex-col gap-1">
                                 <span className="text-xs text-gray-500">Supplier</span>
@@ -246,6 +269,15 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                     onChange={e => setForm({ ...form, deliveryTime: e.target.value })} />
                             </label>
                         </div>
+
+                        <label className="flex flex-col gap-1">
+                            <span className="text-xs text-gray-500">Assign to Seller (optional)</span>
+                            <select className="flinselect" value={form.sellerId}
+                                onChange={e => setForm({ ...form, sellerId: e.target.value })}>
+                                <option value="">— House product (no seller) —</option>
+                                {sellers.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
+                            </select>
+                        </label>
                     </section>
 
                     {/* ── Tags ── */}
@@ -405,8 +437,19 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 onChange={value => setForm({ ...form, productDescription: value })}
                             className="bg-white rounded-lg w-full h-56"
                         />
-                     
+
                         <p className="text-[10px] text-gray-400">Note: rich text formatting will be preserved as-is.</p>
+                    </section>
+
+                    {/* ── Description (Bangla) ── */}
+                    <section className="flex flex-col gap-2">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Description (Bangla)</p>
+                        <RichTextEditor
+                            name="productDescriptionBn"
+                            value={form.productDescriptionBn}
+                            onChange={value => setForm({ ...form, productDescriptionBn: value })}
+                            className="bg-white rounded-lg w-full h-56"
+                        />
                     </section>
 
                 </div>

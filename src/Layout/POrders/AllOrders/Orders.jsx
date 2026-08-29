@@ -85,6 +85,10 @@ const TabsView = ({ orders, openStatusModal }) => {
               className="text-xs bg-gray-900 text-white px-3 py-1.5 rounded-lg hover:bg-gray-700 transition font-medium">
               ↓ Invoice
             </button>
+            <button onClick={() => window.open(`/label/${order._id}`, "_blank")}
+              className="text-xs bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-3 py-1.5 rounded-lg transition font-medium">
+              🏷️ Print Label
+            </button>
           </div>
         </div>
 
@@ -213,7 +217,7 @@ const TabsView = ({ orders, openStatusModal }) => {
   );
 };
 
-const TableView = ({ orders, openStatusModal }) => {
+const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
   const [expandedId, setExpandedId] = useState(null);
 
   return (
@@ -304,6 +308,12 @@ const TableView = ({ orders, openStatusModal }) => {
                       className="text-[10px] bg-gray-900 text-white px-2 py-1 rounded-lg hover:bg-gray-700 transition"
                     >
                       Invoice
+                    </button>
+                    <button
+                      onClick={() => window.open(`/label/${order._id}`, "_blank")}
+                      className="text-[10px] bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-2 py-1 rounded-lg transition"
+                    >
+                      Label
                     </button>
                   </div>
                 </td>
@@ -463,7 +473,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
       </div>
 
       {viewMode === "table"
-        ? <TableView orders={currentOrders} openStatusModal={openStatusModal} />
+        ? <TableView orders={currentOrders} openStatusModal={openStatusModal} updatePaymentStatus={updatePaymentStatus} />
         : <TabsView  orders={currentOrders} openStatusModal={openStatusModal} />
       }
 

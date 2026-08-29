@@ -160,6 +160,9 @@ const ProductRow = ({ p, onDelete, onEdit }) => {
             {p.category && (
               <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{p.category}</span>
             )}
+            {p.sellerId && (
+              <span className="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full font-semibold">Seller: {p.sellerName || p.sellerId}</span>
+            )}
           </div>
 
           <p className="font-mono text-[10px] text-gray-400">#{p._id.slice(-8).toUpperCase()}</p>

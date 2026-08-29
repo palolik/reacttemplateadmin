@@ -12,7 +12,7 @@ const Banners = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editBannerData, setEditBannerData] = useState({
-    _id: "", bannername: "", bannerorder: "", webbanner: "", phonebanner: "",
+    _id: "", bannername: "", bannerorder: "", webbanner: "", phonebanner: "", link: "", active: true,
   });
   const [editWebbannerFile, setEditWebbannerFile] = useState(null);
   const [editPhonebannerFile, setEditPhonebannerFile] = useState(null);
@@ -53,6 +53,8 @@ const Banners = () => {
     const formData = new FormData();
     formData.append("bannername", form.bannername.value.trim());
     formData.append("bannerorder", form.bannerorder.value.trim());
+    formData.append("link", form.link.value.trim());
+    formData.append("active", form.active.checked);
     if (webbannerFile) formData.append("webbanner", webbannerFile);
     if (phonebannerFile) formData.append("phonebanner", phonebannerFile);
 
@@ -73,6 +75,25 @@ const Banners = () => {
     }
   };
 
+  const handleToggleActive = async (banner) => {
+    const formData = new FormData();
+    formData.append("bannername", banner.bannername);
+    formData.append("bannerorder", banner.bannerorder);
+    formData.append("link", banner.link || "");
+    formData.append("active", banner.active === false);
+
+    try {
+      const response = await fetch(`${base_url}/editbanner/${banner._id}`, { method: "PUT", body: formData });
+      const data = await response.json();
+      if (data.message === "Category updated successfully") {
+        setBanners(banners.map((b) => b._id === banner._id ? { ...b, ...data.updatedCategory } : b));
+      }
+    } catch (error) {
+      console.error("Error toggling banner status:", error);
+      Swal.fire("Error!", "Something went wrong.", "error");
+    }
+  };
+
   const handleEdit = (banner) => {
     setEditBannerData(banner);
     setEditWebbannerFile(null);
@@ -86,6 +107,8 @@ const Banners = () => {
     const formData = new FormData();
     formData.append("bannername", form.bannername.value.trim());
     formData.append("bannerorder", form.bannerorder.value.trim());
+    formData.append("link", form.link.value.trim());
+    formData.append("active", form.active.checked);
     if (editWebbannerFile) formData.append("webbanner", editWebbannerFile);
     if (editPhonebannerFile) formData.append("phonebanner", editPhonebannerFile);
 
@@ -134,6 +157,7 @@ const Banners = () => {
           <div>Order</div>
           <div>Web Banner</div>
           <div>Phone Banner</div>
+          <div>Status</div>
           <div>Action</div>
         </div>
 
@@ -153,6 +177,16 @@ const Banners = () => {
                   <img className="w-[45px] h-[70px] object-cover rounded"
                     src={`${base_url}${banner.phonebanner}`} alt="Phone Banner" />
                 )}
+              </div>
+              <div>
+                <button
+                  onClick={() => handleToggleActive(banner)}
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                    banner.active === false ? "bg-gray-200 text-gray-600" : "bg-green-100 text-green-700"
+                  }`}
+                >
+                  {banner.active === false ? "Inactive" : "Active"}
+                </button>
               </div>
               <div className="flex gap-1">
                 <button onClick={() => handleEdit(banner)} className="smbut">Edit</button>
@@ -174,6 +208,14 @@ const Banners = () => {
             <label >
               <span>Banner Order</span>
               <input name="bannerorder" type="number" className="priinput" required />
+            </label>
+            <label>
+              <span>Link (optional)</span>
+              <input name="link" type="text" placeholder="https://... or /category/..." className="priinput" />
+            </label>
+            <label className="flex items-center gap-2">
+              <input name="active" type="checkbox" defaultChecked className="checkbox" />
+              <span>Active</span>
             </label>
           <FileInput
   label="Web Banner"
@@ -207,6 +249,15 @@ const Banners = () => {
         <span>Banner Order</span>
         <input name="bannerorder" defaultValue={editBannerData.bannerorder}
           type="number" className="priinput" required />
+      </label>
+      <label>
+        <span>Link (optional)</span>
+        <input name="link" defaultValue={editBannerData.link}
+          type="text" placeholder="https://... or /category/..." className="priinput" />
+      </label>
+      <label className="flex items-center gap-2">
+        <input name="active" type="checkbox" defaultChecked={editBannerData.active !== false} className="checkbox" />
+        <span>Active</span>
       </label>
 
       <FileInputEdit

@@ -22,6 +22,9 @@ const PSubcategory = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editSubcatData, setEditSubcatData] = useState({ _id: '', catname: '', subcat: '', subcatBn: '' });
+
   useEffect(() => {
     fetch(`${base_url}/getcatnsub`)
       .then(res => res.json())
@@ -36,13 +39,14 @@ const PSubcategory = () => {
     event.preventDefault();
     const form = event.target;
     const subcat = form['subcat']?.value?.trim() || '';
+    const subcatBn = form['subcatBn']?.value?.trim() || '';
 
     if (!selectedCategory) {
       Swal.fire({ title: "Error!", text: "Please select a category.", icon: "error" });
       return;
     }
 
-    const postData = { catname: selectedCategory, subcat };
+    const postData = { catname: selectedCategory, subcat, subcatBn };
 
     try {
       const response = await fetch(`${base_url}/addsub`, {
@@ -83,6 +87,40 @@ const PSubcategory = () => {
       }
     } catch (error) {
       Swal.fire("Error", "Failed to delete subcategory", "error");
+    }
+  };
+
+  const handleEditSubcategory = (subcatObj) => {
+    setEditSubcatData(subcatObj);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditPost = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const catname = form['catname'].value;
+    const subcat = form['subcat'].value.trim();
+    const subcatBn = form['subcatBn'].value.trim();
+
+    try {
+      const response = await fetch(`${base_url}/editsub/${editSubcatData._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ catname, subcat, subcatBn }),
+      });
+      const data = await response.json();
+      if (data.message === 'Subcategory updated successfully') {
+        Swal.fire("Updated!", "Subcategory updated successfully.", "success");
+        setSubcategories(prev => prev.map(s =>
+          s._id === editSubcatData._id ? { ...s, catname, subcat, subcatBn } : s
+        ));
+        setIsEditModalOpen(false);
+      } else {
+        Swal.fire("Error!", "There was an issue updating the subcategory.", "error");
+      }
+    } catch (error) {
+      console.error('Error updating subcategory:', error);
+      Swal.fire("Error!", "An unexpected error occurred.", "error");
     }
   };
 
@@ -129,6 +167,12 @@ const PSubcategory = () => {
                 {cat.subs.map((subcatObj) => (
                   <div key={subcatObj._id} className="flex items-center gap-2">
                     <span className="text-sm">{subcatObj.subcat}</span>
+                    {subcatObj.subcatBn && (
+                      <span className="text-xs text-gray-400">({subcatObj.subcatBn})</span>
+                    )}
+                    <button className="smbut" onClick={() => handleEditSubcategory(subcatObj)}>
+                      Edit
+                    </button>
                     <button className="smbut" onClick={() => handleDeleteSubcategory(subcatObj._id)}>
                       Delete
                     </button>
@@ -148,6 +192,9 @@ const PSubcategory = () => {
                   <div key={subcatObj._id} className="flex items-center gap-2">
                     <span className="text-xs text-gray-400">({subcatObj.catname})</span>
                     <span className="text-sm">{subcatObj.subcat}</span>
+                    <button className="smbut" onClick={() => handleEditSubcategory(subcatObj)}>
+                      Edit
+                    </button>
                     <button className="smbut" onClick={() => handleDeleteSubcategory(subcatObj._id)}>
                       Delete
                     </button>
@@ -184,9 +231,46 @@ const PSubcategory = () => {
               <input name="subcat" type="text" className="priinput" required />
             </label>
 
+            <label>
+              <span>Subcategory Name (Bangla)</span>
+              <input name="subcatBn" type="text" className="priinput" placeholder="বাংলা নাম" />
+            </label>
+
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Subcategory</button>
               <button type="button" onClick={() => setIsAddModalOpen(false)}
+                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
+      {/* Edit Modal */}
+      {isEditModalOpen && (
+        <Modal title="Edit Subcategory" onClose={() => setIsEditModalOpen(false)}>
+          <form onSubmit={handleEditPost} className="flex flex-col gap-3">
+            <label>
+              <span>Category Name</span>
+              <select name="catname" className="pridrop" defaultValue={editSubcatData.catname} required>
+                {categories.map((cat) => (
+                  <option key={cat._id} value={cat.catname}>{cat.catname}</option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>Subcategory Name</span>
+              <input name="subcat" type="text" className="priinput" defaultValue={editSubcatData.subcat} required />
+            </label>
+
+            <label>
+              <span>Subcategory Name (Bangla)</span>
+              <input name="subcatBn" type="text" className="priinput" defaultValue={editSubcatData.subcatBn} placeholder="বাংলা নাম" />
+            </label>
+
+            <div className="flex gap-2 mt-2">
+              <button type="submit" className="pributton flex-1">Update Subcategory</button>
+              <button type="button" onClick={() => setIsEditModalOpen(false)}
                 className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
             </div>
           </form>

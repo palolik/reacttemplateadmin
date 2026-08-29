@@ -45,7 +45,9 @@ const FaqAll = () => {
     const form = event.target;
     const postData = {
       faqquestion: form.faqquestion.value.trim(),
+      faqquestionBn: form.faqquestionBn.value.trim(),
       faqanswer: form.faqanswer.value.trim(),
+      faqanswerBn: form.faqanswerBn.value.trim(),
     };
 
     try {
@@ -88,7 +90,9 @@ const FaqAll = () => {
           <thead className="bg-gray-100">
             <tr className="text-center font-semibold">
               <th>Question</th>
+              <th>Question (Bangla)</th>
               <th>Answer</th>
+              <th>Answer (Bangla)</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -96,7 +100,9 @@ const FaqAll = () => {
             {faqs.map((faq) => (
               <tr key={faq._id} className="text-center border-b">
                 <td className="px-2 py-2">{faq.faqquestion}</td>
+                <td className="px-2 py-2">{faq.faqquestionBn || "—"}</td>
                 <td className="px-2 py-2">{faq.faqanswer}</td>
+                <td className="px-2 py-2">{faq.faqanswerBn || "—"}</td>
                 <td className="flex justify-center gap-2">
                   <Link
                     to={`/update/${faq._id}`}
@@ -139,11 +145,23 @@ const FaqAll = () => {
                 required
               />
               <input
+                name="faqquestionBn"
+                type="text"
+                placeholder="Question (Bangla)"
+                className="priinput"
+              />
+              <input
                 name="faqanswer"
                 type="text"
                 placeholder="Answer"
                 className="priinput"
                 required
+              />
+              <input
+                name="faqanswerBn"
+                type="text"
+                placeholder="Answer (Bangla)"
+                className="priinput"
               />
               <button type="submit" className="pributton">
                 Add FAQ

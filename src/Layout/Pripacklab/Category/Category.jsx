@@ -64,6 +64,7 @@ const PCategory = () => {
     const form = event.target;
     const formData = new FormData();
     formData.append("catname", form.catname.value.trim());
+    formData.append("catnameBn", form.catnameBn.value.trim());
     if (pagecoverFile) formData.append("pagecover", pagecoverFile);
     if (iconpicFile) formData.append("iconpic", iconpicFile);
     if (homepicFile) formData.append("homepic", homepicFile);
@@ -98,6 +99,7 @@ const PCategory = () => {
     const form = event.target;
     const formData = new FormData();
     formData.append("catname", form.catname.value.trim());
+    formData.append("catnameBn", form.catnameBn.value.trim());
     if (editPagecoverFile) formData.append("pagecover", editPagecoverFile);
     if (editIconpicFile) formData.append("iconpic", editIconpicFile);
     if (editHomepicFile) formData.append("homepic", editHomepicFile);
@@ -129,6 +131,7 @@ const PCategory = () => {
         {/* Table */}
         <div className="tabst">
           <div>Category</div>
+          <div>Bangla Name</div>
           <div>Cover</div>
           <div>Icon</div>
           <div>Home Cover</div>
@@ -139,6 +142,7 @@ const PCategory = () => {
           {cats.map((cat) => (
             <div key={cat._id} className="tabc">
               <div>{cat.catname}</div>
+              <div>{cat.catnameBn || "—"}</div>
               <div><img className="w-[100px] h-[40px] object-cover rounded" src={`${base_url}${cat.pagecover}`} alt="Cover" /></div>
               <div><img className="w-[40px] h-[40px] object-cover rounded" src={`${base_url}${cat.iconpic}`} alt="Icon" /></div>
               <div><img className="w-[100px] h-[40px] object-cover rounded" src={`${base_url}${cat.homepic}`} alt="Home" /></div>
@@ -158,6 +162,10 @@ const PCategory = () => {
             <label className="lbl">
               <span>Category Name</span>
               <input name="catname" type="text" className="priinput" required />
+            </label>
+            <label className="lbl">
+              <span>Category Name (Bangla)</span>
+              <input name="catnameBn" type="text" className="priinput" placeholder="বাংলা নাম" />
             </label>
             <FileInput label="Cover Picture" file={pagecoverFile}
               onChange={(e) => setPagecoverFile(e.target.files[0])} />
@@ -181,6 +189,10 @@ const PCategory = () => {
             <label className="lbl">
               <span>Category Name</span>
               <input name="catname" defaultValue={editCatData.catname} type="text" className="priinput" required />
+            </label>
+            <label className="lbl">
+              <span>Category Name (Bangla)</span>
+              <input name="catnameBn" defaultValue={editCatData.catnameBn} type="text" className="priinput" placeholder="বাংলা নাম" />
             </label>
             <FileInputEdit label="Cover Picture" file={editPagecoverFile}
               existingUrl={editCatData.pagecover} previewClass="w-[160px] h-[60px]"

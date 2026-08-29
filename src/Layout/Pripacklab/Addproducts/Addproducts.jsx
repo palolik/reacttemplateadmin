@@ -9,6 +9,8 @@ const PAddproducts = () => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([]);
     const [filteredSubcategories, setFilteredSubcategories] = useState([]);
+    const [sellers, setSellers] = useState([]);
+    const [sellerId, setSellerId] = useState('');
 
     // Criteria: [{ name: 'Size', values: ['S','M','L'] }]
     const [criteria, setCriteria] = useState([]);
@@ -28,7 +30,9 @@ const PAddproducts = () => {
         category: '',
         subCategory: '',
         productName: '',
+        productNameBn: '',
         productDescription: '',
+        productDescriptionBn: '',
         productSupplier: '',
         deliveryTime: ''
     });
@@ -41,6 +45,11 @@ const PAddproducts = () => {
                 setSubcategories(data.subcategories);
             })
             .catch(err => console.error('Error fetching categories:', err));
+
+        fetch(`${base_url}/sellers`)
+            .then(res => res.json())
+            .then(data => setSellers(Array.isArray(data) ? data : []))
+            .catch(err => console.error('Error fetching sellers:', err));
     }, []);
 
     useEffect(() => {
@@ -162,12 +171,22 @@ const PAddproducts = () => {
         formData.append('category', productData.category);
         formData.append('subCategory', productData.subCategory);
         formData.append('productName', productData.productName);
+        formData.append('productNameBn', productData.productNameBn);
         formData.append('productDescription', productData.productDescription);
+        formData.append('productDescriptionBn', productData.productDescriptionBn);
         formData.append('productSupplier', productData.productSupplier);
         formData.append('deliveryTime', productData.deliveryTime);
         formData.append('tags', JSON.stringify(tagNames));
         formData.append('criteria', JSON.stringify(criteria));
         formData.append('variants', JSON.stringify(variants));
+
+        if (sellerId) {
+            const selectedSeller = sellers.find(s => s._id === sellerId);
+            formData.append('sellerId', sellerId);
+            formData.append('sellerName', selectedSeller?.name || '');
+            formData.append('sellerPhone', selectedSeller?.phone || '');
+        }
+
         Array.from(image).forEach(file => formData.append('mainPics', file));
 
         try {
@@ -224,6 +243,13 @@ const PAddproducts = () => {
                         </label>
 
                         <label className="flex flex-col gap-1">
+                            <span className="text-sm text-gray-500">Product Name (Bangla)</span>
+                            <input type="text" className="flin" placeholder="বাংলায় প্রোডাক্টের নাম"
+                                value={productData.productNameBn}
+                                onChange={e => setProductData({ ...productData, productNameBn: e.target.value })} />
+                        </label>
+
+                        <label className="flex flex-col gap-1">
                             <span className="text-sm text-gray-500">Supplier</span>
                             <input type="text" className="flin" placeholder="Type here"
                                 value={productData.productSupplier}
@@ -235,6 +261,15 @@ const PAddproducts = () => {
                             <input type="text" className="flin" placeholder="e.g. 3-5 days"
                                 value={productData.deliveryTime}
                                 onChange={e => setProductData({ ...productData, deliveryTime: e.target.value })} />
+                        </label>
+
+                        <label className="flex flex-col gap-1">
+                            <span className="text-sm text-gray-500">Assign to Seller (optional)</span>
+                            <select className="flinselect" value={sellerId}
+                                onChange={e => setSellerId(e.target.value)}>
+                                <option value="">— House product (no seller) —</option>
+                                {sellers.map(s => <option key={s._id} value={s._id}>{s.name}</option>)}
+                            </select>
                         </label>
 
                         {/* Tags */}
@@ -365,6 +400,15 @@ const PAddproducts = () => {
                             name="productDescription"
                             value={productData.productDescription}
                             onChange={value => setProductData(prev => ({ ...prev, productDescription: value }))}
+                            className="bg-white rounded-lg w-full h-56"
+                        />
+                    </div>
+                    <div className="bg-white border border-gray-200 rounded-2xl p-5">
+                        <p className="font-medium text-gray-700 mb-3">Package Details / Description (Bangla)</p>
+                        <RichTextEditor
+                            name="productDescriptionBn"
+                            value={productData.productDescriptionBn}
+                            onChange={value => setProductData(prev => ({ ...prev, productDescriptionBn: value }))}
                             className="bg-white rounded-lg w-full h-56"
                         />
                     </div>

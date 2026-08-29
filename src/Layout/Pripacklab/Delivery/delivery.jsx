@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { base_url } from "../../../config/config";
 
-const emptyForm = { area: "", charge: "", period: "", servicecategory: "" };
+const emptyForm = { area: "", areaBn: "", charge: "", period: "", periodBn: "", servicecategory: "" };
 
 const Delivery = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -52,8 +52,10 @@ const Delivery = () => {
     const form = e.target;
     const postData = {
       area: form.area.value.trim(),
+      areaBn: form.areaBn.value.trim(),
       charge: form.charge.value.trim(),
       period: form.period.value.trim(),
+      periodBn: form.periodBn.value.trim(),
       servicecategory: form.servicecategory.value,
     };
     try {
@@ -84,8 +86,10 @@ const Delivery = () => {
     const form = e.target;
     const updatedData = {
       area: form.area.value.trim(),
+      areaBn: form.areaBn.value.trim(),
       charge: form.charge.value.trim(),
       period: form.period.value.trim(),
+      periodBn: form.periodBn.value.trim(),
       servicecategory: form.servicecategory.value,
     };
     try {
@@ -128,6 +132,16 @@ const Delivery = () => {
         />
       </label>
       <label >
+        <span>Area (Bangla)</span>
+        <input
+          name="areaBn"
+          type="text"
+          defaultValue={defaultValues.areaBn}
+          className="priinput"
+          placeholder="বাংলা"
+        />
+      </label>
+      <label >
         <span>Charge (৳)</span>
         <input
           name="charge"
@@ -147,6 +161,16 @@ const Delivery = () => {
           className="priinput"
           placeholder="e.g. 1-2 days"
           required
+        />
+      </label>
+      <label >
+        <span>Delivery Period (Bangla)</span>
+        <input
+          name="periodBn"
+          type="text"
+          defaultValue={defaultValues.periodBn}
+          className="priinput"
+          placeholder="বাংলা"
         />
       </label>
       <label >

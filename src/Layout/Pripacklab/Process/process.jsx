@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { base_url } from "../../../config/config";
 
-const emptyForm = { category: "", step1: "", step2: "", step3: "" };
+const emptyForm = { category: "", step1: "", step1Bn: "", step2: "", step2Bn: "", step3: "", step3Bn: "" };
 
 const Process = () => {
   const [processes, setProcesses] = useState([]);
@@ -50,8 +50,11 @@ const Process = () => {
   const buildData = (form) => ({
     category: form.category.value,
     step1: form.step1.value.trim(),
+    step1Bn: form.step1Bn.value.trim(),
     step2: form.step2.value.trim(),
+    step2Bn: form.step2Bn.value.trim(),
     step3: form.step3.value.trim(),
+    step3Bn: form.step3Bn.value.trim(),
   });
 
   const handleAdd = async (e) => {
@@ -118,12 +121,24 @@ const Process = () => {
         <input name="step1" type="text" defaultValue={defaultValues.step1} className="priinput " placeholder="e.g. Place your order online" required />
       </label>
       <label >
+        <span>Step 1 (Bangla)</span>
+        <input name="step1Bn" type="text" defaultValue={defaultValues.step1Bn} className="priinput" placeholder="বাংলা" />
+      </label>
+      <label >
         <span>Step 2</span>
         <input name="step2" type="text" defaultValue={defaultValues.step2} className="priinput" placeholder="e.g. We process and print" required />
       </label>
       <label >
+        <span>Step 2 (Bangla)</span>
+        <input name="step2Bn" type="text" defaultValue={defaultValues.step2Bn} className="priinput" placeholder="বাংলা" />
+      </label>
+      <label >
         <span>Step 3</span>
         <input name="step3" type="text" defaultValue={defaultValues.step3} className="priinput" placeholder="e.g. Delivered to your door" required />
+      </label>
+      <label >
+        <span>Step 3 (Bangla)</span>
+        <input name="step3Bn" type="text" defaultValue={defaultValues.step3Bn} className="priinput" placeholder="বাংলা" />
       </label>
       <button type="submit" className="pributton">
         {submitLabel}

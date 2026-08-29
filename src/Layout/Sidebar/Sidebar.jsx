@@ -133,6 +133,7 @@ const Sidebar = () => {
                     items: [
                         { id: 17, name: 'FAQ',              path: '/pripacklab/faq' },
                         { id: 18, name: 'Ordering Process', path: '/pripacklab/process' },
+                        { id: 22, name: 'About Us',         path: '/pripacklab/aboutus' },
                     ],
                 },
 
