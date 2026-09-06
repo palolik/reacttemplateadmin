@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { RiCloseLargeFill } from "react-icons/ri";
 import '../../../styles/pripack.css';
 import { base_url } from "../../../config/config";
+import RichTextEditor from "../../../utils/PichTextEditor";
 const emptyForm = { method: "", number: "", extradetails: "" };
 
 const PaymentMethod = () => {
@@ -41,15 +42,15 @@ const PaymentMethod = () => {
     });
   };
 
-  const buildData = (form) => ({
+  const buildData = (form, extradetails) => ({
     method: form.method.value.trim(),
     number: form.number.value.trim(),
-    extradetails: form.extradetails.value.trim(),
+    extradetails,
   });
 
-  const handleAdd = async (e) => {
+  const handleAdd = async (e, extradetails) => {
     e.preventDefault();
-    const postData = buildData(e.target);
+    const postData = buildData(e.target, extradetails);
     try {
       const res = await fetch(`${base_url}/addpayment`, {
         method: "POST",
@@ -73,9 +74,9 @@ const PaymentMethod = () => {
     setShowEditModal(true);
   };
 
-  const handleEditSubmit = async (e) => {
+  const handleEditSubmit = async (e, extradetails) => {
     e.preventDefault();
-    const updatedData = buildData(e.target);
+    const updatedData = buildData(e.target, extradetails);
     try {
       const res = await fetch(`${base_url}/editpayment/${editData._id}`, {
         method: "PUT",
@@ -95,42 +96,48 @@ const PaymentMethod = () => {
     }
   };
 
-  const PaymentForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
-   <form onSubmit={onSubmit} className="flex flex-col gap-3">
+  const PaymentForm = ({ onSubmit, defaultValues = {}, submitLabel }) => {
+    const [extradetails, setExtradetails] = useState(defaultValues.extradetails || "");
 
-  <select name="method" defaultValue={defaultValues.method || ""} className="pridrop" required>
-    <option value="" disabled>Select method</option>
-    <option value="bKash">bKash</option>
-    <option value="Nagad">Nagad</option>
-    <option value="Rocket">Rocket</option>
-    <option value="Bank Transfer">Bank Transfer</option>
-    <option value="Cash on Delivery">Cash on Delivery</option>
-    <option value="Card">Card</option>
-    <option value="Other">Other</option>
-  </select>
+    return (
+      <form onSubmit={(e) => onSubmit(e, extradetails)} className="flex flex-col gap-3">
 
-  <input
-    name="number"
-    type="text"
-    defaultValue={defaultValues.number}
-    className="priinput"
-    placeholder="e.g. 01XXXXXXXXX"
-    required
-  />
+        <select name="method" defaultValue={defaultValues.method || ""} className="pridrop" required>
+          <option value="" disabled>Select method</option>
+          <option value="bKash">bKash</option>
+          <option value="Nagad">Nagad</option>
+          <option value="Rocket">Rocket</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="Card">Card</option>
+          <option value="Other">Other</option>
+        </select>
 
-  <textarea
-    name="extradetails"
-    defaultValue={defaultValues.extradetails}
-    className="pritextarea"
-    placeholder="e.g. Send money to personal, mention order ID"
-  />
+        <input
+          name="number"
+          type="text"
+          defaultValue={defaultValues.number}
+          className="priinput"
+          placeholder="e.g. 01XXXXXXXXX"
+          required
+        />
 
-  <button type="submit" className="pributton">
-    {submitLabel}
-  </button>
+        <div className="flex flex-col gap-1">
+          <span className="text-sm text-gray-600">Extra Details</span>
+          <RichTextEditor
+            value={extradetails}
+            onChange={setExtradetails}
+            placeholder="e.g. Send money to personal, mention order ID"
+          />
+        </div>
 
-</form>
-  );
+        <button type="submit" className="pributton">
+          {submitLabel}
+        </button>
+
+      </form>
+    );
+  };
 
   return (
     <div className="w-full">
@@ -169,7 +176,11 @@ const PaymentMethod = () => {
                       </span>
                     </td>
                     <td className="px-3 py-2 font-mono">{p.number}</td>
-                    <td className="px-3 py-2 text-gray-500 text-left max-w-[240px] truncate">{p.extradetails || "—"}</td>
+                    <td className="px-3 py-2 text-gray-500 text-left max-w-[240px] truncate">
+                      {p.extradetails
+                        ? <div dangerouslySetInnerHTML={{ __html: p.extradetails }} />
+                        : "—"}
+                    </td>
                     <td className="px-3 py-2">
                       <div className="flex justify-center gap-2">
                         <button onClick={() => handleEdit(p)} className="smbut">Edit</button>

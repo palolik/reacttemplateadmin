@@ -26,6 +26,7 @@ const PAddproducts = () => {
     const [tagInput, setTagInput] = useState('');
 
     const [image, setImage] = useState([]);
+    const [formKey, setFormKey] = useState(0);
     const [productData, setProductData] = useState({
         category: '',
         subCategory: '',
@@ -165,6 +166,30 @@ const PAddproducts = () => {
 
     // ─── Submit ────────────────────────────────────────────────────────────────
 
+    const resetForm = () => {
+        setProductData({
+            category: '',
+            subCategory: '',
+            productName: '',
+            productNameBn: '',
+            productDescription: '',
+            productDescriptionBn: '',
+            productSupplier: '',
+            deliveryTime: ''
+        });
+        setSellerId('');
+        setCriteria([]);
+        setSelectedCriteria('');
+        setCustomCriteriaName('');
+        setValueInputs({});
+        setVariants([]);
+        setVariantsGenerated(false);
+        setTagNames([]);
+        setTagInput('');
+        setImage([]);
+        setFormKey(k => k + 1);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -193,6 +218,7 @@ const PAddproducts = () => {
             const response = await fetch(`${base_url}/addproduct`, { method: 'POST', body: formData });
             if (response.ok) {
                 Swal.fire({ title: 'Product Added!', text: 'Successfully added a new product.', icon: 'success' });
+                resetForm();
             } else {
                 alert('Failed to add product');
             }
@@ -397,6 +423,7 @@ const PAddproducts = () => {
                     <div className="bg-white border border-gray-200 rounded-2xl p-5">
                         <p className="font-medium text-gray-700 mb-3">Package Details / Description</p>
                         <RichTextEditor
+                            key={`desc-${formKey}`}
                             name="productDescription"
                             value={productData.productDescription}
                             onChange={value => setProductData(prev => ({ ...prev, productDescription: value }))}
@@ -406,6 +433,7 @@ const PAddproducts = () => {
                     <div className="bg-white border border-gray-200 rounded-2xl p-5">
                         <p className="font-medium text-gray-700 mb-3">Package Details / Description (Bangla)</p>
                         <RichTextEditor
+                            key={`descbn-${formKey}`}
                             name="productDescriptionBn"
                             value={productData.productDescriptionBn}
                             onChange={value => setProductData(prev => ({ ...prev, productDescriptionBn: value }))}
@@ -469,13 +497,12 @@ const PAddproducts = () => {
                                         />
 
                                         {/* Active toggle */}
-                                        <button
-                                            type="button"
-                                            onClick={() => toggleVariantActive(v.id)}
-                                            className={`w-10 h-5 rounded-full transition-colors relative ${v.is_active ? 'bg-green-400' : 'bg-gray-200'}`}
-                                        >
-                                            <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${v.is_active ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                                        </button>
+                                        <input
+                                            type="checkbox"
+                                            className="toggle toggle-success toggle-sm"
+                                            checked={v.is_active}
+                                            onChange={() => toggleVariantActive(v.id)}
+                                        />
                                     </div>
                                 ))}
                             </div>

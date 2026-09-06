@@ -1,11 +1,13 @@
 import { useState, useContext } from "react";
 import { useNavigate, } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { AuthContext } from "../Provider/Authprovider";
 import { base_url } from "../../config/config";
 const Login = () => {
   const [remail, setEmail] = useState("");
   const [pass, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
@@ -77,13 +79,21 @@ const Login = () => {
               />
             </svg>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="grow"
               placeholder="Password"
               value={pass}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="opacity-70"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
+            </button>
           </label>
 
           <input

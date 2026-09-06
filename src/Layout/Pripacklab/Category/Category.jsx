@@ -159,14 +159,14 @@ const PCategory = () => {
       {isAddModalOpen && (
         <Modal title="Add Category" onClose={() => setIsAddModalOpen(false)}>
           <form onSubmit={handleAddPost} className="flex flex-col gap-3">
-            <label className="lbl">
-              <span>Category Name</span>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-gray-600">Category Name</span>
               <input name="catname" type="text" className="priinput" required />
-            </label>
-            <label className="lbl">
-              <span>Category Name (Bangla)</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-gray-600">Category Name (Bangla)</span>
               <input name="catnameBn" type="text" className="priinput" placeholder="বাংলা নাম" />
-            </label>
+            </div>
             <FileInput label="Cover Picture" file={pagecoverFile}
               onChange={(e) => setPagecoverFile(e.target.files[0])} />
             <FileInput label="Icon Picture" file={iconpicFile}
@@ -186,14 +186,14 @@ const PCategory = () => {
       {isEditModalOpen && (
         <Modal title="Edit Category" onClose={() => setIsEditModalOpen(false)}>
           <form onSubmit={handleEditPost} className="flex flex-col gap-3">
-            <label className="lbl">
-              <span>Category Name</span>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-gray-600">Category Name</span>
               <input name="catname" defaultValue={editCatData.catname} type="text" className="priinput" required />
-            </label>
-            <label className="lbl">
-              <span>Category Name (Bangla)</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-sm text-gray-600">Category Name (Bangla)</span>
               <input name="catnameBn" defaultValue={editCatData.catnameBn} type="text" className="priinput" placeholder="বাংলা নাম" />
-            </label>
+            </div>
             <FileInputEdit label="Cover Picture" file={editPagecoverFile}
               existingUrl={editCatData.pagecover} previewClass="w-[160px] h-[60px]"
               onChange={(e) => setEditPagecoverFile(e.target.files[0])} />

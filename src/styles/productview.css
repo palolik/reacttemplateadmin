@@ -18,12 +18,11 @@
 }
 
 .flinselect {
-  @apply select select-bordered  select-sm w-[200px] bg-white max-w-xs  text-black;
+  @apply select select-bordered  select-sm w-full bg-white  text-black;
 }
 
 .flin{
-    @apply file-input file-input-bordered file-input-sm w-[200px] bg-white max-w-xs p-4 text-black;
-    
+    @apply input input-bordered input-sm w-full bg-white text-black;
 }
 .flins{
     @apply file-input file-input-bordered file-input-sm w-[200px] max-w-xs  ;

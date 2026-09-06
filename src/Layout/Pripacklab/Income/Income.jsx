@@ -177,7 +177,7 @@ const PIncome = () => {
                 <div>{item.title}</div>
                 <div>{item.description}</div>
                 <div>{item.date}</div>
-                <div>${Number(item.amount || 0).toLocaleString()}</div>
+                <div>৳{Number(item.amount || 0).toLocaleString()}</div>
                 <div>{item.source}</div>
                 <div>{item.note}</div>
                 <div className="flex gap-1">
@@ -189,7 +189,7 @@ const PIncome = () => {
           </div>
 
           <div className="mt-4 pl-2">
-            <p><strong>Total Income: ${totalIncome.toLocaleString()}</strong></p>
+            <p><strong>Total Income: ৳{totalIncome.toLocaleString()}</strong></p>
           </div>
         </div>
       </div>
@@ -211,15 +211,15 @@ const PIncome = () => {
             {/* Modal Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
 
-              <label className="lbl">
-                <span>Category</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-sm text-gray-600">Category</span>
                 <select name="category" className="pridrop" value={form.category} onChange={handleChange} required>
                   <option value="">Select category</option>
                   {INCOME_CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
-              </label>
+              </div>
 
               {[
                 { label: 'Title',  name: 'title',  type: 'text'   },
@@ -227,29 +227,29 @@ const PIncome = () => {
                 { label: 'Amount', name: 'amount', type: 'number' },
                 { label: 'Source', name: 'source', type: 'text'   },
               ].map(({ label, name, type }) => (
-                <label key={name} className="lbl">
-                  <span>{label}</span>
+                <div key={name} className="flex flex-col gap-1">
+                  <span className="text-sm text-gray-600">{label}</span>
                   <input
                     type={type} name={name} className="priinput"
                     placeholder={label} value={form[name]}
                     onChange={handleChange} required
                   />
-                </label>
+                </div>
               ))}
 
-              <label className="lbl">
-                <span>Description</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-sm text-gray-600">Description</span>
                 <textarea name="description" className="pritextarea"
                   placeholder="Optional description..." value={form.description}
                   onChange={handleChange} rows={2} />
-              </label>
+              </div>
 
-              <label className="lbl">
-                <span>Note</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-sm text-gray-600">Note</span>
                 <textarea name="note" className="pritextarea"
                   placeholder="Optional note..." value={form.note}
                   onChange={handleChange} rows={2} />
-              </label>
+              </div>
 
               <div className="flex gap-2 mt-2">
                 <button type="submit" className="pributton flex-1">

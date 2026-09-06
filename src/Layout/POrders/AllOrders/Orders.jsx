@@ -139,7 +139,6 @@ const TabsView = ({ orders, openStatusModal }) => {
                 }`}>{order.paymentStatus || "—"}</span>
               </div>
               {order.paymentNumber && <div><p className="text-xs text-gray-400 mb-0.5">Number</p><p className="font-mono text-sm text-gray-800">{order.paymentNumber}</p></div>}
-              {order.referenceCode && <div><p className="text-xs text-gray-400 mb-0.5">Reference</p><p className="font-mono text-sm text-gray-800">{order.referenceCode}</p></div>}
               {order.transactionId && <div><p className="text-xs text-gray-400 mb-0.5">Transaction ID</p><p className="font-mono text-sm text-gray-800">{order.transactionId}</p></div>}
               {order.coupon        && <div><p className="text-xs text-gray-400 mb-0.5">Coupon</p><p className="font-semibold text-teal-600">{order.coupon}</p></div>}
             </div>
@@ -354,7 +353,6 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                         {order.transactionId ? (
                           <div className="flex flex-col gap-0.5 text-gray-600">
                             <span>Via: <b>{order.paymentMethod}</b></span>
-                            {order.referenceCode && <span>Ref: <b className="font-mono">{order.referenceCode}</b></span>}
                             <span>TrxID: <b className="font-mono">{order.transactionId}</b></span>
                           </div>
                         ) : <p className="text-gray-400">Pay on delivery</p>}
