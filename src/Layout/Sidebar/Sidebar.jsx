@@ -125,6 +125,7 @@ const Sidebar = () => {
                         { id: 14, name: 'Support Chat', path: '/pripacklab/support' },
                         { id: 15, name: 'Comments',     path: '/pripacklab/comments' },
                         { id: 16, name: 'Reviews',      path: '/pripacklab/reviews' },
+                        { id: 23, name: 'All Customers', path: '/pripacklab/customers' },
                     ],
                 },
                 {
