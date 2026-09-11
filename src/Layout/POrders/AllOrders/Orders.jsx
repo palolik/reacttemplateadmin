@@ -370,11 +370,20 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
 };
 
 
+const STATUS_FLOW = ["Placed", "Confirmed", "On Making", "On Transit", "Delivered"];
+
+const getNextStatus = (current) => {
+  const idx = STATUS_FLOW.indexOf(current);
+  if (idx === -1 || idx === STATUS_FLOW.length - 1) return null;
+  return STATUS_FLOW[idx + 1];
+};
+
 const PAllOrders = () => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [selectedOrder, setSelectedOrder]     = useState(null);
   const [newStatus, setNewStatus]             = useState("");
   const [note, setNote]                       = useState("");
+  const [statusErrors, setStatusErrors]       = useState({ status: "", note: "" });
   const [orderData, setOrderData]             = useState([]);
   const [viewMode, setViewMode]               = useState("table");
   const ordersPerPage = 10;
@@ -393,13 +402,21 @@ const PAllOrders = () => {
 
   const openStatusModal = (order) => {
     setSelectedOrder(order);
-    setNewStatus("");
+    setNewStatus(order.currentStatus || "");
     setNote("");
+    setStatusErrors({ status: "", note: "" });
     setShowStatusModal(true);
   };
 
   const updateOrderStatus = async () => {
-    if (!newStatus || !note) { alert("Status and note are required"); return; }
+    if (!newStatus || !note) {
+      setStatusErrors({
+        status: newStatus ? "" : "Status is required",
+        note: note ? "" : "Note is required",
+      });
+      return;
+    }
+    setStatusErrors({ status: "", note: "" });
     try {
       const res = await fetch(`${base_url}/order/status/${selectedOrder._id}`, {
         method: "PATCH",
@@ -496,26 +513,31 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
             <select
               value={newStatus}
               onChange={e => setNewStatus(e.target.value)}
-              className="w-full mb-3 p-2.5 border border-gray-200 rounded-xl bg-white text-sm"
+              className={`w-full p-2.5 border rounded-xl bg-white text-sm ${statusErrors.status ? "border-red-400" : "border-gray-200"}`}
             >
-              <option value="">Select Status</option>
-              <option value="Placed">Placed</option>
-              <option value="Confirmed">Confirmed</option>
-              <option value="On Making">On Making</option>
-              <option value="On Transit">On Transit</option>
-              <option value="Delivered">Delivered</option>
+              {selectedOrder?.currentStatus && (
+                <option value={selectedOrder.currentStatus}>{selectedOrder.currentStatus} (current)</option>
+              )}
+              {getNextStatus(selectedOrder?.currentStatus) && (
+                <option value={getNextStatus(selectedOrder?.currentStatus)}>
+                  {getNextStatus(selectedOrder?.currentStatus)}
+                </option>
+              )}
               <option value="Cancelled">Cancelled</option>
             </select>
+            {statusErrors.status && <p className="text-red-500 text-xs mt-1">{statusErrors.status}</p>}
             <textarea
               placeholder="Enter note"
               value={note}
               onChange={e => setNote(e.target.value)}
-              className="w-full mb-4 p-2.5 border border-gray-200 rounded-xl bg-white text-sm resize-none"
+              className={`w-full mt-3 p-2.5 border rounded-xl bg-white text-sm resize-none ${statusErrors.note ? "border-red-400" : "border-gray-200"}`}
               rows={3}
             />
+            {statusErrors.note && <p className="text-red-500 text-xs mt-1">{statusErrors.note}</p>}
+            <div className="mb-4" />
             <div className="flex justify-end gap-2">
               <button onClick={() => setShowStatusModal(false)} className="smbut">Cancel</button>
-              <button onClick={updateOrderStatus} className="smbut">Update</button>
+              <button onClick={updateOrderStatus} className="smbut">Next</button>
             </div>
           </div>
         </div>

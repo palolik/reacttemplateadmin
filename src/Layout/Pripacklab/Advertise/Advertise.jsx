@@ -1,19 +1,32 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { RiCloseLargeFill } from "react-icons/ri";
 import {
   base_url
 
 } from "../../../config/config";
+import { FileInput, FileInputEdit } from "../../../utils/FileFields";
 const Advertise = () => {
   const [ima, setIma] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
 
-  // Load advertisements
-  useEffect(() => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editAdData, setEditAdData] = useState({
+    _id: "", imglink: "", location: "", rdlink: "", startdate: "", tilldate: "",
+  });
+  const [editImageFile, setEditImageFile] = useState(null);
+
+  const fetchAdvertisements = () => {
     fetch(`${base_url}/advertise`)
       .then((res) => res.json())
       .then((data) => setIma(data))
       .catch((error) => console.error("Error fetching advertisements:", error));
+  };
+
+  // Load advertisements
+  useEffect(() => {
+    fetchAdvertisements();
   }, []);
 
 
@@ -44,22 +57,23 @@ const Advertise = () => {
   const handleAddPost = async (event) => {
     event.preventDefault();
     const form = event.target;
-    const postData = {
-      imglink: form.imglink.value.trim(),
-      location: form.location.value.trim(),
-      rdlink: form.rdlink.value.trim(),
-      tilldate: form.tilldate.value.trim(),
-      startdate: form.startdate.value.trim(),
-      status: "pending",
-      clicks: 0,
-      createdAt: new Date(),
-    };
+
+    if (!imageFile) {
+      Swal.fire("Error!", "Please choose an advertisement image.", "error");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("location", form.location.value.trim());
+    formData.append("rdlink", form.rdlink.value.trim());
+    formData.append("startdate", form.startdate.value.trim());
+    formData.append("tilldate", form.tilldate.value.trim());
+    formData.append("image", imageFile);
 
     try {
       const response = await fetch(`${base_url}/addadvertise`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
+        body: formData,
       });
 
       const data = await response.json();
@@ -67,13 +81,56 @@ const Advertise = () => {
       if (data.insertedId) {
         Swal.fire("Success!", "Advertisement added successfully.", "success");
         form.reset();
+        setImageFile(null);
         setShowForm(false);
-        setIma([...ima, { ...postData, _id: data.insertedId }]);
+        fetchAdvertisements();
       } else {
         Swal.fire("Error!", "Failed to add advertisement.", "error");
       }
     } catch (error) {
       console.error("Error adding advertisement:", error);
+      Swal.fire("Error!", "Unexpected error occurred.", "error");
+    }
+  };
+
+  const handleEdit = (ad) => {
+    setEditAdData(ad);
+    setEditImageFile(null);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+
+    const formData = new FormData();
+    formData.append("location", form.location.value.trim());
+    formData.append("rdlink", form.rdlink.value.trim());
+    formData.append("startdate", form.startdate.value.trim());
+    formData.append("tilldate", form.tilldate.value.trim());
+    if (editImageFile) formData.append("image", editImageFile);
+
+    try {
+      const response = await fetch(`${base_url}/editadvertise/${editAdData._id}`, {
+        method: "PUT",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.message === "Advertisement updated successfully") {
+        Swal.fire("Updated!", "Advertisement updated successfully.", "success").then(() => {
+          setIma((prev) =>
+            prev.map((ad) =>
+              ad._id === editAdData._id ? { ...ad, ...data.updatedAdvertise } : ad
+            )
+          );
+          setIsEditModalOpen(false);
+        });
+      } else {
+        Swal.fire("Error!", "Failed to update advertisement.", "error");
+      }
+    } catch (error) {
+      console.error("Error updating advertisement:", error);
       Swal.fire("Error!", "Unexpected error occurred.", "error");
     }
   };
@@ -148,7 +205,7 @@ const Advertise = () => {
     {ima.map((ad) => (
       <div key={ad._id} className="tabc">
         <div>
-          <img src={ad.imglink} alt="Advert"
+          <img src={`${base_url}${ad.imglink}`} alt="Advert"
             className="w-12 h-12 object-cover rounded-full" />
         </div>
         <div>{ad.location}</div>
@@ -176,6 +233,7 @@ const Advertise = () => {
           </select>
         </div>
         <div className="flex gap-1">
+          <button onClick={() => handleEdit(ad)} className="smbut">Edit</button>
           <button onClick={() => handleDelete(ad._id)} className="smbut">Delete</button>
         </div>
       </div>
@@ -196,12 +254,10 @@ const Advertise = () => {
                 Add Advertisement
               </h3>
               <form onSubmit={handleAddPost} className="flex flex-col gap-3">
-                <input
-                  name="imglink"
-                  type="text"
-                  placeholder="Image URL"
-                  className="priinput"
-                  required
+                <FileInput
+                  label="Advertisement Image"
+                  file={imageFile}
+                  onChange={(e) => setImageFile(e.target.files[0])}
                 />
                 <select
                   name="location"
@@ -240,6 +296,72 @@ const Advertise = () => {
                 />
                 <button type="submit" className="pributton">
                   Add Advertisement
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {isEditModalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+              >
+                <RiCloseLargeFill />
+              </button>
+              <h3 className="text-xl font-semibold mb-4 text-center">
+                Edit Advertisement
+              </h3>
+              <form onSubmit={handleEditSubmit} className="flex flex-col gap-3">
+                <FileInputEdit
+                  label="Advertisement Image"
+                  file={editImageFile}
+                  existingUrl={editAdData.imglink}
+                  onChange={(e) => setEditImageFile(e.target.files[0])}
+                  previewClass="w-[160px] h-[60px]"
+                />
+                <select
+                  name="location"
+                  className="pridrop"
+                  required
+                  defaultValue={editAdData.location}
+                >
+                  <option value="" disabled>
+                    Select Ad Location
+                  </option>
+                  <option value="Header">Header</option>
+                  <option value="hls">home left Sidebar</option>
+                  <option value="hrs">home right Sidebar</option>
+                  <option value="Footer">Footer</option>
+                  <option value="Homepage Banner">Homepage Banner</option>
+                  <option value="Popup">Popup</option>
+                </select>
+                <input
+                  name="rdlink"
+                  type="text"
+                  defaultValue={editAdData.rdlink}
+                  placeholder="Redirect Link"
+                  className="priinput"
+                  required
+                />
+                <input
+                  name="startdate"
+                  type="date"
+                  defaultValue={editAdData.startdate}
+                  className="priinput"
+                  required
+                />
+                <input
+                  name="tilldate"
+                  type="date"
+                  defaultValue={editAdData.tilldate}
+                  className="priinput text-black"
+                  required
+                />
+                <button type="submit" className="pributton">
+                  Update Advertisement
                 </button>
               </form>
             </div>
