@@ -210,12 +210,12 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
             <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
 
             {/* Drawer */}
-            <div className="fixed top-0 right-0 h-full w-[900px] bg-white z-50 shadow-2xl flex flex-col overflow-hidden">
+            <div className="fixed top-0 right-0 h-full w-[900px] bg-white dark:bg-slate-900 z-50 shadow-2xl flex flex-col overflow-hidden">
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                    <p className="font-bold text-gray-900 text-base">Edit Product</p>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-2xl font-light leading-none">×</button>
+                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-slate-700">
+                    <p className="font-bold text-gray-900 dark:text-slate-100 text-base">Edit Product</p>
+                    <button onClick={onClose} className="text-gray-400 dark:text-slate-400 hover:text-gray-700 text-2xl font-light leading-none">×</button>
                 </div>
 
                 {/* Body */}
@@ -223,11 +223,11 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                     {/* ── Basic Info ── */}
                     <section className="flex flex-col gap-3">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Basic Info</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Basic Info</p>
 
                         <div className="grid grid-cols-2 gap-3">
                             <label className="flex flex-col gap-1">
-                                <span className="text-xs text-gray-500">Category</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400">Category</span>
                                 <select className="flinselect" value={form.category}
                                     onChange={e => setForm({ ...form, category: e.target.value })}>
                                     <option value="">Select</option>
@@ -235,7 +235,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                 </select>
                             </label>
                             <label className="flex flex-col gap-1">
-                                <span className="text-xs text-gray-500">Subcategory</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400">Subcategory</span>
                                 <select className="flinselect" value={form.subCategory}
                                     disabled={!form.category}
                                     onChange={e => setForm({ ...form, subCategory: e.target.value })}>
@@ -246,32 +246,32 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                         </div>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-xs text-gray-500">Product Name</span>
+                            <span className="text-xs text-gray-500 dark:text-slate-400">Product Name</span>
                             <input className="flin" value={form.productName}
                                 onChange={e => setForm({ ...form, productName: e.target.value })} />
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-xs text-gray-500">Product Name (Bangla)</span>
+                            <span className="text-xs text-gray-500 dark:text-slate-400">Product Name (Bangla)</span>
                             <input className="flin" value={form.productNameBn}
                                 onChange={e => setForm({ ...form, productNameBn: e.target.value })} />
                         </label>
 
                         <div className="grid grid-cols-2 gap-3">
                             <label className="flex flex-col gap-1">
-                                <span className="text-xs text-gray-500">Supplier</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400">Supplier</span>
                                 <input className="flin" value={form.productSupplier}
                                     onChange={e => setForm({ ...form, productSupplier: e.target.value })} />
                             </label>
                             <label className="flex flex-col gap-1">
-                                <span className="text-xs text-gray-500">Delivery Time</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400">Delivery Time</span>
                                 <input className="flin" value={form.deliveryTime}
                                     onChange={e => setForm({ ...form, deliveryTime: e.target.value })} />
                             </label>
                         </div>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-xs text-gray-500">Assign to Seller (optional)</span>
+                            <span className="text-xs text-gray-500 dark:text-slate-400">Assign to Seller (optional)</span>
                             <select className="flinselect" value={form.sellerId}
                                 onChange={e => setForm({ ...form, sellerId: e.target.value })}>
                                 <option value="">— House product (no seller) —</option>
@@ -282,7 +282,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                     {/* ── Tags ── */}
                     <section className="flex flex-col gap-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Tags</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Tags</p>
                         <div className="flex gap-2">
                             <input className="flin flex-1 text-sm" placeholder="Add tag" value={tagInput}
                                 onChange={e => setTagInput(e.target.value)}
@@ -291,10 +291,10 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                         </div>
                         <div className="flex flex-wrap gap-1.5">
                             {tags.map(tag => (
-                                <span key={tag} className="flex items-center gap-1 bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                                <span key={tag} className="flex items-center gap-1 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 text-xs px-3 py-1 rounded-full">
                                     #{tag}
                                     <button type="button" onClick={() => setTags(prev => prev.filter(t => t !== tag))}
-                                        className="text-gray-400 hover:text-red-500">×</button>
+                                        className="text-gray-400 dark:text-slate-400 hover:text-red-500">×</button>
                                 </span>
                             ))}
                         </div>
@@ -302,7 +302,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                     {/* ── Images ── */}
                     <section className="flex flex-col gap-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Images</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Images</p>
 
                         <div className="flex flex-wrap gap-2">
                             {/* Existing server images */}
@@ -323,7 +323,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                 </div>
                             ))}
                             {/* Add more */}
-                            <label className="w-20 h-20 border border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-50 transition text-gray-400 text-xl">
+                            <label className="w-20 h-20 border border-dashed border-gray-300 dark:border-slate-600 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-800/60 transition text-gray-400 dark:text-slate-400 text-xl">
                                 +
                                 <input type="file" multiple className="hidden" onChange={handleNewImages} />
                             </label>
@@ -332,7 +332,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                     {/* ── Criteria ── */}
                     <section className="flex flex-col gap-3">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Criteria</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Criteria</p>
 
                         <div className="flex gap-2">
                             <select className="flinselect flex-1" value={selectedCriteria}
@@ -350,9 +350,9 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                         )}
 
                         {criteria.map(c => (
-                            <div key={c.name} className="border border-gray-100 rounded-xl p-3 bg-gray-50 flex flex-col gap-2">
+                            <div key={c.name} className="border border-gray-100 dark:border-slate-700 rounded-xl p-3 bg-gray-50 dark:bg-slate-900 flex flex-col gap-2">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm font-semibold text-gray-700">{c.name}</span>
+                                    <span className="text-sm font-semibold text-gray-700 dark:text-slate-300">{c.name}</span>
                                     <button type="button" onClick={() => handleRemoveCriteria(c.name)}
                                         className="text-xs text-red-400 hover:text-red-600">Remove</button>
                                 </div>
@@ -365,10 +365,10 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                 </div>
                                 <div className="flex flex-wrap gap-1">
                                     {c.values.map(val => (
-                                        <span key={val} className="flex items-center gap-1 bg-white border border-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">
+                                        <span key={val} className="flex items-center gap-1 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300 text-xs px-2 py-1 rounded-full">
                                             {val}
                                             <button type="button" onClick={() => handleRemoveValue(c.name, val)}
-                                                className="text-gray-300 hover:text-red-400">×</button>
+                                                className="text-gray-300 dark:text-slate-400 hover:text-red-400">×</button>
                                         </span>
                                     ))}
                                 </div>
@@ -387,7 +387,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                     {variants.length > 0 && (
                         <section className="flex flex-col gap-2">
                             <div className="flex items-center justify-between">
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">
                                     Variants ({variants.length})
                                 </p>
                                 <span className="text-[10px] text-green-500 font-semibold">
@@ -395,18 +395,18 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                 </span>
                             </div>
 
-                            <div className="border border-gray-100 rounded-xl overflow-hidden">
-                                <div className="grid gap-2 px-3 py-2 bg-gray-50 text-[10px] font-bold uppercase tracking-wide text-gray-400"
+                            <div className="border border-gray-100 dark:border-slate-700 rounded-xl overflow-hidden">
+                                <div className="grid gap-2 px-3 py-2 bg-gray-50 dark:bg-slate-900 text-[10px] font-bold uppercase tracking-wide text-gray-400 dark:text-slate-400"
                                     style={{ gridTemplateColumns: "1fr 80px 80px 70px 50px" }}>
                                     <span>Combination</span><span>Price</span><span>Profit</span><span>Discount</span><span>Active</span>
                                 </div>
                                 {variants.map(v => (
                                     <div key={v.id}
-                                        className={`grid gap-2 px-3 py-2 border-t border-gray-100 items-center ${!v.is_active ? "opacity-40" : ""}`}
+                                        className={`grid gap-2 px-3 py-2 border-t border-gray-100 dark:border-slate-700 items-center ${!v.is_active ? "opacity-40" : ""}`}
                                         style={{ gridTemplateColumns: "1fr 80px 80px 70px 50px" }}>
                                         <div className="flex flex-wrap gap-1">
                                             {Object.values(v.combination).map((val, i) => (
-                                                <span key={i} className="bg-gray-100 px-1.5 py-0.5 rounded text-xs text-gray-700 font-medium">{val}</span>
+                                                <span key={i} className="bg-gray-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs text-gray-700 dark:text-slate-300 font-medium">{val}</span>
                                             ))}
                                         </div>
                                         <input type="number" placeholder="0" className="flin text-xs px-2 py-1"
@@ -430,34 +430,34 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                     {/* ── Description ── */}
                     <section className="flex flex-col gap-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Description</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Description</p>
                            <RichTextEditor
                             name="productDescription"
                             value={form.productDescription}
 onChange={value => setForm({ ...form, productDescription: value })}
-                            className="bg-white rounded-lg w-full h-56"
+                            className="bg-white dark:bg-slate-900 rounded-lg w-full h-56"
                         />
 
-                        <p className="text-[10px] text-gray-400">Note: rich text formatting will be preserved as-is.</p>
+                        <p className="text-[10px] text-gray-400 dark:text-slate-400">Note: rich text formatting will be preserved as-is.</p>
                     </section>
 
                     {/* ── Description (Bangla) ── */}
                     <section className="flex flex-col gap-2">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Description (Bangla)</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">Description (Bangla)</p>
                         <RichTextEditor
                             name="productDescriptionBn"
                             value={form.productDescriptionBn}
                             onChange={value => setForm({ ...form, productDescriptionBn: value })}
-                            className="bg-white rounded-lg w-full h-56"
+                            className="bg-white dark:bg-slate-900 rounded-lg w-full h-56"
                         />
                     </section>
 
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-gray-100 flex gap-3">
+                <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-700 flex gap-3">
                     <button onClick={onClose}
-                        className="flex-1 text-sm py-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition">
+                        className="flex-1 text-sm py-2 rounded-xl border border-gray-200 dark:border-slate-700 text-gray-600 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition">
                         Cancel
                     </button>
                     <button onClick={handleSave} disabled={saving}

@@ -85,7 +85,7 @@ const AboutUs = () => {
     return (
       <div className="w-full">
         <div className="hdr">About Us Page</div>
-        <div className="px-6 py-10 text-center text-gray-400">Loading...</div>
+        <div className="px-6 py-10 text-center text-gray-400 dark:text-slate-400">Loading...</div>
       </div>
     );
   }
@@ -98,7 +98,7 @@ const AboutUs = () => {
 
         {/* Hero */}
         <section className="flex flex-col gap-3">
-          <h3 className="text-base font-semibold text-gray-800">Hero Section</h3>
+          <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Hero Section</h3>
           <div className="grid grid-cols-2 gap-3">
             <input className="priinput" placeholder="Tag (e.g. About PriPackLab)"
               value={about.heroTag} onChange={(e) => setField("heroTag", e.target.value)} />
@@ -117,13 +117,13 @@ const AboutUs = () => {
             <input className="priinput" placeholder="Title (highlighted, Bangla)"
               value={about.heroTitleHighlightBn} onChange={(e) => setField("heroTitleHighlightBn", e.target.value)} />
           </div>
-          <p className="text-xs text-gray-400">Company story</p>
+          <p className="text-xs text-gray-400 dark:text-slate-400">Company story</p>
           <RichTextEditor
             value={about.heroDescription}
             onChange={(html) => setField("heroDescription", html)}
             placeholder="Write the company story..."
           />
-          <p className="text-xs text-gray-400">Company story (Bangla)</p>
+          <p className="text-xs text-gray-400 dark:text-slate-400">Company story (Bangla)</p>
           <RichTextEditor
             value={about.heroDescriptionBn}
             onChange={(html) => setField("heroDescriptionBn", html)}
@@ -148,7 +148,7 @@ const AboutUs = () => {
         {/* Stats */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold text-gray-800">Stats</h3>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Stats</h3>
             <button className="smbut" onClick={() => addListItem("stats", { label: "", labelBn: "", value: "" })}>
               + Add Stat
             </button>
@@ -169,7 +169,7 @@ const AboutUs = () => {
         {/* Values */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold text-gray-800">Why Choose Us (Values)</h3>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Why Choose Us (Values)</h3>
             <button className="smbut" onClick={() => addListItem("values", { icon: "Package", title: "", titleBn: "", desc: "", descBn: "" })}>
               + Add Value
             </button>
@@ -197,7 +197,7 @@ const AboutUs = () => {
 
         {/* Map section */}
         <section className="flex flex-col gap-3">
-          <h3 className="text-base font-semibold text-gray-800">Nationwide Coverage Section</h3>
+          <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Nationwide Coverage Section</h3>
           <div className="grid grid-cols-2 gap-3">
             <input className="priinput" placeholder="Tag (e.g. Nationwide Coverage)"
               value={about.mapTag} onChange={(e) => setField("mapTag", e.target.value)} />
@@ -219,7 +219,7 @@ const AboutUs = () => {
         {/* Coverage cards */}
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-semibold text-gray-800">Coverage Highlights</h3>
+            <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Coverage Highlights</h3>
             <button className="smbut" onClick={() => addListItem("coverageCards", { icon: "Users", title: "", titleBn: "", desc: "", descBn: "" })}>
               + Add Highlight
             </button>
@@ -247,7 +247,7 @@ const AboutUs = () => {
 
         {/* CTA */}
         <section className="flex flex-col gap-3">
-          <h3 className="text-base font-semibold text-gray-800">Call To Action</h3>
+          <h3 className="text-base font-semibold text-gray-800 dark:text-slate-100">Call To Action</h3>
           <div className="grid grid-cols-2 gap-3">
             <input className="priinput" placeholder="Title"
               value={about.ctaTitle} onChange={(e) => setField("ctaTitle", e.target.value)} />

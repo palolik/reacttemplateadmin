@@ -1,25 +1,86 @@
 .smain {
-    @apply bg-slate-900 h-screen w-64 flex flex-col shrink-0 overflow-y-auto border-r border-slate-800/80;
-    scrollbar-width: thin;
-    scrollbar-color: #334155 transparent;
+    @apply bg-white dark:bg-slate-950 h-screen flex flex-col shrink-0 overflow-hidden border-r border-gray-200 dark:border-slate-800/70;
 }
 
-.smain::-webkit-scrollbar {
+.stoggle {
+    @apply absolute -right-3 top-[52px] z-20 w-6 h-6 rounded-full bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 text-gray-500 dark:text-slate-300 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-900 dark:hover:text-white transition-colors shadow;
+}
+
+.stop {
+    @apply h-16 flex items-center gap-2.5 px-4 border-b border-gray-200 dark:border-slate-800/70 shrink-0;
+}
+
+.slogo {
+    @apply w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shrink-0;
+}
+
+.stitle {
+    @apply text-gray-900 dark:text-white text-sm font-semibold tracking-wide leading-tight truncate;
+}
+
+.ssubtitle {
+    @apply text-gray-400 dark:text-slate-500 text-[10px] font-medium uppercase tracking-wider leading-tight;
+}
+
+.sscroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+.sscroll::-webkit-scrollbar {
     width: 6px;
 }
-.smain::-webkit-scrollbar-thumb {
-    background-color: #334155;
+.sscroll::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
     border-radius: 9999px;
 }
-
-.sdiv {
-    @apply border-b border-slate-800/60 last:border-b-0;
+.dark .sscroll {
+    scrollbar-color: #334155 transparent;
+}
+.dark .sscroll::-webkit-scrollbar-thumb {
+    background-color: #334155;
 }
 
-.sudiv {
-    @apply text-slate-400 text-[11px] font-semibold uppercase tracking-wider px-4 py-3 cursor-pointer select-none flex items-center justify-between hover:text-slate-200 hover:bg-slate-800/40 transition-colors;
+.snav {
+    @apply flex items-center gap-2.5 h-10 px-3 mb-1 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
 }
 
-.spdiv {
-    @apply bg-slate-900/60 pb-1;
+.snav-active {
+    @apply bg-indigo-50 dark:bg-indigo-500/15 text-indigo-600 dark:text-indigo-300;
+}
+
+.scat {
+    @apply w-full flex items-center justify-between h-10 px-3 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer select-none;
+}
+
+.scat-active {
+    @apply text-indigo-600 dark:text-indigo-300;
+}
+
+.sitem {
+    @apply flex items-center gap-2 h-8 px-3 rounded-md text-[12.5px] text-gray-500 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800/60 hover:text-gray-900 dark:hover:text-slate-100 transition-colors;
+}
+
+.sitem-active {
+    @apply bg-indigo-600 text-white hover:bg-indigo-600 hover:text-white font-medium;
+}
+
+.sdot {
+    @apply w-1 h-1 rounded-full bg-current opacity-60 shrink-0;
+}
+
+.sfooter {
+    @apply border-t border-gray-200 dark:border-slate-800/70 p-2 shrink-0;
+}
+
+.savatar {
+    @apply w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-gray-600 dark:text-slate-300 font-semibold text-xs shrink-0 uppercase;
+}
+
+.stheme {
+    @apply flex items-center gap-2 w-full mt-1 px-3 h-9 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
+}
+
+.slogout {
+    @apply flex items-center gap-2 w-full mt-1 px-3 h-9 rounded-lg text-[13px] font-medium text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors;
 }

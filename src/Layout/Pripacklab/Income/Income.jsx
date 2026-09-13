@@ -129,12 +129,12 @@ const PIncome = () => {
 
   return (
     <div className="w-full">
-      <h1 className="text-[40px] bg-[#010103] text-white pl-4">Income</h1>
+      <div className="hdr">Income</div>
 
       <div className="w-full p-2">
 
         {/* Toolbar */}
-        <div className="bg-white pl-2 mb-2 flex flex-row justify-between items-center">
+        <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex flex-row justify-between items-center">
           <div className="flex gap-2">
             <button className="smbut" onClick={openAddModal}>+ Add Income</button>
             <button className="smbut">Import</button>
@@ -169,7 +169,7 @@ const PIncome = () => {
 
           <div className="flex flex-col">
             {filtered.length === 0 && (
-              <div className="text-center text-gray-400 py-8">No income entries found.</div>
+              <div className="text-center text-gray-400 dark:text-slate-400 py-8">No income entries found.</div>
             )}
             {filtered.map((item, index) => (
               <div className="tabc" key={index}>
@@ -197,22 +197,22 @@ const PIncome = () => {
       {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative">
+          <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative">
 
             {/* Modal Header */}
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-bold text-gray-800">
+              <h2 className="text-lg font-bold text-gray-800 dark:text-slate-100">
                 {isEditing ? 'Edit Income' : 'Add Income'}
               </h2>
               <button onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+                className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-300 text-2xl leading-none">&times;</button>
             </div>
 
             {/* Modal Form */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-2">
 
               <div className="flex flex-col gap-1">
-                <span className="text-sm text-gray-600">Category</span>
+                <span className="text-sm text-gray-600 dark:text-slate-300">Category</span>
                 <select name="category" className="pridrop" value={form.category} onChange={handleChange} required>
                   <option value="">Select category</option>
                   {INCOME_CATEGORIES.map(cat => (
@@ -228,7 +228,7 @@ const PIncome = () => {
                 { label: 'Source', name: 'source', type: 'text'   },
               ].map(({ label, name, type }) => (
                 <div key={name} className="flex flex-col gap-1">
-                  <span className="text-sm text-gray-600">{label}</span>
+                  <span className="text-sm text-gray-600 dark:text-slate-300">{label}</span>
                   <input
                     type={type} name={name} className="priinput"
                     placeholder={label} value={form[name]}
@@ -238,14 +238,14 @@ const PIncome = () => {
               ))}
 
               <div className="flex flex-col gap-1">
-                <span className="text-sm text-gray-600">Description</span>
+                <span className="text-sm text-gray-600 dark:text-slate-300">Description</span>
                 <textarea name="description" className="pritextarea"
                   placeholder="Optional description..." value={form.description}
                   onChange={handleChange} rows={2} />
               </div>
 
               <div className="flex flex-col gap-1">
-                <span className="text-sm text-gray-600">Note</span>
+                <span className="text-sm text-gray-600 dark:text-slate-300">Note</span>
                 <textarea name="note" className="pritextarea"
                   placeholder="Optional note..." value={form.note}
                   onChange={handleChange} rows={2} />
@@ -256,7 +256,7 @@ const PIncome = () => {
                   {isEditing ? 'Update Income' : 'Add Income'}
                 </button>
                 <button type="button" onClick={closeModal}
-                  className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">
+                  className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-0">
                   Cancel
                 </button>
               </div>

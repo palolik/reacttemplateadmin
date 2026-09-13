@@ -363,16 +363,16 @@ const SellerProductCrud = ({ seller }) => {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-5">
-        <h2 className="text-xl font-semibold text-slate-800">My Products</h2>
+        <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">My Products</h2>
 
         <button onClick={openAddForm} className="smbut">
           + Add Product
         </button>
       </div>
 
-      <div className="overflow-x-auto bg-white border border-slate-200 rounded-xl">
+      <div className="overflow-x-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl">
         <table className="table-auto w-full">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 dark:bg-slate-800">
             <tr className="text-center font-semibold">
               <th>Image</th>
               <th>Name</th>
@@ -395,7 +395,7 @@ const SellerProductCrud = ({ seller }) => {
                       className="w-14 h-14 object-cover rounded-lg mx-auto"
                     />
                   ) : (
-                    <span className="text-xs text-gray-400">No image</span>
+                    <span className="text-xs text-gray-400 dark:text-slate-400">No image</span>
                   )}
                 </td>
 
@@ -427,7 +427,7 @@ const SellerProductCrud = ({ seller }) => {
 
             {products.length === 0 && (
               <tr>
-                <td colSpan="7" className="text-center py-6 text-gray-500">
+                <td colSpan="7" className="text-center py-6 text-gray-500 dark:text-slate-400">
                   No products found.
                 </td>
               </tr>
@@ -438,10 +438,10 @@ const SellerProductCrud = ({ seller }) => {
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-3">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto relative">
             <button
               onClick={closeForm}
-              className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+              className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl"
             >
               ✕
             </button>
@@ -685,7 +685,7 @@ const SellerProductCrud = ({ seller }) => {
                           {item.values.map((value) => (
                             <span
                               key={value}
-                              className="px-3 py-1 rounded-full bg-gray-100 text-xs"
+                              className="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-xs"
                             >
                               {value}
                               <button
@@ -781,7 +781,7 @@ const SellerProductCrud = ({ seller }) => {
                     ))}
 
                     {variants.length === 0 && (
-                      <p className="text-center text-sm text-gray-400 py-4">
+                      <p className="text-center text-sm text-gray-400 dark:text-slate-400 py-4">
                         No variants added.
                       </p>
                     )}

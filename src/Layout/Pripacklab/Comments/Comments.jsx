@@ -59,20 +59,20 @@ const PComments = () => {
 
   return (
     <div className="w-full ">
-      <div className='headr'>All Comments</div>
+      <div className="hdr">All Comments</div>
 
       {currentOrders.map((comment) => (
         <div
           key={comment._id}
-          className="bg-white m-4 rounded-lg shadow-sm border p-4 mb-4"
+          className="bg-white dark:bg-slate-900 m-4 rounded-lg shadow-sm border p-4 mb-4"
         >
           {/* Header */}
           <div className="flex justify-between items-start mb-2">
             <div>
-              <p className="text-sm font-semibold text-gray-800">
+              <p className="text-sm font-semibold text-gray-800 dark:text-slate-100">
                 Product ID: <span className="font-normal">{comment.productId}</span>
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-slate-400">
                 Comment ID: {comment._id.toString().slice(-6)}
               </p>
             </div>
@@ -90,22 +90,22 @@ const PComments = () => {
           </div>
 
           {/* Comment Text */}
-          <p className="text-gray-700 text-sm mb-3">
+          <p className="text-gray-700 dark:text-slate-300 text-sm mb-3">
             {comment.message}
           </p>
 
           {/* Replies */}
           {comment.replies?.length > 0 && (
-            <div className="border-l-2 border-gray-200 pl-4 space-y-2 mb-3">
+            <div className="border-l-2 border-gray-200 dark:border-slate-700 pl-4 space-y-2 mb-3">
               {comment.replies.map((r) => (
                 <div
                   key={r._id}
-                  className="bg-gray-50 p-2 rounded"
+                  className="bg-gray-50 dark:bg-slate-900 p-2 rounded"
                 >
-                  <p className="text-xs font-semibold text-gray-700">
+                  <p className="text-xs font-semibold text-gray-700 dark:text-slate-300">
                     {r.userName}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-slate-300">
                     {r.message}
                   </p>
                 </div>

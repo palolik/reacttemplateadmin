@@ -9,7 +9,7 @@ const StarRating = ({ rating }) => {
   return (
     <div className="flex gap-0.5">
       {[1, 2, 3, 4, 5].map(star => (
-        <span key={star} className={star <= num ? 'text-yellow-400' : 'text-gray-300'}>★</span>
+        <span key={star} className={star <= num ? 'text-yellow-400' : 'text-gray-300 dark:text-slate-600'}>★</span>
       ))}
     </div>
   );
@@ -27,14 +27,14 @@ const MediaLightbox = ({ files, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full"
+        className="relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full"
         onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <p className="text-xs font-semibold text-gray-500 truncate">{current.originalName}</p>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 text-lg leading-none">✕</button>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-slate-700">
+          <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 truncate">{current.originalName}</p>
+          <button onClick={onClose} className="text-gray-400 dark:text-slate-400 hover:text-gray-700 text-lg leading-none">✕</button>
         </div>
-        <div className="flex items-center justify-center bg-gray-50 min-h-[300px] max-h-[500px]">
+        <div className="flex items-center justify-center bg-gray-50 dark:bg-slate-900 min-h-[300px] max-h-[500px]">
           <img
             src={`${base_url}${current.url}`}
             alt={current.originalName}
@@ -42,17 +42,17 @@ const MediaLightbox = ({ files, onClose }) => {
           />
         </div>
         {files.length > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 dark:border-slate-700">
             <button
               onClick={() => setIdx(i => Math.max(0, i - 1))}
               disabled={idx === 0}
-              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-30 hover:bg-gray-50 transition"
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-30 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition"
             >← Prev</button>
-            <span className="text-xs text-gray-400">{idx + 1} / {files.length}</span>
+            <span className="text-xs text-gray-400 dark:text-slate-400">{idx + 1} / {files.length}</span>
             <button
               onClick={() => setIdx(i => Math.min(files.length - 1, i + 1))}
               disabled={idx === files.length - 1}
-              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 disabled:opacity-30 hover:bg-gray-50 transition"
+              className="text-xs px-3 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-30 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition"
             >Next →</button>
           </div>
         )}
@@ -140,7 +140,7 @@ const PReviews = () => {
     <div className="w-full">
       <div className="hdr">All Reviews</div>
 
-      <div className="bg-white pl-4 m-2 flex flex-row justify-between items-center">
+      <div className="bg-white dark:bg-slate-900 pl-4 m-2 flex flex-row justify-between items-center">
         <div>
           <button className="smbut mr-2">Import</button>
           <button className="smbut" onClick={exportData}>Export</button>
@@ -172,7 +172,7 @@ const PReviews = () => {
 
       <div className="flex flex-col m-2">
         {currentItems.length === 0 && (
-          <div className="text-center text-gray-400 py-8">No reviews found.</div>
+          <div className="text-center text-gray-400 dark:text-slate-400 py-8">No reviews found.</div>
         )}
         {currentItems.map((review) => (
           <div key={review._id} className={`tabc ${!review.visible ? 'opacity-50' : ''}`}>
@@ -186,7 +186,7 @@ const PReviews = () => {
                   className="w-16 h-16 object-cover rounded border"
                 />
               ) : (
-                <div className="w-16 h-16 bg-gray-100 rounded border flex items-center justify-center text-gray-300 text-xs">
+                <div className="w-16 h-16 bg-gray-100 dark:bg-slate-800 rounded border flex items-center justify-center text-gray-300 dark:text-slate-400 text-xs">
                   No img
                 </div>
               )}
@@ -196,14 +196,14 @@ const PReviews = () => {
             {/* Customer */}
             <div>
               <p><strong>{review.customerName || '—'}</strong></p>
-              <p className="text-sm text-gray-500">{review.customerEmail || ''}</p>
-              <p className="text-sm text-gray-500">{review.customerPhone || ''}</p>
+              <p className="text-sm text-gray-500 dark:text-slate-300">{review.customerEmail || ''}</p>
+              <p className="text-sm text-gray-500 dark:text-slate-300">{review.customerPhone || ''}</p>
             </div>
 
             {/* Rating */}
             <div>
               <StarRating rating={review.rating} />
-              <p className="text-xs text-gray-400">{review.rating}/5</p>
+              <p className="text-xs text-gray-400 dark:text-slate-400">{review.rating}/5</p>
             </div>
 
             {/* Review message */}
@@ -225,13 +225,13 @@ const PReviews = () => {
                       <img
                         src={`${base_url}${file.url}`}
                         alt={file.originalName}
-                        className="w-12 h-12 object-cover rounded border border-gray-200 hover:opacity-75 hover:border-gray-400 transition"
+                        className="w-12 h-12 object-cover rounded border border-gray-200 dark:border-slate-700 hover:opacity-75 hover:border-gray-400 transition"
                       />
                     </button>
                   ))}
                 </div>
               ) : (
-                <span className="text-gray-400 text-sm">—</span>
+                <span className="text-gray-400 dark:text-slate-400 text-sm">—</span>
               )}
             </div>
 
@@ -245,7 +245,7 @@ const PReviews = () => {
             {/* Visibility */}
             <div>
               <button
-                className={`smbut ${review.visible ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+                className={`smbut ${review.visible ? 'bg-green-100 text-green-700' : 'bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400'}`}
                 onClick={() => handleToggle(review._id)}
               >
                 {review.visible ? '👁 Shown' : '🚫 Hidden'}
@@ -265,13 +265,13 @@ const PReviews = () => {
         <button
           onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
           disabled={currentPage === 1}
-          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-100 transition"
+          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >← Prev</button>
-        <span className="text-sm text-gray-500 font-medium">{currentPage} / {totalPages || 1}</span>
+        <span className="text-sm text-gray-500 dark:text-slate-400 font-medium">{currentPage} / {totalPages || 1}</span>
         <button
           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
           disabled={currentPage === totalPages || totalPages === 0}
-          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-100 transition"
+          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >Next →</button>
       </div>
 

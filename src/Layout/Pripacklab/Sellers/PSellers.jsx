@@ -140,7 +140,7 @@ const PSellers = () => {
         {/* ===== SELLER TABLE ===== */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full border">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-100 dark:bg-slate-800">
               <tr className="text-center font-semibold">
                 <th>Name</th>
                 <th>Email</th>
@@ -195,15 +195,15 @@ const PSellers = () => {
         {/* ===== FLOATING FORM MODAL ===== */}
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-2xl relative">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-2xl relative">
               <button
                 onClick={closeForm}
-                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+                className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl"
               >
                 ✕
               </button>
 
-              <h3 className="text-xl font-semibold mb-4 text-center">
+              <h3 className="text-xl font-semibold mb-4 text-center dark:text-slate-100">
                 {editingSeller ? "Edit Seller" : "Add New Seller"}
               </h3>
 

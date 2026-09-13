@@ -159,7 +159,7 @@ const Process = () => {
 
         <div className="overflow-x-auto">
           <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-100 dark:bg-slate-800">
               <tr className="text-center font-semibold">
                 <th className="px-3 py-2">Category</th>
                 <th className="px-3 py-2">Step 1</th>
@@ -171,13 +171,13 @@ const Process = () => {
             <tbody>
               {processes.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center py-6 text-gray-400">
+                  <td colSpan={5} className="text-center py-6 text-gray-400 dark:text-slate-400">
                     No processes added yet.
                   </td>
                 </tr>
               ) : (
                 processes.map((p) => (
-                  <tr key={p._id} className="text-center border-b hover:bg-gray-50">
+                  <tr key={p._id} className="text-center border-b hover:bg-gray-50 dark:hover:bg-slate-800/60">
                     <td className="px-3 py-2">
                       <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-medium">
                         {getCatName(p.category)}
@@ -203,9 +203,9 @@ const Process = () => {
       {/* Add Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Add Process</h3>
+              <h3 className="text-lg font-semibold dark:text-slate-100">Add Process</h3>
               <button onClick={() => setShowAddModal(false)} className="close-btn"><RiCloseLargeFill /></button>
             </div>
             <ProcessForm onSubmit={handleAdd} submitLabel="Add Process" />
@@ -216,9 +216,9 @@ const Process = () => {
       {/* Edit Modal */}
       {showEditModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Edit Process</h3>
+              <h3 className="text-lg font-semibold dark:text-slate-100">Edit Process</h3>
               <button onClick={() => setShowEditModal(false)} className="close-btn"><RiCloseLargeFill /></button>
             </div>
             <ProcessForm onSubmit={handleEditSubmit} defaultValues={editData} submitLabel="Update Process" />

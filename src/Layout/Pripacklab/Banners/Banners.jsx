@@ -129,10 +129,10 @@ const Banners = () => {
 
   const Modal = ({ title, onClose, children }) => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <h2 className="text-lg font-bold text-gray-800 dark:text-slate-100">{title}</h2>
+          <button onClick={onClose} className="text-gray-400 dark:text-slate-400 hover:text-gray-600">
             <RiCloseLargeFill />
           </button>
         </div>
@@ -147,7 +147,7 @@ const Banners = () => {
 
       <div className="w-full p-2">
         {/* Toolbar */}
-        <div className="bg-white pl-2 mb-2 flex justify-between items-center">
+        <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
           <button className="smbut" onClick={() => setIsAddModalOpen(true)}>+ Add Banner</button>
         </div>
 
@@ -182,7 +182,7 @@ const Banners = () => {
                 <button
                   onClick={() => handleToggleActive(banner)}
                   className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                    banner.active === false ? "bg-gray-200 text-gray-600" : "bg-green-100 text-green-700"
+                    banner.active === false ? "bg-gray-200 dark:bg-slate-800 text-gray-600 dark:text-slate-300" : "bg-green-100 text-green-700"
                   }`}
                 >
                   {banner.active === false ? "Inactive" : "Active"}
@@ -231,7 +231,7 @@ const Banners = () => {
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Banner</button>
               <button type="button" onClick={() => setIsAddModalOpen(false)}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>
@@ -279,7 +279,7 @@ const Banners = () => {
       <div className="flex gap-2 mt-2">
         <button type="submit" className="pributton flex-1">Update Banner</button>
         <button type="button" onClick={() => setIsEditModalOpen(false)}
-          className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+          className="btn flex-1 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 border-0">Cancel</button>
       </div>
     </form>
   </Modal>

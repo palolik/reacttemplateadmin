@@ -29,8 +29,8 @@ const HomeChart = ({ selectedMonth }) => {
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{selectedMonth} Views</p>
-        <p className="text-xs text-gray-500">Total: <span className="font-bold text-indigo-600">{totalViews}</span></p>
+        <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide">{selectedMonth} Views</p>
+        <p className="text-xs text-gray-500 dark:text-slate-400">Total: <span className="font-bold text-indigo-600">{totalViews}</span></p>
       </div>
       {/* ✅ width="100%" and small fixed height so it fits the grid cell */}
       <ResponsiveContainer width="100%" height={200}>

@@ -200,7 +200,7 @@ const Advertise = () => {
 
   <div className="flex flex-col">
     {ima.length === 0 && (
-      <div className="text-center text-gray-400 py-8">No advertisements found.</div>
+      <div className="text-center text-gray-400 dark:text-slate-400 py-8">No advertisements found.</div>
     )}
     {ima.map((ad) => (
       <div key={ad._id} className="tabc">
@@ -243,10 +243,10 @@ const Advertise = () => {
 
         {showForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
               <button
                 onClick={() => setShowForm(false)}
-                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+                className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl"
               >
                 ✕
               </button>
@@ -291,7 +291,7 @@ const Advertise = () => {
                 <input
                   name="tilldate"
                   type="date"
-                  className="priinput text-black"
+                  className="priinput text-black dark:text-slate-100"
                   required
                 />
                 <button type="submit" className="pributton">
@@ -304,10 +304,10 @@ const Advertise = () => {
 
         {isEditModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
               <button
                 onClick={() => setIsEditModalOpen(false)}
-                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+                className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl"
               >
                 <RiCloseLargeFill />
               </button>
@@ -357,7 +357,7 @@ const Advertise = () => {
                   name="tilldate"
                   type="date"
                   defaultValue={editAdData.tilldate}
-                  className="priinput text-black"
+                  className="priinput text-black dark:text-slate-100"
                   required
                 />
                 <button type="submit" className="pributton">

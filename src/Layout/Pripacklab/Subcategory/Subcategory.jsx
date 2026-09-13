@@ -7,10 +7,10 @@ import { base_url } from '../../../config/config';
 
 const Modal = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
+    <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+        <h2 className="text-lg font-bold text-gray-800 dark:text-slate-100">{title}</h2>
+        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-300 text-2xl leading-none">&times;</button>
       </div>
       {children}
     </div>
@@ -143,7 +143,7 @@ const PSubcategory = () => {
       <div className="w-full p-4">
         {/* Toolbar */}
         <div className="mb-4 flex justify-between items-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-slate-400">
             {subcategories.length} subcategories across {categories.length} categories
           </p>
           <button
@@ -157,47 +157,47 @@ const PSubcategory = () => {
         {/* Category cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {groupedSubcategories.map((cat) => (
-            <div key={cat._id} className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col gap-3">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+            <div key={cat._id} className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg shadow-sm p-4 flex flex-col gap-3">
+              <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-700 pb-2">
                 <div className="flex items-center gap-2">
                   <img
                     src={`${base_url}${cat.iconpic}`}
                     className="w-8 h-8 object-cover rounded-full"
                     alt={cat.catname}
                   />
-                  <span className="font-semibold text-gray-800">{cat.catname}</span>
+                  <span className="font-semibold text-gray-800 dark:text-slate-100">{cat.catname}</span>
                 </div>
-                <span className="text-xs font-medium text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">
+                <span className="text-xs font-medium text-gray-500 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 rounded-full px-2 py-0.5">
                   {cat.subs.length}
                 </span>
               </div>
 
               <div className="flex flex-col gap-1.5">
                 {cat.subs.length === 0 && (
-                  <span className="text-gray-400 text-sm italic">No subcategories yet</span>
+                  <span className="text-gray-400 dark:text-slate-400 text-sm italic">No subcategories yet</span>
                 )}
                 {cat.subs.map((subcatObj) => (
                   <div
                     key={subcatObj._id}
-                    className="flex items-center justify-between gap-2 bg-gray-50 rounded-md px-3 py-1.5"
+                    className="flex items-center justify-between gap-2 bg-gray-50 dark:bg-slate-800 rounded-md px-3 py-1.5"
                   >
                     <div className="flex flex-col min-w-0">
-                      <span className="text-sm text-gray-700 truncate">{subcatObj.subcat}</span>
+                      <span className="text-sm text-gray-700 dark:text-slate-300 truncate">{subcatObj.subcat}</span>
                       {subcatObj.subcatBn && (
-                        <span className="text-xs text-gray-400 truncate">{subcatObj.subcatBn}</span>
+                        <span className="text-xs text-gray-400 dark:text-slate-400 truncate">{subcatObj.subcatBn}</span>
                       )}
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleEditSubcategory(subcatObj)}
-                        className="text-gray-400 hover:text-blue-600"
+                        className="text-gray-400 dark:text-slate-400 hover:text-blue-600"
                         aria-label="Edit subcategory"
                       >
                         <FiEdit2 size={14} />
                       </button>
                       <button
                         onClick={() => handleDeleteSubcategory(subcatObj._id)}
-                        className="text-gray-400 hover:text-red-600"
+                        className="text-gray-400 dark:text-slate-400 hover:text-red-600"
                         aria-label="Delete subcategory"
                       >
                         <FiTrash2 size={14} />
@@ -222,23 +222,23 @@ const PSubcategory = () => {
                 {orphans.map((subcatObj) => (
                   <div
                     key={subcatObj._id}
-                    className="flex items-center justify-between gap-2 bg-white rounded-md px-3 py-1.5"
+                    className="flex items-center justify-between gap-2 bg-white dark:bg-slate-900 rounded-md px-3 py-1.5"
                   >
                     <div className="flex flex-col min-w-0">
                       <span className="text-xs text-red-400">({subcatObj.catname})</span>
-                      <span className="text-sm text-gray-700 truncate">{subcatObj.subcat}</span>
+                      <span className="text-sm text-gray-700 dark:text-slate-300 truncate">{subcatObj.subcat}</span>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleEditSubcategory(subcatObj)}
-                        className="text-gray-400 hover:text-blue-600"
+                        className="text-gray-400 dark:text-slate-400 hover:text-blue-600"
                         aria-label="Edit subcategory"
                       >
                         <FiEdit2 size={14} />
                       </button>
                       <button
                         onClick={() => handleDeleteSubcategory(subcatObj._id)}
-                        className="text-gray-400 hover:text-red-600"
+                        className="text-gray-400 dark:text-slate-400 hover:text-red-600"
                         aria-label="Delete subcategory"
                       >
                         <FiTrash2 size={14} />
@@ -257,7 +257,7 @@ const PSubcategory = () => {
         <Modal title="Add Subcategory" onClose={() => setIsAddModalOpen(false)}>
           <form onSubmit={handleAddPost} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name</span>
               <select
                 className="pridrop"
                 value={selectedCategory}
@@ -272,19 +272,19 @@ const PSubcategory = () => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Subcategory Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Subcategory Name</span>
               <input name="subcat" type="text" className="priinput" required />
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Subcategory Name (Bangla)</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Subcategory Name (Bangla)</span>
               <input name="subcatBn" type="text" className="priinput" placeholder="বাংলা নাম" />
             </div>
 
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Subcategory</button>
               <button type="button" onClick={() => setIsAddModalOpen(false)}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>
@@ -295,7 +295,7 @@ const PSubcategory = () => {
         <Modal title="Edit Subcategory" onClose={() => setIsEditModalOpen(false)}>
           <form onSubmit={handleEditPost} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name</span>
               <select name="catname" className="pridrop" defaultValue={editSubcatData.catname} required>
                 {categories.map((cat) => (
                   <option key={cat._id} value={cat.catname}>{cat.catname}</option>
@@ -304,19 +304,19 @@ const PSubcategory = () => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Subcategory Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Subcategory Name</span>
               <input name="subcat" type="text" className="priinput" defaultValue={editSubcatData.subcat} required />
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Subcategory Name (Bangla)</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Subcategory Name (Bangla)</span>
               <input name="subcatBn" type="text" className="priinput" defaultValue={editSubcatData.subcatBn} placeholder="বাংলা নাম" />
             </div>
 
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Update Subcategory</button>
               <button type="button" onClick={() => setIsEditModalOpen(false)}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>

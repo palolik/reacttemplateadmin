@@ -4,10 +4,10 @@ import { base_url } from '../../../config/config';
 
 const Modal = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
+    <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+        <h2 className="text-lg font-bold text-gray-800 dark:text-slate-100">{title}</h2>
+        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-300 text-2xl leading-none">&times;</button>
       </div>
       {children}
     </div>
@@ -281,7 +281,7 @@ const GeoLocation = () => {
 
         {/* Districts */}
         <div>
-          <div className="bg-white pl-2 mb-2 flex justify-between items-center">
+          <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
             <span className="font-semibold">Districts</span>
             <button className="smbut" onClick={() => { setEditingDistrict(null); setIsAddDistrictOpen(true); }}>
               + Add District
@@ -308,7 +308,7 @@ const GeoLocation = () => {
               <div
                 key={d._id}
                 onClick={() => setSelectedDistrict(d)}
-                className={`tabc cursor-pointer ${selectedDistrict?._id === d._id ? 'bg-slate-100' : ''}`}
+                className={`tabc cursor-pointer ${selectedDistrict?._id === d._id ? 'bg-slate-100 dark:bg-slate-800' : ''}`}
               >
                 <div>{d.name}</div>
                 <div>{d.nameBn}</div>
@@ -328,7 +328,7 @@ const GeoLocation = () => {
 
         {/* Areas */}
         <div>
-          <div className="bg-white pl-2 mb-2 flex justify-between items-center">
+          <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
             <span className="font-semibold">
               Areas {selectedDistrict ? `— ${selectedDistrict.name}` : ''}
             </span>
@@ -342,7 +342,7 @@ const GeoLocation = () => {
           </div>
 
           {!selectedDistrict ? (
-            <div className="text-sm text-gray-400 px-2">Select a district to manage its areas.</div>
+            <div className="text-sm text-gray-400 dark:text-slate-400 px-2">Select a district to manage its areas.</div>
           ) : (
             <>
               <CSVImporter
@@ -404,7 +404,7 @@ const GeoLocation = () => {
                 {editingDistrict ? "Update District" : "Add District"}
               </button>
               <button type="button" onClick={() => { setIsAddDistrictOpen(false); setEditingDistrict(null); }}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>
@@ -430,7 +430,7 @@ const GeoLocation = () => {
                 {editingArea ? "Update Area" : "Add Area"}
               </button>
               <button type="button" onClick={() => { setIsAddAreaOpen(false); setEditingArea(null); }}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>

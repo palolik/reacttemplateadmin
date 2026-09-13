@@ -69,7 +69,7 @@ const AdminSupport = () => {
 
       <div className="overflow-x-auto border rounded-lg shadow-sm">
         <table className="min-w-full text-sm text-left border-collapse">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 dark:bg-slate-800">
             <tr>
               <th className="px-4 py-3 border-b">#</th>
               <th className="px-4 py-3 border-b">Support ID (Email)</th>
@@ -82,21 +82,21 @@ const AdminSupport = () => {
           <tbody>
             {supports.length > 0 ? (
               supports.map((chat, index) => (
-                <tr key={chat._id} className="border-b hover:bg-gray-50">
+                <tr key={chat._id} className="border-b hover:bg-gray-50 dark:hover:bg-slate-800/60">
                   <td className="px-4 py-3">{index + 1}</td>
                   <td className="px-4 py-3 font-medium">{chat._id}</td>
                   <td className="px-4 py-3">{chat.bName}</td>
-                  <td className="px-4 py-3 text-gray-600">
+                  <td className="px-4 py-3 text-gray-600 dark:text-slate-300">
                     {chat.lastMessage ? chat.lastMessage.slice(0, 50) : ""}
                   </td>
-                  <td className="px-4 py-3 text-gray-500">
+                  <td className="px-4 py-3 text-gray-500 dark:text-slate-400">
                     {chat.lastTime
                       ? new Date(chat.lastTime).toLocaleString()
                       : "—"}
                   </td>
                   <td className="px-4 py-3">
                     <button
-                      className="relative flex items-center gap-1 bg-blue-300 hover:bg-blue-400 text-black px-3 py-1 rounded text-xs"
+                      className="relative flex items-center gap-1 bg-blue-300 hover:bg-blue-400 text-black dark:text-slate-100 px-3 py-1 rounded text-xs"
                       onClick={() => handleChatClick(chat._id)}
                     >
                       Chat <MdChat />
@@ -111,7 +111,7 @@ const AdminSupport = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center py-6 text-gray-500">
+                <td colSpan="6" className="text-center py-6 text-gray-500 dark:text-slate-400">
                   No chats found
                 </td>
               </tr>

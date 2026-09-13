@@ -18,20 +18,19 @@
 }
 
 .flinselect {
-  @apply select select-bordered  select-sm w-full bg-white  text-black;
+  @apply select select-bordered  select-sm w-full;
 }
 
 .flin{
-    @apply input input-bordered input-sm w-full bg-white text-black;
+    @apply input input-bordered input-sm w-full;
 }
 .flins{
     @apply file-input file-input-bordered file-input-sm w-[200px] max-w-xs  ;
-    
+
 }
 
 .hdr{
-    @apply text-[40px] bg-white text-black pl-4 border-b-[1px] border-sky-100 ;
-    
+    @apply w-full h-16 flex items-center px-6 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 text-lg font-semibold text-slate-800 dark:text-slate-100 tracking-tight shrink-0;
 }
 /* this part is all for labeling  */
 .lbl{
@@ -44,7 +43,7 @@
     @apply label-text ;
 }
 .lbl div input{
-    @apply input input-bordered input-sm w-[200px] max-w-xs  bg-white;
+    @apply input input-bordered input-sm w-[200px] max-w-xs;
 }
 
 .lbl{
@@ -62,26 +61,26 @@
     @apply join;
 }
 .pag div button {
-    @apply join-item btn btn-xs bg-black text-white hover:bg-[#121242];
+    @apply join-item btn btn-xs bg-black text-white hover:bg-[#121242] dark:bg-slate-700 dark:hover:bg-slate-600;
 }
 .pag span{
-    @apply join-item btn btn-xs bg-black text-white hover:bg-[#121242]  ;
+    @apply join-item btn btn-xs bg-black text-white hover:bg-[#121242] dark:bg-slate-700 dark:hover:bg-slate-600;
 }
 
 /*  table details goes here , table details goes here  */
 
 .tabst{
-    @apply px-4  w-full border flex flex-row font-semibold  items-center justify-between border-sky-100 rounded-md ;
+    @apply px-4  w-full border flex flex-row font-semibold  items-center justify-between border-sky-100 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 ;
 }
 .tabc{
-    @apply p-2   flex flex-row  items-center justify-between border-sky-100 rounded-md ;
+    @apply p-2   flex flex-row  items-center justify-between border-sky-100 dark:border-slate-800 rounded-md text-slate-700 dark:text-slate-200 ;
 }
 
 .tabc td{
-    @apply  flex flex-row  items-center justify-center border-sky-100 w-40 ;
+    @apply  flex flex-row  items-center justify-center border-sky-100 dark:border-slate-800 w-40 ;
 }
 .tabc div{
-    @apply  flex  items-center justify-center border-sky-100 w-40 ;
+    @apply  flex  items-center justify-center border-sky-100 dark:border-slate-800 w-40 ;
 }
 .tabc p{
     @apply text-sm font-semibold;
@@ -90,21 +89,9 @@
     @apply object-cover rounded-md ;
 }
 
-.headr{
-    @apply text-[40px] bg-[#010103] text-white pl-4;
-}
-
-.headrr{
-    @apply bg-[#ffffff] pl-4 m-4 flex flex-row justify-between;
-}
-
-.headrr div button{
-    @apply  btn btn-xs bg-black text-white hover:bg-[#121242];
-}
-
 /*  button details goes here , button details goes here  */
 .smbut{
-    @apply btn btn-xs bg-black text-white hover:bg-[#121242] ;
+    @apply btn btn-xs bg-black text-white hover:bg-[#121242] dark:bg-slate-700 dark:hover:bg-slate-600 ;
 }
 
 .srch{
@@ -116,7 +103,7 @@
 }
 
 .srch  button{
-    @apply btn btn-xs bg-black text-white -ml-[60px] hover:bg-[#121242];
+    @apply btn btn-xs bg-black text-white -ml-[60px] hover:bg-[#121242] dark:bg-slate-700 dark:hover:bg-slate-600;
 }
 
 
@@ -125,7 +112,7 @@
 }
 
 .mtent {
-  @apply bg-white p-6 rounded-lg w-[400px] max-w-full;
+  @apply bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 p-6 rounded-lg w-[400px] max-w-full;
 }
 
 .mohedr {
@@ -148,7 +135,7 @@
 }
 .fflin{
     @apply file-input file-input-bordered file-input-sm w-[350px] max-w-xs ;
-    
+
 }
 
 
@@ -159,12 +146,12 @@
     @apply label-text ;
 }
 .flbl div input[type="text"]{
-    @apply input input-bordered input-sm w-[350px] max-w-xs bg-white;
+    @apply input input-bordered input-sm w-[350px] max-w-xs;
 }
 
 .flbl{
-    @apply form-control w-[350px] input input-bordered text-black bg-white flex items-center gap-2 mb-4;
+    @apply form-control w-[350px] input input-bordered flex items-center gap-2 mb-4;
 }
 
- 
-       
+
+

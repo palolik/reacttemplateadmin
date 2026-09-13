@@ -232,18 +232,20 @@ const PAddproducts = () => {
     const availablePresets = PRESET_CRITERIA.filter(p => !criteria.find(c => c.name === p));
 
     return (
-        <div className="w-full flex flex-col gap-6 p-6 bg-gray-50 ">
-            <div className="text-2xl font-semibold text-gray-800">Add Product</div>
+        <div className="w-full">
+            <div className="hdr">Add Product</div>
+
+            <div className="flex flex-col gap-6 p-6 bg-gray-50 dark:bg-slate-900 ">
 
             <div className="grid grid-cols-1  gap-6"   style={{ gridTemplateColumns: '20% 80%' }}>
 
                 {/* ── LEFT COLUMN: Basic Info ── */}
                 <div className="flex flex-col gap-4">
-                    <div className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col gap-4">
-                        <p className="font-medium text-gray-700">Basic Information</p>
+                    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 flex flex-col gap-4">
+                        <p className="font-medium text-gray-700 dark:text-slate-300">Basic Information</p>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Category</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Category</span>
                             <select className="flinselect" value={productData.category}
                                 onChange={e => setProductData({ ...productData, category: e.target.value })}>
                                 <option value="">Select Category</option>
@@ -252,7 +254,7 @@ const PAddproducts = () => {
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Subcategory</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Subcategory</span>
                             <select className="flinselect" value={productData.subCategory}
                                 disabled={!productData.category}
                                 onChange={e => setProductData({ ...productData, subCategory: e.target.value })}>
@@ -262,35 +264,35 @@ const PAddproducts = () => {
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Product Name</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Product Name</span>
                             <input type="text" className="flin" placeholder="Type here"
                                 value={productData.productName}
                                 onChange={e => setProductData({ ...productData, productName: e.target.value })} />
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Product Name (Bangla)</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Product Name (Bangla)</span>
                             <input type="text" className="flin" placeholder="বাংলায় প্রোডাক্টের নাম"
                                 value={productData.productNameBn}
                                 onChange={e => setProductData({ ...productData, productNameBn: e.target.value })} />
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Supplier</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Supplier</span>
                             <input type="text" className="flin" placeholder="Type here"
                                 value={productData.productSupplier}
                                 onChange={e => setProductData({ ...productData, productSupplier: e.target.value })} />
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Delivery Time</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Delivery Time</span>
                             <input type="text" className="flin" placeholder="e.g. 3-5 days"
                                 value={productData.deliveryTime}
                                 onChange={e => setProductData({ ...productData, deliveryTime: e.target.value })} />
                         </label>
 
                         <label className="flex flex-col gap-1">
-                            <span className="text-sm text-gray-500">Assign to Seller (optional)</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Assign to Seller (optional)</span>
                             <select className="flinselect" value={sellerId}
                                 onChange={e => setSellerId(e.target.value)}>
                                 <option value="">— House product (no seller) —</option>
@@ -300,7 +302,7 @@ const PAddproducts = () => {
 
                         {/* Tags */}
                         <div className="flex flex-col gap-2">
-                            <span className="text-sm text-gray-500">Tags</span>
+                            <span className="text-sm text-gray-500 dark:text-slate-400">Tags</span>
                             <div className="flex gap-2">
                                 <input type="text" className="flin flex-1" placeholder="Add tag"
                                     value={tagInput}
@@ -310,17 +312,17 @@ const PAddproducts = () => {
                             </div>
                             <div className="flex flex-wrap gap-2">
                                 {tagNames.map(tag => (
-                                    <span key={tag} className="flex items-center gap-1 bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
+                                    <span key={tag} className="flex items-center gap-1 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 text-xs px-3 py-1 rounded-full">
                                         {tag}
                                         <button type="button" onClick={() => handleRemoveTag(tag)}
-                                            className="text-gray-400 hover:text-red-500 leading-none">×</button>
+                                            className="text-gray-400 dark:text-slate-400 hover:text-red-500 leading-none">×</button>
                                     </span>
                                 ))}
                             </div>
                         </div>
                     </div>
-                  <div className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col gap-4">
-                        <p className="font-medium text-gray-700">Variant Criteria</p>
+                  <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 flex flex-col gap-4">
+                        <p className="font-medium text-gray-700 dark:text-slate-300">Variant Criteria</p>
 
                         {/* Add criteria row */}
                         <div className="flex gap-2">
@@ -345,9 +347,9 @@ const PAddproducts = () => {
                         {/* Criteria list with value inputs */}
                         <div className="flex flex-col gap-4">
                             {criteria.map(c => (
-                                <div key={c.name} className="border border-gray-100 rounded-xl p-3 flex flex-col gap-2 bg-gray-50">
+                                <div key={c.name} className="border border-gray-100 dark:border-slate-700 rounded-xl p-3 flex flex-col gap-2 bg-gray-50 dark:bg-slate-900">
                                     <div className="flex items-center justify-between">
-                                        <span className="font-medium text-sm text-gray-700">{c.name}</span>
+                                        <span className="font-medium text-sm text-gray-700 dark:text-slate-300">{c.name}</span>
                                         <button type="button" onClick={() => handleRemoveCriteria(c.name)}
                                             className="text-xs text-red-400 hover:text-red-600">Remove</button>
                                     </div>
@@ -364,14 +366,14 @@ const PAddproducts = () => {
                                     {/* Values pills */}
                                     <div className="flex flex-wrap gap-1">
                                         {c.values.map(val => (
-                                            <span key={val} className="flex items-center gap-1 bg-white border border-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">
+                                            <span key={val} className="flex items-center gap-1 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-300 text-xs px-2 py-1 rounded-full">
                                                 {val}
                                                 <button type="button" onClick={() => handleRemoveValue(c.name, val)}
                                                     className="text-gray-300 hover:text-red-400">×</button>
                                             </span>
                                         ))}
                                         {c.values.length === 0 && (
-                                            <span className="text-xs text-gray-400 italic">No values yet</span>
+                                            <span className="text-xs text-gray-400 dark:text-slate-400 italic">No values yet</span>
                                         )}
                                     </div>
                                 </div>
@@ -390,11 +392,11 @@ const PAddproducts = () => {
                         )}
                     </div>
                     {/* Images */}
-                    <div className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col gap-3">
-                        <p className="font-medium text-gray-700">Product Images</p>
+                    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 flex flex-col gap-3">
+                        <p className="font-medium text-gray-700 dark:text-slate-300">Product Images</p>
                         <label className="cursor-pointer">
                             <input type="file" className="hidden" name="mainPics" multiple onChange={handleImageChange} />
-                            <div className="flex items-center gap-2 border border-dashed border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50 transition">
+                            <div className="flex items-center gap-2 border border-dashed border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-500 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
@@ -420,38 +422,38 @@ const PAddproducts = () => {
                   
 
                     {/* Description */}
-                    <div className="bg-white border border-gray-200 rounded-2xl p-5">
-                        <p className="font-medium text-gray-700 mb-3">Package Details / Description</p>
+                    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5">
+                        <p className="font-medium text-gray-700 dark:text-slate-300 mb-3">Package Details / Description</p>
                         <RichTextEditor
                             key={`desc-${formKey}`}
                             name="productDescription"
                             value={productData.productDescription}
                             onChange={value => setProductData(prev => ({ ...prev, productDescription: value }))}
-                            className="bg-white rounded-lg w-full h-56"
+                            className="bg-white dark:bg-slate-900 rounded-lg w-full h-56"
                         />
                     </div>
-                    <div className="bg-white border border-gray-200 rounded-2xl p-5">
-                        <p className="font-medium text-gray-700 mb-3">Package Details / Description (Bangla)</p>
+                    <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5">
+                        <p className="font-medium text-gray-700 dark:text-slate-300 mb-3">Package Details / Description (Bangla)</p>
                         <RichTextEditor
                             key={`descbn-${formKey}`}
                             name="productDescriptionBn"
                             value={productData.productDescriptionBn}
                             onChange={value => setProductData(prev => ({ ...prev, productDescriptionBn: value }))}
-                            className="bg-white rounded-lg w-full h-56"
+                            className="bg-white dark:bg-slate-900 rounded-lg w-full h-56"
                         />
                     </div>
                       {/* ── RIGHT COLUMN: Variants Table ── */}
                 <div className="flex flex-col gap-4">
                     {variantsGenerated && variants.length > 0 ? (
-                        <div className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col gap-3">
+                        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-2xl p-5 flex flex-col gap-3">
                             <div className="flex items-center justify-between">
-                                <p className="font-medium text-gray-700">Generated Variants</p>
-                                <span className="text-xs text-gray-400">{variants.length} variants</span>
+                                <p className="font-medium text-gray-700 dark:text-slate-300">Generated Variants</p>
+                                <span className="text-xs text-gray-400 dark:text-slate-400">{variants.length} variants</span>
                             </div>
 
                             {/* Header */}
                             <div
-                                className="grid gap-2 text-xs font-semibold text-gray-500 uppercase tracking-wide border-b pb-2"
+                                className="grid gap-2 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide border-b pb-2"
                                 style={{ gridTemplateColumns: '30% 20% 20% 20% 10%' }}
                             >
                                 <span>Variant</span>
@@ -469,7 +471,7 @@ const PAddproducts = () => {
                                         className={`grid gap-2 items-center py-2 border-b border-gray-50 transition-opacity ${!v.is_active ? 'opacity-40' : ''}`}
                                              style={{ gridTemplateColumns: '30% 20% 20% 20% 10%' }}
                                     >
-                                        <span className="text-sm text-gray-700 font-medium truncate" title={v.label}>{v.label}</span>
+                                        <span className="text-sm text-gray-700 dark:text-slate-300 font-medium truncate" title={v.label}>{v.label}</span>
 
                                         <input
                                             type="number"
@@ -508,13 +510,13 @@ const PAddproducts = () => {
                             </div>
 
                             {/* Summary */}
-                            <div className="flex gap-4 text-xs text-gray-400 pt-1 border-t">
+                            <div className="flex gap-4 text-xs text-gray-400 dark:text-slate-400 pt-1 border-t">
                                 <span className="text-green-500 font-medium">{variants.filter(v => v.is_active).length} active</span>
                                 <span>{variants.filter(v => !v.is_active).length} inactive</span>
                             </div>
                         </div>
                     ) : (
-                        <div className="bg-white border border-dashed border-gray-200 rounded-2xl p-10 flex flex-col items-center justify-center text-gray-400 gap-2">
+                        <div className="bg-white dark:bg-slate-900 border border-dashed border-gray-200 dark:border-slate-700 rounded-2xl p-10 flex flex-col items-center justify-center text-gray-400 dark:text-slate-400 gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                             </svg>
@@ -533,6 +535,7 @@ const PAddproducts = () => {
                 <button className="btn btn-sm w-[400px]" onClick={handleSubmit}>
                     Add Product
                 </button>
+            </div>
             </div>
         </div>
     );

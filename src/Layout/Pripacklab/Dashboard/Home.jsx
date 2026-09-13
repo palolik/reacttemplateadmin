@@ -17,10 +17,10 @@ const StatCard = ({ label, value, color = '#4f46e5', icon: Icon }) => (
   <motion.div
     whileHover={{ scale: 1.04 }}
     transition={{ type: 'spring', stiffness: 200 }}
-    className="bg-white shadow-md rounded-xl p-4 flex flex-col gap-3 border border-gray-100"
+    className="bg-white dark:bg-slate-900 shadow-md rounded-xl p-4 flex flex-col gap-3 border border-gray-100 dark:border-slate-700"
   >
     <div className="flex justify-between items-center">
-      <span className="text-sm text-gray-500 font-medium">{label}</span>
+      <span className="text-sm text-gray-500 dark:text-slate-400 font-medium">{label}</span>
       <span
         className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${color}1a`, color }}
@@ -28,12 +28,12 @@ const StatCard = ({ label, value, color = '#4f46e5', icon: Icon }) => (
         <Icon className="w-4 h-4" />
       </span>
     </div>
-    <div className="text-3xl font-bold text-[#121445]">{value}</div>
+    <div className="text-3xl font-bold text-[#121445] dark:text-slate-100">{value}</div>
   </motion.div>
 );
 
 const SectionTitle = ({ title }) => (
-  <h2 className="text-md font-semibold text-gray-700 mb-1 mt-1">{title}</h2>
+  <h2 className="text-md font-semibold text-gray-700 dark:text-slate-300 mb-1 mt-1">{title}</h2>
 );
 
 const Dashboard = () => {
@@ -47,7 +47,7 @@ const Dashboard = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="p-10 text-center text-gray-400 animate-pulse">Loading dashboard...</div>;
+  if (loading) return <div className="p-10 text-center text-gray-400 dark:text-slate-400 animate-pulse">Loading dashboard...</div>;
   if (!stats) return <div className="p-10 text-center text-red-500">Failed to load dashboard data.</div>;
 
   const topStatCards = [
@@ -67,7 +67,7 @@ const Dashboard = () => {
     <div className="w-full">
       <div className="hdr">Dashboard</div>
 
-      <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 p-2">
+      <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-2">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
           <motion.div
             className="grid grid-cols-4 gap-4"
@@ -82,9 +82,9 @@ const Dashboard = () => {
 
           <div>
             <SectionTitle title="Recent Orders" />
-            <div className="bg-white  shadow-md overflow-hidden">
+            <div className="bg-white dark:bg-slate-900  shadow-md overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+                <thead className="bg-gray-50 text-gray-600 dark:bg-slate-800 dark:text-slate-300 uppercase text-xs">
                   <tr>
                     <th className="px-1 py-1 text-left">Buyer</th>
                     <th className="px-1 py-1 text-left">Items</th>
@@ -94,20 +94,20 @@ const Dashboard = () => {
                     <th className="px-1 py-1 text-left">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
                   {stats.recentOrders.map((order, i) => (
-                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors">
                       <td className="px-1 py-1">
                         <p className="font-medium">{order.buyerName}</p>
-                        <p className="text-gray-400 text-xs">{order.buyerEmail}</p>
+                        <p className="text-gray-400 dark:text-slate-400 text-xs">{order.buyerEmail}</p>
                       </td>
-                      <td className="px-1 py-1 text-gray-600">
+                      <td className="px-1 py-1 text-gray-600 dark:text-slate-300">
                         {order.cartItems?.map(ci => ci.productName).join(', ')}
                       </td>
                       <td className="px-1 py-1 font-semibold text-green-600">
                         ${Number(order.totalPrice).toLocaleString()}
                       </td>
-                      <td className="px-1 py-1 text-gray-500">{order.paymentMethod}</td>
+                      <td className="px-1 py-1 text-gray-500 dark:text-slate-400">{order.paymentMethod}</td>
                       <td className="px-1 py-1">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium
                       ${order.currentStatus === 'delivered' ? 'bg-green-100 text-green-700' :
@@ -116,7 +116,7 @@ const Dashboard = () => {
                           {order.currentStatus}
                         </span>
                       </td>
-                      <td className="px-1 py-1 text-gray-400 text-xs">
+                      <td className="px-1 py-1 text-gray-400 dark:text-slate-400 text-xs">
                         {new Date(order.orderDate).toLocaleDateString()}
                       </td>
                     </tr>
@@ -136,7 +136,7 @@ const Dashboard = () => {
 
           <div className="h-[300px]">
             <SectionTitle title="Monthly Income vs Expense (Last 6 Months)" />
-            <div className="bg-white  shadow-md p-2">
+            <div className="bg-white dark:bg-slate-900  shadow-md p-2">
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={stats.monthlyData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -154,7 +154,7 @@ const Dashboard = () => {
 
           <div className="h-[300px]">
             <SectionTitle title="Income by Category" />
-            <div className="bg-white  shadow-md p-2">
+            <div className="bg-white dark:bg-slate-900  shadow-md p-2">
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={stats.incomeByCategory} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
@@ -171,7 +171,7 @@ const Dashboard = () => {
 
           <div className="h-[300px]">
             <SectionTitle title="Expenses by Category" />
-            <div className="bg-white  shadow-md p-2">
+            <div className="bg-white dark:bg-slate-900  shadow-md p-2">
               <ResponsiveContainer width="100%" height={250}>
                 <BarChart data={stats.expenseByCategory} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
@@ -191,7 +191,7 @@ const Dashboard = () => {
 
           <div>
             <SectionTitle title="Orders by Status" />
-            <div className="bg-white  shadow-md p-2">
+            <div className="bg-white dark:bg-slate-900  shadow-md p-2">
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <Pie data={orderPieData} dataKey="value" nameKey="name"
@@ -208,37 +208,37 @@ const Dashboard = () => {
           <div >
             <div className="flex items-center justify-between">
               <SectionTitle title='Most Viewed Products' />
-              <span className="text-xs text-gray-400">Total views: <strong className="text-gray-700">{stats.totalProductViews}</strong></span>
+              <span className="text-xs text-gray-400 dark:text-slate-400">Total views: <strong className="text-gray-700 dark:text-slate-300">{stats.totalProductViews}</strong></span>
             </div>
-            <div className="bg-white  shadow-md p-2">
+            <div className="bg-white dark:bg-slate-900  shadow-md p-2">
               {(stats.topViewedProducts || []).map((product, i) => (
-                <div key={product._id} className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors">
+                <div key={product._id} className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors">
 
                   {/* Rank */}
-                  <span className="text-xs font-bold text-gray-300 w-4">{i + 1}</span>
+                  <span className="text-xs font-bold text-gray-300 dark:text-slate-500 w-4">{i + 1}</span>
 
                   {/* Thumbnail */}
                   {product.mainPic ? (
                     <img
                       src={`${base_url}${product.mainPic}`}
                       alt={product.productName}
-                      className="w-9 h-9 rounded-lg object-cover border border-gray-100 shrink-0"
+                      className="w-9 h-9 rounded-lg object-cover border border-gray-100 dark:border-slate-700 shrink-0"
                     />
                   ) : (
-                    <div className="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center text-gray-300 shrink-0">
+                    <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-gray-300 dark:text-slate-500 shrink-0">
                       <FiBox className="w-4 h-4" />
                     </div>
                   )}
 
                   {/* Name & category */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-800 truncate">{product.productName}</p>
-                    <p className="text-xs text-gray-400 truncate">{product.category}</p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-slate-100 truncate">{product.productName}</p>
+                    <p className="text-xs text-gray-400 dark:text-slate-400 truncate">{product.category}</p>
                   </div>
 
                   {/* View bar */}
                   <div className="flex items-center gap-2 shrink-0">
-                    <div className="w-20 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="w-20 h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-indigo-500 rounded-full"
                         style={{

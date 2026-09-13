@@ -88,16 +88,16 @@ const Schat = ({
   };
 
   return (
-    <div className="flex flex-col mx-2 border border-blue-300 bg-white rounded-t-lg shadow-lg">
-      <div className="flex items-center justify-between bg-blue-100 p-2 rounded-t-lg">
-        <p className="font-semibold text-sm">{bName || "Client Chat"}</p>
+    <div className="flex flex-col mx-2 border border-blue-300 bg-white dark:bg-slate-900 rounded-t-lg shadow-lg">
+      <div className="flex items-center justify-between bg-blue-100 dark:bg-slate-800 p-2 rounded-t-lg">
+        <p className="font-semibold text-sm text-gray-800 dark:text-slate-100">{bName || "Client Chat"}</p>
         <div className="flex gap-2">
           <TiArrowMinimise
-            className="h-5 w-5 text-gray-600 hover:text-blue-500 cursor-pointer"
+            className="h-5 w-5 text-gray-600 dark:text-slate-300 hover:text-blue-500 cursor-pointer"
             onClick={onToggle}
           />
           <MdClose
-            className="h-5 w-5 text-gray-600 hover:text-red-500 cursor-pointer"
+            className="h-5 w-5 text-gray-600 dark:text-slate-300 hover:text-red-500 cursor-pointer"
             onClick={onClose}
           />
         </div>
@@ -105,7 +105,7 @@ const Schat = ({
 
       {isVisible && (
         <>
-          <div className="h-[400px] overflow-y-auto p-3 bg-gray-50">
+          <div className="h-[400px] overflow-y-auto p-3 bg-gray-50 dark:bg-slate-900">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -117,11 +117,11 @@ const Schat = ({
                   className={`p-2 rounded-xl max-w-xs ${
                     msg.sender === "manager"
                       ? "bg-blue-200 text-right"
-                      : "bg-gray-200 text-left"
+                      : "bg-gray-200 dark:bg-slate-800 text-left"
                   }`}
                 >
-                  <p className="text-sm">{msg.text}</p>
-                  <p className="text-[10px] text-gray-600">
+                  <p className="text-sm text-gray-800 dark:text-slate-100">{msg.text}</p>
+                  <p className="text-[10px] text-gray-600 dark:text-slate-400">
                     {new Date(msg.time).toLocaleTimeString()}
                   </p>
                 </div>
@@ -130,10 +130,10 @@ const Schat = ({
             <div ref={chatEndRef}></div>
           </div>
 
-          <div className="flex border-t">
+          <div className="flex border-t dark:border-slate-700">
             <input
               type="text"
-              className="flex-grow p-2 outline-none text-sm"
+              className="flex-grow p-2 outline-none text-sm bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-100"
               placeholder="Type your message..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}

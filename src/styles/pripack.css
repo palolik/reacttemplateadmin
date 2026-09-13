@@ -1,20 +1,20 @@
 
 
 .priinput {
-    @apply input input-bordered text-black bg-white  font-medium w-full;
+    @apply input input-bordered font-medium w-full;
 }
 
 .pridrop {
-    @apply select select-bordered text-black bg-white w-full ;
+    @apply select select-bordered w-full ;
 }
 
 .pritextarea {
-    @apply textarea textarea-bordered text-black bg-white w-full ;
+    @apply textarea textarea-bordered w-full ;
 }
 
 .pributton {
-    @apply btn btn-primary bg-black text-white hover:bg-blue-950;
+    @apply btn btn-primary bg-black text-white hover:bg-blue-950 dark:bg-slate-700 dark:hover:bg-slate-600;
 }
 .prifile {
-    @apply file-input file-input-md w-full bg-white text-black border-gray-300;
+    @apply file-input file-input-md w-full bg-white dark:bg-slate-900 text-black dark:text-slate-100 border-gray-300 dark:border-slate-700;
 }

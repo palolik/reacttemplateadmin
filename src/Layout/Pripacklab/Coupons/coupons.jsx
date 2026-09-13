@@ -169,7 +169,7 @@ const Coupon = () => {
 
         <div className="overflow-x-auto">
           <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-100 dark:bg-slate-800">
               <tr className="text-center font-semibold">
                 <th className="px-2 py-2">Name</th>
                 <th className="px-2 py-2">Code</th>
@@ -186,20 +186,20 @@ const Coupon = () => {
             <tbody>
               {coupons.length === 0 ? (
                 <tr>
-                  <td colSpan="10" className="text-center py-6 text-gray-400">No coupons found.</td>
+                  <td colSpan="10" className="text-center py-6 text-gray-400 dark:text-slate-400">No coupons found.</td>
                 </tr>
               ) : (
                 coupons.map((c) => (
-                  <tr key={c._id} className="text-center border-b hover:bg-gray-50">
+                  <tr key={c._id} className="text-center border-b hover:bg-gray-50 dark:hover:bg-slate-800/60">
                     <td className="px-2 py-2">{c.couponname}</td>
                     <td className="px-2 py-2">
-                      <span className="font-mono bg-gray-100 px-2 py-0.5 rounded text-xs tracking-widest">
+                      <span className="font-mono bg-gray-100 dark:bg-slate-800 px-2 py-0.5 rounded text-xs tracking-widest">
                         {c.couponcode}
                       </span>
                     </td>
                     <td className="px-2 py-2 font-semibold text-green-700">
                       {c.discounttype === "fixed" ? `৳${c.discount}` : `${c.discount}%`}
-                      <span className="ml-1 text-[10px] text-gray-400">
+                      <span className="ml-1 text-[10px] text-gray-400 dark:text-slate-400">
                         ({c.discounttype === "fixed" ? "fixed" : "%"})
                       </span>
                     </td>
@@ -226,7 +226,7 @@ const Coupon = () => {
       {/* Add Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-lg relative">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Add New Coupon</h3>
               <button onClick={() => setShowAddModal(false)} className="close-btn"><RiCloseLargeFill /></button>
@@ -239,7 +239,7 @@ const Coupon = () => {
       {/* Edit Modal */}
       {showEditModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-lg relative">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Edit Coupon</h3>
               <button onClick={() => setShowEditModal(false)} className="close-btn"><RiCloseLargeFill /></button>

@@ -13,7 +13,7 @@ const statusColors = {
 };
 
 const StatusBadge = ({ status }) => {
-  const c = statusColors[status] || { bg: "bg-gray-100", text: "text-gray-600" };
+  const c = statusColors[status] || { bg: "bg-gray-100 dark:bg-slate-800", text: "text-gray-600 dark:text-slate-300" };
   return (
     <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${c.bg} ${c.text}`}>
       {status}
@@ -25,34 +25,34 @@ const StatusBadge = ({ status }) => {
 const TabsView = ({ orders, openStatusModal }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const order = orders[activeIdx];
-  if (!order) return <p className="text-sm text-gray-400 p-4">No orders.</p>;
+  if (!order) return <p className="text-sm text-gray-400 dark:text-slate-400 p-4">No orders.</p>;
 
   return (
-    <div className="flex h-[780px] rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+    <div className="flex h-[780px] rounded-2xl border border-gray-200 dark:border-slate-700 overflow-hidden shadow-sm">
 
 
-      <div className="w-52 flex-shrink-0 bg-gray-50 border-r border-gray-200 flex flex-col overflow-hidden">
-        <div className="px-3 py-2.5 border-b border-gray-200 flex-shrink-0">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">{orders.length} Orders</p>
+      <div className="w-52 flex-shrink-0 bg-gray-50 dark:bg-slate-900 border-r border-gray-200 dark:border-slate-700 flex flex-col overflow-hidden">
+        <div className="px-3 py-2.5 border-b border-gray-200 dark:border-slate-700 flex-shrink-0">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400">{orders.length} Orders</p>
         </div>
         <div className="overflow-y-auto flex-1">
           {orders.map((o, i) => {
-            const c = statusColors[o.currentStatus] || { bg: "bg-gray-100", text: "text-gray-500" };
+            const c = statusColors[o.currentStatus] || { bg: "bg-gray-100 dark:bg-slate-800", text: "text-gray-500 dark:text-slate-400" };
             return (
               <button
                 key={o._id}
                 onClick={() => setActiveIdx(i)}
-                className={`w-full text-left px-3 py-2.5 border-b border-gray-100 transition-all ${
+                className={`w-full text-left px-3 py-2.5 border-b border-gray-100 dark:border-slate-700 transition-all ${
                   i === activeIdx
-                    ? "bg-white border-l-[3px] border-l-gray-900"
-                    : "hover:bg-white border-l-[3px] border-l-transparent"
+                    ? "bg-white dark:bg-slate-900 border-l-[3px] border-l-gray-900 dark:border-l-slate-100"
+                    : "hover:bg-white dark:hover:bg-slate-900 border-l-[3px] border-l-transparent"
                 }`}
               >
-                <p className="font-mono text-[11px] font-bold text-gray-700">#{o._id.slice(-7).toUpperCase()}</p>
-                <p className="text-[11px] text-gray-500 mt-0.5 truncate">{o.buyerName}</p>
+                <p className="font-mono text-[11px] font-bold text-gray-700 dark:text-slate-300">#{o._id.slice(-7).toUpperCase()}</p>
+                <p className="text-[11px] text-gray-500 dark:text-slate-400 mt-0.5 truncate">{o.buyerName}</p>
                 <div className="flex items-center justify-between mt-1.5">
                   <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${c.bg} ${c.text}`}>{o.currentStatus}</span>
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[10px] text-gray-400 dark:text-slate-400">
                     {new Date(o.orderDate).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}
                   </span>
                 </div>
@@ -63,22 +63,22 @@ const TabsView = ({ orders, openStatusModal }) => {
       </div>
 
      
-      <div className="flex-1 flex flex-col overflow-hidden bg-white">
+      <div className="flex-1 flex flex-col overflow-hidden bg-white dark:bg-slate-900">
 
-      
-        <div className="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-100 flex-shrink-0">
+
+        <div className="flex items-center justify-between px-5 py-3 bg-gray-50 dark:bg-slate-900 border-b border-gray-100 dark:border-slate-700 flex-shrink-0">
           <div className="flex items-center gap-2.5 flex-wrap">
-            <span className="font-mono text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-lg font-bold">
+            <span className="font-mono text-xs bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 px-2.5 py-1 rounded-lg font-bold">
               #{order._id.slice(-8).toUpperCase()}
             </span>
             <StatusBadge status={order.currentStatus} />
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-gray-400 dark:text-slate-400">
               {new Date(order.orderDate).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
             </span>
           </div>
           <div className="flex gap-2">
             <button onClick={() => openStatusModal(order)}
-              className="text-xs bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-3 py-1.5 rounded-lg transition font-medium">
+              className="text-xs bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-3 py-1.5 rounded-lg transition font-medium">
               Update Status
             </button>
             <button onClick={() => downloadInvoice(order)}
@@ -86,7 +86,7 @@ const TabsView = ({ orders, openStatusModal }) => {
               ↓ Invoice
             </button>
             <button onClick={() => window.open(`/label/${order._id}`, "_blank")}
-              className="text-xs bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-3 py-1.5 rounded-lg transition font-medium">
+              className="text-xs bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-3 py-1.5 rounded-lg transition font-medium">
               🏷️ Print Label
             </button>
           </div>
@@ -97,67 +97,67 @@ const TabsView = ({ orders, openStatusModal }) => {
 
        
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2.5">Customer</p>
-              <p className="font-bold text-sm text-gray-800">{order.buyerName}</p>
-              <p className="text-xs text-gray-500 mt-1">{order.buyerPhone}</p>
-              <p className="text-xs text-gray-500">{order.buyerEmail}</p>
-              <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">{order.buyerAddress}</p>
+            <div className="bg-gray-50 dark:bg-slate-900 rounded-xl p-4">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2.5">Customer</p>
+              <p className="font-bold text-sm text-gray-800 dark:text-slate-100">{order.buyerName}</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">{order.buyerPhone}</p>
+              <p className="text-xs text-gray-500 dark:text-slate-400">{order.buyerEmail}</p>
+              <p className="text-xs text-gray-400 dark:text-slate-400 mt-1.5 leading-relaxed">{order.buyerAddress}</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2.5">Delivery</p>
+            <div className="bg-gray-50 dark:bg-slate-900 rounded-xl p-4">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2.5">Delivery</p>
               {order.delivery ? (
                 <>
-                  <p className="font-semibold text-sm text-gray-800">{order.delivery.area}</p>
-                  <p className="text-xs text-gray-500 mt-1">{order.delivery.period}</p>
-                  <p className="text-xs text-gray-500 mt-0.5">Charge: <b>BDT {order.delivery.charge}</b></p>
+                  <p className="font-semibold text-sm text-gray-800 dark:text-slate-100">{order.delivery.area}</p>
+                  <p className="text-xs text-gray-500 dark:text-slate-400 mt-1">{order.delivery.period}</p>
+                  <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">Charge: <b>BDT {order.delivery.charge}</b></p>
                 </>
-              ) : <p className="text-xs text-gray-400">No delivery info</p>}
+              ) : <p className="text-xs text-gray-400 dark:text-slate-400">No delivery info</p>}
             </div>
           </div>
 
           {/* ── Row 2: Price summary ── */}
-          <div className="bg-gray-50 rounded-xl p-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Price Summary</p>
+          <div className="bg-gray-50 dark:bg-slate-900 rounded-xl p-4">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-3">Price Summary</p>
             <div className="flex flex-wrap gap-6">
-              <div><p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Subtotal</p><p className="font-semibold text-gray-800 text-sm">BDT {order.subtotal}</p></div>
-              <div><p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Delivery</p><p className="font-semibold text-gray-800 text-sm">BDT {order.deliveryCharge}</p></div>
-              {order.discount > 0 && <div><p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Discount</p><p className="font-semibold text-teal-600 text-sm">− BDT {order.discount}</p></div>}
-              <div><p className="text-[10px] text-gray-400 uppercase tracking-wide mb-1">Total</p><p className="font-black text-gray-900 text-lg">BDT {order.totalPrice}</p></div>
+              <div><p className="text-[10px] text-gray-400 dark:text-slate-400 uppercase tracking-wide mb-1">Subtotal</p><p className="font-semibold text-gray-800 dark:text-slate-100 text-sm">BDT {order.subtotal}</p></div>
+              <div><p className="text-[10px] text-gray-400 dark:text-slate-400 uppercase tracking-wide mb-1">Delivery</p><p className="font-semibold text-gray-800 dark:text-slate-100 text-sm">BDT {order.deliveryCharge}</p></div>
+              {order.discount > 0 && <div><p className="text-[10px] text-gray-400 dark:text-slate-400 uppercase tracking-wide mb-1">Discount</p><p className="font-semibold text-teal-600 text-sm">− BDT {order.discount}</p></div>}
+              <div><p className="text-[10px] text-gray-400 dark:text-slate-400 uppercase tracking-wide mb-1">Total</p><p className="font-black text-gray-900 dark:text-slate-100 text-lg">BDT {order.totalPrice}</p></div>
             </div>
           </div>
 
           {/* ── Row 3: Payment ── */}
-          <div className="bg-gray-50 rounded-xl p-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">Payment</p>
+          <div className="bg-gray-50 dark:bg-slate-900 rounded-xl p-4">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-3">Payment</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
-              <div><p className="text-xs text-gray-400 mb-0.5">Method</p><p className="font-semibold text-gray-800">{order.paymentMethod}</p></div>
-              <div><p className="text-xs text-gray-400 mb-0.5">Status</p>
+              <div><p className="text-xs text-gray-400 dark:text-slate-400 mb-0.5">Method</p><p className="font-semibold text-gray-800 dark:text-slate-100">{order.paymentMethod}</p></div>
+              <div><p className="text-xs text-gray-400 dark:text-slate-400 mb-0.5">Status</p>
                 <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
                   order.paymentStatus === "Pending Verification" ? "bg-yellow-100 text-yellow-700" :
-                  order.paymentStatus === "Verified" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+                  order.paymentStatus === "Verified" ? "bg-green-100 text-green-700" : "bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300"
                 }`}>{order.paymentStatus || "—"}</span>
               </div>
-              {order.paymentNumber && <div><p className="text-xs text-gray-400 mb-0.5">Number</p><p className="font-mono text-sm text-gray-800">{order.paymentNumber}</p></div>}
-              {order.transactionId && <div><p className="text-xs text-gray-400 mb-0.5">Transaction ID</p><p className="font-mono text-sm text-gray-800">{order.transactionId}</p></div>}
-              {order.coupon        && <div><p className="text-xs text-gray-400 mb-0.5">Coupon</p><p className="font-semibold text-teal-600">{order.coupon}</p></div>}
+              {order.paymentNumber && <div><p className="text-xs text-gray-400 dark:text-slate-400 mb-0.5">Number</p><p className="font-mono text-sm text-gray-800 dark:text-slate-100">{order.paymentNumber}</p></div>}
+              {order.transactionId && <div><p className="text-xs text-gray-400 dark:text-slate-400 mb-0.5">Transaction ID</p><p className="font-mono text-sm text-gray-800 dark:text-slate-100">{order.transactionId}</p></div>}
+              {order.coupon        && <div><p className="text-xs text-gray-400 dark:text-slate-400 mb-0.5">Coupon</p><p className="font-semibold text-teal-600">{order.coupon}</p></div>}
             </div>
           </div>
 
           {/* ── Row 4: Items ── */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2.5">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2.5">
               Items ({order.cartItems.length})
             </p>
             <div className="flex flex-col gap-3">
               {order.cartItems.map((item, idx) => (
-                <div key={idx} className="border border-gray-200 rounded-xl p-4">
+                <div key={idx} className="border border-gray-200 dark:border-slate-700 rounded-xl p-4">
                   <div className="flex gap-3 items-start mb-3">
                     <img src={item.selectedImage || item.mainPics?.[0]} alt={item.productName}
-                      className="w-12 h-12 object-cover rounded-lg border border-gray-200 flex-shrink-0" />
+                      className="w-12 h-12 object-cover rounded-lg border border-gray-200 dark:border-slate-700 flex-shrink-0" />
                     <div>
-                      <p className="font-bold text-sm text-gray-800">{item.productName}</p>
-                      <div className="flex flex-wrap gap-3 mt-1 text-xs text-gray-500">
+                      <p className="font-bold text-sm text-gray-800 dark:text-slate-100">{item.productName}</p>
+                      <div className="flex flex-wrap gap-3 mt-1 text-xs text-gray-500 dark:text-slate-400">
                         {item.selectedSize && <span>Size: <b>{item.selectedSize}</b></span>}
                         {item.selectedCut  && <span>Cut: <b>{item.selectedCut}</b></span>}
                         {item.selectedQty  && <span>Qty: <b>{item.selectedQty}</b></span>}
@@ -170,12 +170,12 @@ const TabsView = ({ orders, openStatusModal }) => {
                   </div>
                   {item.unitDetails?.length > 0 && (
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Unit Details</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2">Unit Details</p>
                       <div className="grid grid-cols-2 gap-2">
                         {item.unitDetails.map((ud, ui) => (
-                          <div key={ui} className="bg-gray-50 rounded-lg px-3 py-2 border border-gray-100">
+                          <div key={ui} className="bg-gray-50 dark:bg-slate-900 rounded-lg px-3 py-2 border border-gray-100 dark:border-slate-700">
                             <p className="text-[10px] font-bold text-teal-600 mb-1">Unit {ui + 1}</p>
-                            <div className="text-xs text-gray-600" dangerouslySetInnerHTML={{ __html: ud.description }} />
+                            <div className="text-xs text-gray-600 dark:text-slate-300" dangerouslySetInnerHTML={{ __html: ud.description }} />
                             {ud.filePath && (
                               <a href={`${base_url}${ud.filePath}`} className="text-[10px] text-teal-500 hover:underline mt-1 block"
                                 target="_blank" rel="noreferrer">📎 Attachment</a>
@@ -192,21 +192,21 @@ const TabsView = ({ orders, openStatusModal }) => {
 
          
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2.5">Status History</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2.5">Status History</p>
             <div className="flex flex-col gap-2">
               {order.statusHistory?.length > 0 ? order.statusHistory.map((h, i) => (
                 <div key={i} className="flex gap-3 items-start">
                   <div className="flex flex-col items-center flex-shrink-0">
-                    <div className={`w-2.5 h-2.5 rounded-full mt-0.5 ${statusColors[h.status]?.bg || "bg-gray-200"}`} />
-                    {i < order.statusHistory.length - 1 && <div className="w-px flex-1 bg-gray-200 mt-1 min-h-[20px]" />}
+                    <div className={`w-2.5 h-2.5 rounded-full mt-0.5 ${statusColors[h.status]?.bg || "bg-gray-200 dark:bg-slate-800"}`} />
+                    {i < order.statusHistory.length - 1 && <div className="w-px flex-1 bg-gray-200 dark:bg-slate-800 mt-1 min-h-[20px]" />}
                   </div>
                   <div className="pb-2">
                     <StatusBadge status={h.status} />
-                    <p className="text-xs text-gray-600 mt-1">{h.note}</p>
-                    <p className="text-[10px] text-gray-400 mt-0.5">{new Date(h.date).toLocaleString()}</p>
+                    <p className="text-xs text-gray-600 dark:text-slate-300 mt-1">{h.note}</p>
+                    <p className="text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">{new Date(h.date).toLocaleString()}</p>
                   </div>
                 </div>
-              )) : <p className="text-xs text-gray-400">No history yet.</p>}
+              )) : <p className="text-xs text-gray-400 dark:text-slate-400">No history yet.</p>}
             </div>
           </div>
 
@@ -220,12 +220,12 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
   const [expandedId, setExpandedId] = useState(null);
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-x-auto">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-x-auto">
       <table className="w-full text-sm min-w-[860px]">
         <thead>
-          <tr className="bg-gray-50 border-b border-gray-200">
+          <tr className="bg-gray-50 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
             {["Order ID", "Date", "Customer", "Items", "Total", "Payment", "Status", "Actions"].map(h => (
-              <th key={h} className="text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 whitespace-nowrap">
+              <th key={h} className="text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 whitespace-nowrap">
                 {h}
               </th>
             ))}
@@ -237,39 +237,39 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
               <tr
                 key={order._id}
                 onClick={() => setExpandedId(prev => prev === order._id ? null : order._id)}
-                className={`border-b border-gray-100 cursor-pointer transition-colors ${
-                  expandedId === order._id ? "bg-indigo-50/40" : i % 2 === 0 ? "bg-white hover:bg-gray-50" : "bg-gray-50/40 hover:bg-gray-50"
+                className={`border-b border-gray-100 dark:border-slate-700 cursor-pointer transition-colors ${
+                  expandedId === order._id ? "bg-indigo-50/40" : i % 2 === 0 ? "bg-white dark:bg-slate-900 hover:bg-gray-50 dark:hover:bg-slate-800/60" : "bg-gray-50/40 dark:bg-slate-800/40 hover:bg-gray-50 dark:hover:bg-slate-800/60"
                 }`}
               >
                 <td className="px-4 py-3">
-                  <span className="font-mono text-[11px] font-bold text-gray-700 bg-gray-100 px-2 py-0.5 rounded">
+                  <span className="font-mono text-[11px] font-bold text-gray-700 dark:text-slate-300 bg-gray-100 dark:bg-slate-800 px-2 py-0.5 rounded">
                     #{order._id.slice(-7).toUpperCase()}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-xs text-gray-500 whitespace-nowrap">
+                <td className="px-4 py-3 text-xs text-gray-500 dark:text-slate-400 whitespace-nowrap">
                   {new Date(order.orderDate).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
                 </td>
                 <td className="px-4 py-3">
-                  <p className="font-semibold text-xs text-gray-800">{order.buyerName}</p>
-                  <p className="text-[11px] text-gray-400 mt-0.5">{order.buyerPhone}</p>
+                  <p className="font-semibold text-xs text-gray-800 dark:text-slate-100">{order.buyerName}</p>
+                  <p className="text-[11px] text-gray-400 dark:text-slate-400 mt-0.5">{order.buyerPhone}</p>
                 </td>
                 <td className="px-4 py-3">
                   {order.cartItems.map((item, idx) => (
-                    <p key={idx} className="text-xs text-gray-600 truncate max-w-[130px]">
+                    <p key={idx} className="text-xs text-gray-600 dark:text-slate-300 truncate max-w-[130px]">
                       {item.productName}
-                      <span className="text-gray-400 ml-1">×{item.units || 1}</span>
+                      <span className="text-gray-400 dark:text-slate-400 ml-1">×{item.units || 1}</span>
                     </p>
                   ))}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <p className="text-xs font-bold text-gray-800">BDT {order.totalPrice}</p>
-                  <p className="text-[10px] text-gray-400 mt-0.5">{order.paymentMethod}</p>
+                  <p className="text-xs font-bold text-gray-800 dark:text-slate-100">BDT {order.totalPrice}</p>
+                  <p className="text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">{order.paymentMethod}</p>
                 </td>
                 <td className="px-4 py-3">
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${
                     order.paymentStatus === "Pending Verification" ? "bg-yellow-100 text-yellow-700" :
                     order.paymentStatus === "Verified" ? "bg-green-100 text-green-700" :
-                    "bg-gray-100 text-gray-500"
+                    "bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400"
                   }`}>
                     {order.paymentStatus || order.paymentMethod}
                   </span>
@@ -282,7 +282,7 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
     className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border-0 cursor-pointer outline-none appearance-none ${
       order.paymentStatus === "Pending Verification" ? "bg-yellow-100 text-yellow-700" :
       order.paymentStatus === "Verified"             ? "bg-green-100 text-green-700"  :
-                                                       "bg-gray-100 text-gray-500"
+                                                       "bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400"
     }`}
   >
     <option value="">— Select —</option>
@@ -298,7 +298,7 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                   <div className="flex gap-1.5">
                     <button
                       onClick={() => openStatusModal(order)}
-                      className="text-[10px] bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-2 py-1 rounded-lg transition"
+                      className="text-[10px] bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-2 py-1 rounded-lg transition"
                     >
                       Update
                     </button>
@@ -310,7 +310,7 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                     </button>
                     <button
                       onClick={() => window.open(`/label/${order._id}`, "_blank")}
-                      className="text-[10px] bg-white border border-gray-300 hover:border-gray-500 text-gray-600 px-2 py-1 rounded-lg transition"
+                      className="text-[10px] bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-2 py-1 rounded-lg transition"
                     >
                       Label
                     </button>
@@ -320,27 +320,27 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
 
           
               {expandedId === order._id && (
-                <tr key={`${order._id}-exp`} className="border-b border-gray-200 bg-indigo-50/20">
+                <tr key={`${order._id}-exp`} className="border-b border-gray-200 dark:border-slate-700 bg-indigo-50/20">
                   <td colSpan={8} className="px-6 py-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-xs">
                       <div>
-                        <p className="font-bold text-gray-400 uppercase tracking-widest text-[9px] mb-1.5">Address</p>
-                        <p className="text-gray-600 leading-relaxed">{order.buyerAddress}</p>
-                        <p className="text-gray-500 mt-1">{order.buyerEmail}</p>
+                        <p className="font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest text-[9px] mb-1.5">Address</p>
+                        <p className="text-gray-600 dark:text-slate-300 leading-relaxed">{order.buyerAddress}</p>
+                        <p className="text-gray-500 dark:text-slate-400 mt-1">{order.buyerEmail}</p>
                       </div>
                       <div>
-                        <p className="font-bold text-gray-400 uppercase tracking-widest text-[9px] mb-1.5">Delivery</p>
+                        <p className="font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest text-[9px] mb-1.5">Delivery</p>
                         {order.delivery ? (
                           <>
-                            <p className="text-gray-700 font-semibold">{order.delivery.area}</p>
-                            <p className="text-gray-500 mt-0.5">{order.delivery.period}</p>
-                            <p className="text-gray-500">BDT {order.delivery.charge}</p>
+                            <p className="text-gray-700 dark:text-slate-300 font-semibold">{order.delivery.area}</p>
+                            <p className="text-gray-500 dark:text-slate-400 mt-0.5">{order.delivery.period}</p>
+                            <p className="text-gray-500 dark:text-slate-400">BDT {order.delivery.charge}</p>
                           </>
-                        ) : <p className="text-gray-400">—</p>}
+                        ) : <p className="text-gray-400 dark:text-slate-400">—</p>}
                       </div>
                       <div>
-                        <p className="font-bold text-gray-400 uppercase tracking-widest text-[9px] mb-1.5">Pricing</p>
-                        <div className="flex flex-col gap-0.5 text-gray-600">
+                        <p className="font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest text-[9px] mb-1.5">Pricing</p>
+                        <div className="flex flex-col gap-0.5 text-gray-600 dark:text-slate-300">
                           <div className="flex justify-between gap-3"><span>Subtotal</span><span>BDT {order.subtotal}</span></div>
                           <div className="flex justify-between gap-3"><span>Delivery</span><span>BDT {order.deliveryCharge}</span></div>
                           {order.discount > 0 && (
@@ -349,13 +349,13 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                         </div>
                       </div>
                       <div>
-                        <p className="font-bold text-gray-400 uppercase tracking-widest text-[9px] mb-1.5">Payment Detail</p>
+                        <p className="font-bold text-gray-400 dark:text-slate-400 uppercase tracking-widest text-[9px] mb-1.5">Payment Detail</p>
                         {order.transactionId ? (
-                          <div className="flex flex-col gap-0.5 text-gray-600">
+                          <div className="flex flex-col gap-0.5 text-gray-600 dark:text-slate-300">
                             <span>Via: <b>{order.paymentMethod}</b></span>
                             <span>TrxID: <b className="font-mono">{order.transactionId}</b></span>
                           </div>
-                        ) : <p className="text-gray-400">Pay on delivery</p>}
+                        ) : <p className="text-gray-400 dark:text-slate-400">Pay on delivery</p>}
                       </div>
                     </div>
                   </td>
@@ -461,11 +461,11 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
       <div className="flex items-center justify-between mb-5">
       
 
-        <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl">
+        <div className="flex items-center gap-1 bg-gray-100 dark:bg-slate-800 p-1 rounded-xl">
           <button
             onClick={() => setViewMode("table")}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              viewMode === "table" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+              viewMode === "table" ? "bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 shadow-sm" : "text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300"
             }`}
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -476,7 +476,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
           <button
             onClick={() => setViewMode("tabs")}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              viewMode === "tabs" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+              viewMode === "tabs" ? "bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 shadow-sm" : "text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300"
             }`}
           >
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -496,24 +496,24 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
         <button
           onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
           disabled={currentPage === 1}
-          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-100 transition"
+          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >← Prev</button>
-        <span className="text-sm text-gray-500 font-medium">{currentPage} / {totalPages || 1}</span>
+        <span className="text-sm text-gray-500 dark:text-slate-400 font-medium">{currentPage} / {totalPages || 1}</span>
         <button
           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
           disabled={currentPage === totalPages || totalPages === 0}
-          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 disabled:opacity-40 hover:bg-gray-100 transition"
+          className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >Next →</button>
       </div>
 
       {showStatusModal && (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-6 rounded-2xl w-full max-w-sm shadow-xl">
-            <h3 className="font-bold text-gray-800 mb-4">Update Order Status</h3>
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl w-full max-w-sm shadow-xl">
+            <h3 className="font-bold text-gray-800 dark:text-slate-100 mb-4">Update Order Status</h3>
             <select
               value={newStatus}
               onChange={e => setNewStatus(e.target.value)}
-              className={`w-full p-2.5 border rounded-xl bg-white text-sm ${statusErrors.status ? "border-red-400" : "border-gray-200"}`}
+              className={`w-full p-2.5 border rounded-xl bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-100 text-sm ${statusErrors.status ? "border-red-400" : "border-gray-200 dark:border-slate-700"}`}
             >
               {selectedOrder?.currentStatus && (
                 <option value={selectedOrder.currentStatus}>{selectedOrder.currentStatus} (current)</option>
@@ -530,7 +530,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
               placeholder="Enter note"
               value={note}
               onChange={e => setNote(e.target.value)}
-              className={`w-full mt-3 p-2.5 border rounded-xl bg-white text-sm resize-none ${statusErrors.note ? "border-red-400" : "border-gray-200"}`}
+              className={`w-full mt-3 p-2.5 border rounded-xl bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-100 text-sm resize-none ${statusErrors.note ? "border-red-400" : "border-gray-200 dark:border-slate-700"}`}
               rows={3}
             />
             {statusErrors.note && <p className="text-red-500 text-xs mt-1">{statusErrors.note}</p>}

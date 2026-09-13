@@ -87,7 +87,7 @@ const FaqAll = () => {
       {/* ===== FAQ TABLE ===== */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 dark:bg-slate-800">
             <tr className="text-center font-semibold">
               <th>Question</th>
               <th>Question (Bangla)</th>
@@ -106,7 +106,7 @@ const FaqAll = () => {
                 <td className="flex justify-center gap-2">
                   <Link
                     to={`/update/${faq._id}`}
-                    className="btn btn-xs bg-blue-300 text-black"
+                    className="btn btn-xs bg-blue-300 text-black dark:text-slate-100"
                   >
                     Update
                   </Link>
@@ -126,14 +126,14 @@ const FaqAll = () => {
       {/* ===== FLOATING FORM MODAL ===== */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <button
               onClick={() => setShowForm(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+              className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl"
             >
               ✕
             </button>
-            <h3 className="text-xl font-semibold mb-4 text-center">
+            <h3 className="text-xl font-semibold mb-4 text-center text-gray-800 dark:text-slate-100">
               Add New FAQ
             </h3>
             <form onSubmit={handleAddPost} className="flex flex-col gap-3">

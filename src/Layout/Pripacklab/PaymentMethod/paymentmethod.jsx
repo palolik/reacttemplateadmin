@@ -123,7 +123,7 @@ const PaymentMethod = () => {
         />
 
         <div className="flex flex-col gap-1">
-          <span className="text-sm text-gray-600">Extra Details</span>
+          <span className="text-sm text-gray-600 dark:text-slate-300">Extra Details</span>
           <RichTextEditor
             value={extradetails}
             onChange={setExtradetails}
@@ -152,7 +152,7 @@ const PaymentMethod = () => {
 
         <div className="overflow-x-auto">
           <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100">
+            <thead className="bg-gray-100 dark:bg-slate-800">
               <tr className="text-center font-semibold">
                 <th className="px-3 py-2">Method</th>
                 <th className="px-3 py-2">Number / Account</th>
@@ -163,20 +163,20 @@ const PaymentMethod = () => {
             <tbody>
               {payments.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="text-center py-6 text-gray-400">
+                  <td colSpan={4} className="text-center py-6 text-gray-400 dark:text-slate-400">
                     No payment methods added yet.
                   </td>
                 </tr>
               ) : (
                 payments.map((p) => (
-                  <tr key={p._id} className="text-center border-b hover:bg-gray-50">
+                  <tr key={p._id} className="text-center border-b hover:bg-gray-50 dark:hover:bg-slate-800/60">
                     <td className="px-3 py-2">
                       <span className="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full font-medium">
                         {p.method}
                       </span>
                     </td>
                     <td className="px-3 py-2 font-mono">{p.number}</td>
-                    <td className="px-3 py-2 text-gray-500 text-left max-w-[240px] truncate">
+                    <td className="px-3 py-2 text-gray-500 dark:text-slate-400 text-left max-w-[240px] truncate">
                       {p.extradetails
                         ? <div dangerouslySetInnerHTML={{ __html: p.extradetails }} />
                         : "—"}
@@ -197,7 +197,7 @@ const PaymentMethod = () => {
 
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Add Payment Method</h3>
               <button onClick={() => setShowAddModal(false)} className="close-btn">
@@ -211,7 +211,7 @@ const PaymentMethod = () => {
 
       {showEditModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md relative">
+          <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Edit Payment Method</h3>
               <button onClick={() => setShowEditModal(false)} className="close-btn">

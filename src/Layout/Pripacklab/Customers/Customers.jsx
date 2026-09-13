@@ -19,8 +19,8 @@ const PCustomers = () => {
       <div className="hdr">All Customers</div>
 
       <div className="w-full p-2">
-        <div className="bg-white pl-2 mb-2 flex justify-between items-center">
-          <span className="text-sm text-gray-500">{customers.length} customer(s)</span>
+        <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
+          <span className="text-sm text-gray-500 dark:text-slate-400">{customers.length} customer(s)</span>
         </div>
 
         <div className="tabst">
@@ -57,7 +57,7 @@ const PCustomers = () => {
           ))}
 
           {customers.length === 0 && (
-            <div className="text-center py-6 text-gray-400">No customers yet.</div>
+            <div className="text-center py-6 text-gray-400 dark:text-slate-400">No customers yet.</div>
           )}
         </div>
       </div>

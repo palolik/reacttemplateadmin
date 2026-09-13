@@ -7,10 +7,10 @@ import { FileInput, FileInputEdit } from "../../../utils/FileFields";
 
 const Modal = ({ title, onClose, children }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
+    <div className="bg-white dark:bg-slate-900 rounded-lg shadow-xl w-full max-w-md mx-4 p-6 relative max-h-[90vh] overflow-y-auto">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+        <h2 className="text-lg font-bold text-gray-800 dark:text-slate-100">{title}</h2>
+        <button onClick={onClose} className="text-gray-400 dark:text-slate-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
       </div>
       {children}
     </div>
@@ -124,7 +124,7 @@ const PCategory = () => {
 
       <div className="w-full p-2">
         {/* Toolbar */}
-        <div className="bg-white pl-2 mb-2 flex justify-between items-center">
+        <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
           <button className="smbut" onClick={() => setIsAddModalOpen(true)}>+ Add Category</button>
         </div>
 
@@ -160,11 +160,11 @@ const PCategory = () => {
         <Modal title="Add Category" onClose={() => setIsAddModalOpen(false)}>
           <form onSubmit={handleAddPost} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name</span>
               <input name="catname" type="text" className="priinput" required />
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name (Bangla)</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name (Bangla)</span>
               <input name="catnameBn" type="text" className="priinput" placeholder="বাংলা নাম" />
             </div>
             <FileInput label="Cover Picture" file={pagecoverFile}
@@ -176,7 +176,7 @@ const PCategory = () => {
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Category</button>
               <button type="button" onClick={() => setIsAddModalOpen(false)}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>
@@ -187,11 +187,11 @@ const PCategory = () => {
         <Modal title="Edit Category" onClose={() => setIsEditModalOpen(false)}>
           <form onSubmit={handleEditPost} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name</span>
               <input name="catname" defaultValue={editCatData.catname} type="text" className="priinput" required />
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-sm text-gray-600">Category Name (Bangla)</span>
+              <span className="text-sm text-gray-600 dark:text-slate-300">Category Name (Bangla)</span>
               <input name="catnameBn" defaultValue={editCatData.catnameBn} type="text" className="priinput" placeholder="বাংলা নাম" />
             </div>
             <FileInputEdit label="Cover Picture" file={editPagecoverFile}
@@ -206,7 +206,7 @@ const PCategory = () => {
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Update Category</button>
               <button type="button" onClick={() => setIsEditModalOpen(false)}
-                className="btn flex-1 bg-gray-200 text-gray-700 hover:bg-gray-300 border-0">Cancel</button>
+                className="btn flex-1 bg-gray-200 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-300 dark:hover:bg-slate-700 border-0">Cancel</button>
             </div>
           </form>
         </Modal>
