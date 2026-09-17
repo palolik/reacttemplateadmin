@@ -42,6 +42,8 @@ const AddSocial = () => {
     const postData = {
       certilink: form.certilink.value.trim(),
       link: form.link.value.trim(),
+      footerlink: form.footerlink.value.trim(),
+
     };
 
     try {
@@ -87,6 +89,8 @@ const AddSocial = () => {
             <tr className="text-center font-semibold">
               <th>Image</th>
               <th>Social Media Link</th>
+                            <th>Footer Link</th>
+
               <th>Actions</th>
             </tr>
           </thead>
@@ -101,6 +105,8 @@ const AddSocial = () => {
                   />
                 </td>
                 <td className="truncate max-w-xs">{social.link}</td>
+                                <td className="truncate max-w-xs">{social.footerlink}</td>
+
                 <td className="flex justify-center gap-2">
                   <button
                     onClick={() => handleDelete(social._id)}
@@ -140,6 +146,13 @@ const AddSocial = () => {
                 name="link"
                 type="text"
                 placeholder="Social Media Link"
+                className="priinput"
+                required
+              />
+              <input
+                name="footerlink"
+                type="text"
+                placeholder="Footer Image URL"
                 className="priinput"
                 required
               />
