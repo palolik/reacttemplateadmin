@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import {base_url} from "../../../config/config";
+
+
 const AddSocial = () => {
   const [ima, setIma] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -11,6 +13,11 @@ const AddSocial = () => {
       .then((data) => setIma(data))
       .catch((error) => console.error("Error fetching social links:", error));
   }, []);
+
+
+
+   const [footerImageFile, setFooterImageFile] = useState(null);
+   const [imageFile, setImageFile] = useState(null);
 
   const handleDelete = (_id) => {
     Swal.fire({
@@ -135,27 +142,47 @@ const AddSocial = () => {
               Add New Social Media
             </h3>
             <form onSubmit={handleAddPost} className="flex flex-col gap-3">
-              <input
+              {/* <input
                 name="certilink"
                 type="text"
                 placeholder="Image URL"
                 className="priinput"
                 required
-              />
-              <input
+              /> */}
+
+              <div>
+              <p className="text-lg font-semibold">Image URL:</p>
+               <input type="file" className="file-input file-input-bordered w-full max-w-xs mt-1"
+                onChange={e => setImageFile(e.target.files[0] || null)} />
+             </div>
+             <div>
+              <p className="text-lg font-semibold mt-1">Social Media Link:</p>
+               <input
                 name="link"
                 type="text"
                 placeholder="Social Media Link"
                 className="priinput"
                 required
               />
-              <input
+             </div>
+              {/* <input
                 name="footerlink"
                 type="text"
                 placeholder="Footer Image URL"
                 className="priinput"
                 required
-              />
+              /> */}
+             <div>
+              <p className="text-lg font-semibold">Footer URL:</p>
+               <input type="file"
+                accept="image/*,application/pdf" 
+                className="file-input file-input-bordered file-input-sm w-full mt-1"
+                onChange={e => setFooterImageFile(e.target.files[0] || null)} />
+               
+             
+             </div>
+
+
               <button type="submit" className="pributton">
                 Add Social Media
               </button>
