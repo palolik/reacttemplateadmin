@@ -10,6 +10,8 @@ import {
   FiBox, FiShoppingCart, FiUsers, FiStar,
   FiDollarSign, FiTrendingDown, FiTrendingUp, FiEye,
 } from "react-icons/fi";
+import FloatingChat from "./FloatingChat.jsx";
+
 
 const COLORS = ['#4f46e5', '#06b6d4', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
 
@@ -65,7 +67,11 @@ const Dashboard = () => {
 
   return (
     <div className="w-full">
+
+     
       <div className="hdr">Dashboard</div>
+      <FloatingChat></FloatingChat>
+   
 
       <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-2">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
@@ -77,6 +83,7 @@ const Dashboard = () => {
               <StatCard key={card.label} {...card} />
             ))}
           </motion.div>
+            
 
 
 
