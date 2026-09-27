@@ -167,11 +167,11 @@ const PCategory = () => {
               <span className="text-sm text-gray-600 dark:text-slate-300">Category Name (Bangla)</span>
               <input name="catnameBn" type="text" className="priinput" placeholder="বাংলা নাম" />
             </div>
-            <FileInput label="Cover Picture" file={pagecoverFile}
+            <FileInput label="Cover Picture (1400x350)px" file={pagecoverFile}
               onChange={(e) => setPagecoverFile(e.target.files[0])} />
-            <FileInput label="Icon Picture" file={iconpicFile}
+            <FileInput label="Icon Picture (16x16)px" file={iconpicFile}
               onChange={(e) => setIconpicFile(e.target.files[0])} />
-            <FileInput label="Home Picture" file={homepicFile}
+            <FileInput label="Home Picture (200x200)px" file={homepicFile}
               onChange={(e) => setHomepicFile(e.target.files[0])} />
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Category</button>
