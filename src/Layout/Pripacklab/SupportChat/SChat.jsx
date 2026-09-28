@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import { TiArrowMinimise } from "react-icons/ti";
 import { base_url,chat_url } from "../../../config/config";
+import { AttachButton, PendingAttachment, MessageAttachment } from "./ChatAttachment";
 const Schat = ({
   supportId,
   bId,
@@ -15,6 +16,8 @@ const Schat = ({
   const [inputValue, setInputValue] = useState("");
   const [socket, setSocket] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  const [attachment, setAttachment] = useState(null);
+  const [attachError, setAttachError] = useState("");
   const chatEndRef = useRef(null);
 
   // Fetch chat history
@@ -58,7 +61,7 @@ const Schat = ({
   }, [messages]);
 
   const handleSend = async () => {
-    if (!inputValue.trim() || isSending) return;
+    if ((!inputValue.trim() && !attachment) || isSending) return;
 
     const message = {
       supportId,
@@ -66,6 +69,7 @@ const Schat = ({
       bName,
       sender: "manager",
       text: inputValue,
+      ...(attachment ? { attachment } : {}),
       time: new Date().toISOString(),
     };
 
@@ -80,6 +84,7 @@ const Schat = ({
       socket?.send(JSON.stringify(message));
       setMessages((prev) => [...prev, message]);
       setInputValue("");
+      setAttachment(null);
     } catch (err) {
       console.error("Error sending message:", err);
     } finally {
@@ -120,7 +125,8 @@ const Schat = ({
                       : "bg-gray-200 dark:bg-slate-800 text-left"
                   }`}
                 >
-                  <p className="text-sm text-gray-800 dark:text-slate-100">{msg.text}</p>
+                  <MessageAttachment attachment={msg.attachment} />
+                  {msg.text && <p className="text-sm text-gray-800 dark:text-slate-100">{msg.text}</p>}
                   <p className="text-[10px] text-gray-600 dark:text-slate-400">
                     {new Date(msg.time).toLocaleTimeString()}
                   </p>
@@ -130,7 +136,9 @@ const Schat = ({
             <div ref={chatEndRef}></div>
           </div>
 
+          <PendingAttachment attachment={attachment} error={attachError} onRemove={() => setAttachment(null)} />
           <div className="flex border-t dark:border-slate-700">
+            <AttachButton onUploaded={setAttachment} onError={setAttachError} disabled={isSending} />
             <input
               type="text"
               className="flex-grow p-2 outline-none text-sm bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-100"
@@ -141,8 +149,8 @@ const Schat = ({
             />
             <button
               onClick={handleSend}
-              disabled={!inputValue.trim() || isSending}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 text-sm rounded-r"
+              disabled={(!inputValue.trim() && !attachment) || isSending}
+              className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-4 text-sm rounded-r"
             >
               Send
             </button>
