@@ -30,6 +30,7 @@ import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
 import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
 import AboutUs from "../Layout/Pripacklab/AboutUs/AboutUs";
 import PCustomers from "../Layout/Pripacklab/Customers/Customers";
+import PCombos from "../Layout/Pripacklab/Combos/Combos";
 
 export const router = createBrowserRouter([
   {
@@ -163,6 +164,10 @@ export const router = createBrowserRouter([
         path: '/pripacklab/customers',
         element: <PCustomers />,
         loader: () => fetch(`${base_url}/getcustomers`),
+      },
+      {
+        path: '/pripacklab/combos',
+        element: <PCombos />,
       },
 
     ]

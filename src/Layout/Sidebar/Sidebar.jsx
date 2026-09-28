@@ -45,6 +45,7 @@ const SECTIONS = [
             { id: 2, name: 'Subcategory', path: '/pripacklab/subcategory' },
             { id: 3, name: 'Product List', path: '/pripacklab/productlist' },
             { id: 4, name: 'Add Product', path: '/pripacklab/addproducts' },
+            { id: 24, name: 'Combo Packages', path: '/pripacklab/combos' },
         ],
     },
     {
