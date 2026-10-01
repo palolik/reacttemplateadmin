@@ -265,7 +265,7 @@ const Suppliers = () => {
                     {/* head */}
                     <thead className="bg-gray-100 dark:bg-slate-800">
                         <tr className="text-center font-semibold">
-                            <th></th>
+                            <th>Serial Number</th>
                             <th>Name</th>
                             <th>Address</th>
                             <th>Phone</th>
