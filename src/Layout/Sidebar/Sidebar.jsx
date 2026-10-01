@@ -9,6 +9,7 @@ import {
     FiChevronDown, FiChevronLeft, FiChevronRight, FiLogOut,
     FiSun, FiMoon,
 } from 'react-icons/fi';
+import { TbTruckDelivery } from "react-icons/tb";
 
 const COLLAPSE_KEY = 'sidebar-collapsed';
 
@@ -78,6 +79,8 @@ const SECTIONS = [
             { id: 13, name: 'Social Media', path: '/pripacklab/socialmedia' },
         ],
     },
+
+    
     {
         id: 'customer',
         label: 'Customer',
@@ -99,6 +102,13 @@ const SECTIONS = [
             { id: 22, name: 'About Us', path: '/pripacklab/aboutus' },
         ],
     },
+        {
+        id: 'suppliers',
+        label: 'Suppliers',
+        icon: TbTruckDelivery ,
+        items: 
+        [{ id: 23, name: 'Supplier List', path: '/pripacklab/suppliers' }],
+}
 ];
 
 const Sidebar = () => {
