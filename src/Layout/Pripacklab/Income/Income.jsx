@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../../styles/productview.css';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
-import { base_url } from '../../../Config/config';
+import { base_url } from '../../../config/config';
 
 const INCOME_CATEGORIES = [
   'Product Sales', 'Service Revenue', 'Subscription',

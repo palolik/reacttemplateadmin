@@ -1,4 +1,4 @@
-import { base_url } from "../Config/config";
+import { base_url } from "../config/config";
 
 const FileInput = ({ label, file, onChange }) => (
   <div className="flex flex-col gap-1">
