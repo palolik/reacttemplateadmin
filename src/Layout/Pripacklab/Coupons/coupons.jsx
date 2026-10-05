@@ -102,51 +102,52 @@ const Coupon = () => {
   };
 
   const CouponForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
-    <form onSubmit={onSubmit} className="flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-3">
-        <label className="flbl">
+    <div className="w-full "> 
+    <form onSubmit={onSubmit} className="flex flex-col gap-2 w-full ">
+      <div className="grid grid-cols-2 gap-8">
+        <label className="font-bold text-gray-700">
           <span>Coupon Name</span>
-          <input name="couponname" type="text" defaultValue={defaultValues.couponname} className="fflin" placeholder="Summer Sale" required />
+          <input name="couponname" type="text" defaultValue={defaultValues.couponname} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3 mt-3" placeholder="Summer Sale" required />
         </label>
-        <label className="flbl">
+        <label className="font-bold text-gray-700">
           <span>Coupon Code</span>
-          <input name="couponcode" type="text" defaultValue={defaultValues.couponcode} className="fflin uppercase" placeholder="SAVE20" required />
+          <input name="couponcode" type="text" defaultValue={defaultValues.couponcode} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3 uppercase" placeholder="SAVE20" required />
         </label>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <label className="flbl">
+      <div className="grid grid-cols-2 gap-8">
+        <label className="font-bold text-gray-700">
           <span>Discount Value</span>
-          <input name="discount" type="number" defaultValue={defaultValues.discount} className="fflin" placeholder="e.g. 20" required />
+          <input name="discount" type="number" defaultValue={defaultValues.discount} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3" placeholder="e.g. 20" required />
         </label>
-        <label className="flbl">
+        <label className="font-bold text-gray-700">
           <span>Discount Type</span>
-          <select name="discounttype" defaultValue={defaultValues.discounttype || "percentage"} className="fflin" required>
+          <select name="discounttype" defaultValue={defaultValues.discounttype || "percentage"} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3" required>
             <option value="percentage">Percentage (%)</option>
             <option value="fixed">Fixed Amount (৳)</option>
           </select>
         </label>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <label className="flbl">
+      <div className="grid grid-cols-2 gap-8">
+        <label className="font-bold text-gray-700">
           <span>Min. Spent (৳)</span>
-          <input name="minspent" type="number" defaultValue={defaultValues.minspent} className="fflin" placeholder="e.g. 500" />
+          <input name="minspent" type="number" defaultValue={defaultValues.minspent} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3" placeholder="e.g. 500" />
         </label>
-        <label className="flbl">
+        <label className="font-bold text-gray-700">
           <span>Max. Discount (৳)</span>
-          <input name="maxamount" type="number" defaultValue={defaultValues.maxamount} className="fflin" placeholder="e.g. 200" />
+          <input name="maxamount" type="number" defaultValue={defaultValues.maxamount} className="w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3" placeholder="e.g. 200" />
         </label>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <label className="flbl">
+      <div className="grid grid-cols-2 gap-8">
+        <label className="font-bold text-gray-700">
           <span>Total Coupons</span>
-          <input name="coupontotal" type="number" defaultValue={defaultValues.coupontotal} className="fflin" placeholder="e.g. 100" required />
+          <input name="coupontotal" type="number" defaultValue={defaultValues.coupontotal} className=" w-[220px] border border-gray-400 rounded-lg py-1 px-3  mt-3" placeholder="e.g. 100" required />
         </label>
-        <label className="flbl">
+        <label className="font-bold text-gray-700">
           <span>Deadline</span>
-          <input name="coupondate" type="date" defaultValue={defaultValues.coupondate?.slice(0, 10)} className="fflin" required />
+          <input name="coupondate" type="date" defaultValue={defaultValues.coupondate?.slice(0, 10)} className=" w-[220px] border w-[240px] border-gray-400 rounded-lg py-1 px-3  mt-3" required />
         </label>
       </div>
 
@@ -154,6 +155,7 @@ const Coupon = () => {
         {submitLabel}
       </button>
     </form>
+    </div>
   );
 
   return (
@@ -228,7 +230,7 @@ const Coupon = () => {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-lg relative">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Add New Coupon</h3>
+              <h3 className="text-lg font-semibold ">Add New Coupon</h3>
               <button onClick={() => setShowAddModal(false)} className="close-btn"><RiCloseLargeFill /></button>
             </div>
             <CouponForm onSubmit={handleAdd} submitLabel="Add Coupon" />

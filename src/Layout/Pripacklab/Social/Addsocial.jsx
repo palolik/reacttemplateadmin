@@ -40,9 +40,10 @@ const AddSocial = () => {
     event.preventDefault();
     const form = event.target;
     const postData = {
-      certilink: form.certilink.value.trim(),
-      link: form.link.value.trim(),
-    };
+      footerimglink: form.footerimglink.value.trim(),
+      sociallink: form.sociallink.value.trim(),
+      sideimglink: form.sideimglink.value.trim(),
+      };
 
     try {
       const response = await fetch(`${base_url}/addsocialmedia`, {
@@ -86,6 +87,7 @@ const AddSocial = () => {
           <thead className="bg-gray-100 dark:bg-slate-800">
             <tr className="text-center font-semibold">
               <th>Image</th>
+              <th>Side Image Link</th>
               <th>Social Media Link</th>
               <th>Actions</th>
             </tr>
@@ -95,12 +97,15 @@ const AddSocial = () => {
               <tr key={social._id} className="text-center border-b">
                 <td className="flex justify-center">
                   <img
-                    src={social.certilink}
+                    src={social.footerimglink}
                     alt="Social"
                     className="w-12 h-12 object-cover rounded-full"
                   />
                 </td>
-                <td className="truncate max-w-xs">{social.link}</td>
+                <td className="">
+                  <td className="truncate max-w-xs">{social.sideimglink}</td>
+                </td>
+                <td className="truncate max-w-xs">{social.sociallink}</td>
                 <td className="flex justify-center gap-2">
                   <button
                     onClick={() => handleDelete(social._id)}
@@ -130,16 +135,23 @@ const AddSocial = () => {
             </h3>
             <form onSubmit={handleAddPost} className="flex flex-col gap-3">
               <input
-                name="certilink"
+                name="footerimglink"
                 type="text"
                 placeholder="Image URL"
                 className="priinput"
                 required
               />
               <input
-                name="link"
+                name="sociallink"
                 type="text"
                 placeholder="Social Media Link"
+                className="priinput"
+                required
+              />
+              <input
+                name="sideimglink"
+                type="text"
+                placeholder="Social Image Link"
                 className="priinput"
                 required
               />
