@@ -18,7 +18,21 @@ const Schat = ({
   const [isSending, setIsSending] = useState(false);
   const [attachment, setAttachment] = useState(null);
   const [attachError, setAttachError] = useState("");
-  const chatEndRef = useRef(null);
+  const scrollRef = useRef(null);
+  // Follow new messages only while the admin is already at (or near) the bottom.
+  const stickToBottom = useRef(true);
+  const lastCount = useRef(0);
+
+  const scrollToBottom = () => {
+    const el = scrollRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
+  };
+
+  const handleScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    stickToBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+  };
 
   // Fetch chat history
   useEffect(() => {
@@ -56,9 +70,33 @@ const Schat = ({
     return () => ws.close();
   }, [supportId]);
 
+  // Customer messages that arrive while this chat is open (and the tab is in front) count as seen,
+  // not just the ones present when the conversation was first clicked.
+  const markingRead = useRef(false);
+  const hasUnseen = messages.some((m) => m.sender === "user" && m.read === false);
+
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!isVisible || !hasUnseen || markingRead.current || document.visibilityState !== "visible") return;
+    markingRead.current = true;
+    fetch(`${base_url}/schat/mark-read/${encodeURIComponent(supportId)}`, { method: "POST" })
+      .then(() => setMessages((prev) => prev.map((m) => (m.sender === "user" ? { ...m, read: true } : m))))
+      .catch((err) => console.error("Error marking messages as read:", err))
+      .finally(() => { markingRead.current = false; });
+  }, [isVisible, hasUnseen, messages, supportId]);
+
+  // The 1s poll replaces `messages` even when nothing changed, so only react to a real new message.
+  useEffect(() => {
+    if (messages.length > lastCount.current && stickToBottom.current) scrollToBottom();
+    lastCount.current = messages.length;
   }, [messages]);
+
+  // Opening/expanding the chat starts at the latest message.
+  useEffect(() => {
+    if (!isVisible) return;
+    stickToBottom.current = true;
+    lastCount.current = 0; // the next load counts as new, so it lands at the bottom
+    scrollToBottom();
+  }, [isVisible, supportId]);
 
   const handleSend = async () => {
     if ((!inputValue.trim() && !attachment) || isSending) return;
@@ -82,6 +120,7 @@ const Schat = ({
       });
 
       socket?.send(JSON.stringify(message));
+      stickToBottom.current = true; // always show the admin's own message
       setMessages((prev) => [...prev, message]);
       setInputValue("");
       setAttachment(null);
@@ -110,7 +149,11 @@ const Schat = ({
 
       {isVisible && (
         <>
-          <div className="h-[400px] overflow-y-auto p-3 bg-gray-50 dark:bg-slate-900">
+          <div
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="h-[400px] overflow-y-auto p-3 bg-gray-50 dark:bg-slate-900"
+          >
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -133,7 +176,6 @@ const Schat = ({
                 </div>
               </div>
             ))}
-            <div ref={chatEndRef}></div>
           </div>
 
           <PendingAttachment attachment={attachment} error={attachError} onRemove={() => setAttachment(null)} />

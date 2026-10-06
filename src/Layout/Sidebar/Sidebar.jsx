@@ -7,11 +7,40 @@ import {
     FiGrid, FiUsers, FiMapPin, FiBox, FiShoppingCart,
     FiDollarSign, FiTrendingUp, FiMessageSquare, FiFileText,
     FiChevronDown, FiChevronLeft, FiChevronRight, FiLogOut,
-    FiSun, FiMoon,
+    FiSun, FiMoon, FiHeadphones,
 } from 'react-icons/fi';
 import { TbTruckDelivery } from "react-icons/tb";
+import { base_url } from '../../config/config';
 
 const COLLAPSE_KEY = 'sidebar-collapsed';
+const COUNTS_REFRESH_MS = 30000;
+
+// Which /admin/sidebarcounts field shows as a badge on which menu path.
+const BADGE_KEYS = {
+    '/pripacklab/allorders': 'newOrders',
+    '/pripacklab/support': 'unreadChats',
+    '/pripacklab/coupons': 'usedCoupons',
+    '/pripacklab/comments': 'unansweredComments',
+    '/pripacklab/reviews': 'pendingReviews',
+};
+
+// Counts that need action and should surface on a closed section header.
+// Coupon usage is a running total, so it stays on its own item only.
+const ROLLUP_KEYS = ['newOrders', 'unreadChats', 'unansweredComments', 'pendingReviews'];
+
+const Badge = ({ count }) => {
+    if (!count) return null;
+    return (
+        <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+            {count > 99 ? '99+' : count}
+        </span>
+    );
+};
+
+// Collapsed rail has no room for numbers, so just flag the icon.
+const Dot = ({ show }) => (show
+    ? <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900" />
+    : null);
 
 // This sidebar currently serves a single tab/app ("pripacklab"); the gate
 // below stays keyed on that tab so other tabs granted via user.tabs
@@ -24,6 +53,12 @@ const SECTIONS = [
         label: 'Overview',
         icon: FiGrid,
         items: [{ id: 19, name: 'Dashboard', path: '/pripacklab/dashboard' }],
+    },
+    {
+        id: 'support',
+        label: 'Support Chat',
+        icon: FiHeadphones,
+        items: [{ id: 14, name: 'Support Chat', path: '/pripacklab/support' }],
     },
     {
         id: 'Seller Center',
@@ -86,7 +121,6 @@ const SECTIONS = [
         label: 'Customer',
         icon: FiMessageSquare,
         items: [
-            { id: 14, name: 'Support Chat', path: '/pripacklab/support' },
             { id: 15, name: 'Comments', path: '/pripacklab/comments' },
             { id: 16, name: 'Reviews', path: '/pripacklab/reviews' },
             { id: 23, name: 'All Customers', path: '/pripacklab/customers' },
@@ -162,6 +196,24 @@ const Sidebar = () => {
     const userTabs = user?.tabs || [];
     const hasAccess = userTabs.includes(TENANT_KEY);
 
+    const [counts, setCounts] = useState({});
+
+    // Refresh on every route change (e.g. reading a chat clears its unread count) and on a timer.
+    useEffect(() => {
+        if (!hasAccess) return;
+        const loadCounts = () => {
+            fetch(`${base_url}/admin/sidebarcounts`)
+                .then((res) => (res.ok ? res.json() : null))
+                .then((data) => { if (data) setCounts(data); })
+                .catch(() => {});
+        };
+        loadCounts();
+        const timer = setInterval(loadCounts, COUNTS_REFRESH_MS);
+        return () => clearInterval(timer);
+    }, [hasAccess, location.pathname]);
+
+    const countFor = (path) => counts[BADGE_KEYS[path]] || 0;
+
     return (
         <div className={`smain relative transition-[width] duration-200 ease-in-out ${collapsed ? 'w-16' : 'w-64'}`}>
             <button
@@ -198,14 +250,21 @@ const Sidebar = () => {
                                     `snav ${isActive ? 'snav-active' : ''} ${collapsed ? 'justify-center px-0' : ''}`
                                 }
                             >
-                                <Icon className="w-4 h-4 shrink-0" />
+                                <span className="relative">
+                                    <Icon className="w-4 h-4 shrink-0" />
+                                    {collapsed && <Dot show={countFor(item.path) > 0} />}
+                                </span>
                                 {!collapsed && <span>{section.label}</span>}
+                                {!collapsed && <Badge count={countFor(item.path)} />}
                             </NavLink>
                         );
                     }
 
                     const isOpen = !collapsed && openSection === section.id;
                     const isSectionActive = section.items.some((item) => item.path === location.pathname);
+                    const sectionCount = section.items
+                        .filter((item) => ROLLUP_KEYS.includes(BADGE_KEYS[item.path]))
+                        .reduce((sum, item) => sum + countFor(item.path), 0);
 
                     return (
                         <div key={section.id} className="mb-1">
@@ -215,15 +274,22 @@ const Sidebar = () => {
                                 className={`scat ${isSectionActive ? 'scat-active' : ''} ${collapsed ? 'justify-center px-0' : ''}`}
                             >
                                 <span className="flex items-center gap-2.5">
-                                    <Icon className="w-4 h-4 shrink-0" />
+                                    <span className="relative">
+                                        <Icon className="w-4 h-4 shrink-0" />
+                                        {collapsed && <Dot show={sectionCount > 0} />}
+                                    </span>
                                     {!collapsed && section.label}
                                 </span>
                                 {!collapsed && (
-                                    <FiChevronDown
-                                        className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${
-                                            isOpen ? 'rotate-180' : ''
-                                        }`}
-                                    />
+                                    <span className="flex items-center gap-2">
+                                        {/* Closed sections roll their items' counts up so nothing is hidden. */}
+                                        {!isOpen && <Badge count={sectionCount} />}
+                                        <FiChevronDown
+                                            className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${
+                                                isOpen ? 'rotate-180' : ''
+                                            }`}
+                                        />
+                                    </span>
                                 )}
                             </button>
 
@@ -237,6 +303,7 @@ const Sidebar = () => {
                                             >
                                                 <span className="sdot" />
                                                 {item.name}
+                                                <Badge count={countFor(item.path)} />
                                             </NavLink>
                                         </li>
                                     ))}

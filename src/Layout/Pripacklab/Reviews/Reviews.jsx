@@ -66,6 +66,11 @@ const PReviews = () => {
   const [search, setSearch]             = useState('');
   const [currentPage, setCurrentPage]   = useState(1);
   const [lightboxFiles, setLightboxFiles] = useState(null);
+  const [ratingFilter, setRatingFilter]         = useState('');
+  const [visibilityFilter, setVisibilityFilter] = useState('');
+  const [mediaFilter, setMediaFilter]           = useState('');
+  const [dateFrom, setDateFrom]                 = useState('');
+  const [dateTo, setDateTo]                     = useState('');
 
   const fetchReviews = () => {
     fetch(`${base_url}/getreviews`)
@@ -106,7 +111,7 @@ const PReviews = () => {
   };
 
   const exportData = () => {
-    const rows = reviews.map(r => ({
+    const rows = filtered.map(r => ({
       ProductId:    r.productId,
       CustomerName: r.customerName,
       Email:        r.customerEmail,
@@ -125,16 +130,34 @@ const PReviews = () => {
     URL.revokeObjectURL(url);
   };
 
-  const filtered = reviews.filter(r =>
-    [r.customerName, r.customerEmail, r.productId, r.message]
-      .some(v => v?.toLowerCase().includes(search.toLowerCase()))
-  );
+  const filtered = reviews
+    .filter(r => {
+      const q = search.trim().toLowerCase();
+      if (q && ![r.customerName, r.customerEmail, r.productId, r.message, r.productInfo?.productName]
+        .some(v => String(v || '').toLowerCase().includes(q))) return false;
+      if (ratingFilter && Number(r.rating) !== Number(ratingFilter)) return false;
+      if (visibilityFilter === 'shown' && !r.visible) return false;
+      if (visibilityFilter === 'hidden' && r.visible) return false;
+      if (mediaFilter === 'with' && !r.media?.length) return false;
+      if (mediaFilter === 'without' && r.media?.length) return false;
+      const d = new Date(r.createdAt);
+      if (dateFrom && d < new Date(`${dateFrom}T00:00:00`)) return false;
+      if (dateTo && d > new Date(`${dateTo}T23:59:59.999`)) return false;
+      return true;
+    })
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+  const hasFilters = search || ratingFilter || visibilityFilter || mediaFilter || dateFrom || dateTo;
+  const clearFilters = () => {
+    setSearch(''); setRatingFilter(''); setVisibilityFilter('');
+    setMediaFilter(''); setDateFrom(''); setDateTo('');
+  };
 
   const totalPages   = Math.ceil(filtered.length / REVIEWS_PER_PAGE);
   const startIndex   = (currentPage - 1) * REVIEWS_PER_PAGE;
   const currentItems = filtered.slice(startIndex, startIndex + REVIEWS_PER_PAGE);
 
-  useEffect(() => { setCurrentPage(1); }, [search]);
+  useEffect(() => { setCurrentPage(1); }, [search, ratingFilter, visibilityFilter, mediaFilter, dateFrom, dateTo]);
 
   return (
     <div className="w-full">
@@ -157,6 +180,49 @@ const PReviews = () => {
             </svg>
           </label>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-end gap-2 mx-2 mb-3">
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Rating</span>
+          <select value={ratingFilter} onChange={e => setRatingFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            {[5, 4, 3, 2, 1].map(n => <option key={n} value={n}>{'★'.repeat(n)} ({n})</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Visibility</span>
+          <select value={visibilityFilter} onChange={e => setVisibilityFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            <option value="shown">Shown</option>
+            <option value="hidden">Hidden</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Media</span>
+          <select value={mediaFilter} onChange={e => setMediaFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            <option value="with">With photos</option>
+            <option value="without">Without photos</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">From</span>
+          <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm" />
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">To</span>
+          <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm" />
+        </label>
+        {hasFilters && <button onClick={clearFilters} className="smbut">Clear</button>}
+        <span className="ml-auto text-xs text-gray-500 dark:text-slate-400">
+          {filtered.length} of {reviews.length} reviews
+        </span>
       </div>
 
       <div className="tabst">

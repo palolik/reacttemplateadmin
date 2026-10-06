@@ -23,7 +23,9 @@ const StatusBadge = ({ status }) => {
 
 
 const TabsView = ({ orders, openStatusModal }) => {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [selectedIdx, setActiveIdx] = useState(0);
+  // Filters can shrink the list under the selection, so fall back to the first order.
+  const activeIdx = selectedIdx < orders.length ? selectedIdx : 0;
   const order = orders[activeIdx];
   if (!order) return <p className="text-sm text-gray-400 dark:text-slate-400 p-4">No orders.</p>;
 
@@ -216,6 +218,15 @@ const TabsView = ({ orders, openStatusModal }) => {
   );
 };
 
+const ORDER_STATUS_COLOR = {
+  "Placed":     "bg-blue-100 text-blue-700",
+  "Confirmed":  "bg-indigo-100 text-indigo-700",
+  "On Making":  "bg-orange-100 text-orange-700",
+  "On Transit": "bg-purple-100 text-purple-700",
+  "Delivered":  "bg-green-100 text-green-700",
+  "Cancelled":  "bg-red-100 text-red-700",
+};
+
 const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
   const [expandedId, setExpandedId] = useState(null);
 
@@ -265,19 +276,9 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                   <p className="text-xs font-bold text-gray-800 dark:text-slate-100">BDT {order.totalPrice}</p>
                   <p className="text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">{order.paymentMethod}</p>
                 </td>
-                <td className="px-4 py-3">
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${
-                    order.paymentStatus === "Pending Verification" ? "bg-yellow-100 text-yellow-700" :
-                    order.paymentStatus === "Verified" ? "bg-green-100 text-green-700" :
-                    "bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400"
-                  }`}>
-                    {order.paymentStatus || order.paymentMethod}
-                  </span>
-                </td>
-
 <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
   <select
-    defaultValue={order.paymentStatus || ""}
+    value={order.paymentStatus || ""}
     onChange={e => updatePaymentStatus(order._id, e.target.value)}
     className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border-0 cursor-pointer outline-none appearance-none ${
       order.paymentStatus === "Pending Verification" ? "bg-yellow-100 text-yellow-700" :
@@ -293,6 +294,17 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
 
   </select>
 
+                </td>
+                <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
+                  <button
+                    onClick={() => openStatusModal(order)}
+                    title="Update status"
+                    className={`text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap hover:opacity-80 transition ${
+                      ORDER_STATUS_COLOR[order.currentStatus] || "bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-slate-400"
+                    }`}
+                  >
+                    {order.currentStatus || "—"}
+                  </button>
                 </td>
                 <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
                   <div className="flex gap-1.5">
@@ -396,9 +408,44 @@ const PAllOrders = () => {
       .catch(err => console.error(err));
   }, []);
 
+  const [search, setSearch]               = useState("");
+  const [statusFilter, setStatusFilter]   = useState("");
+  const [paymentFilter, setPaymentFilter] = useState("");
+  const [methodFilter, setMethodFilter]   = useState("");
+  const [dateFrom, setDateFrom]           = useState("");
+  const [dateTo, setDateTo]               = useState("");
+
+  useEffect(() => { setCurrentPage(1); }, [search, statusFilter, paymentFilter, methodFilter, dateFrom, dateTo]);
+
+  const uniqueValues = (key) => [...new Set(orderData.map(o => o[key]).filter(Boolean))].sort();
+  const paymentStatuses = uniqueValues("paymentStatus");
+  const paymentMethods  = uniqueValues("paymentMethod");
+
+  const filteredOrders = orderData
+    .filter(o => {
+      const q = search.trim().toLowerCase();
+      if (q && ![o.referenceCode, o.buyerName, o.buyerPhone, o.buyerEmail, o._id]
+        .some(v => String(v || "").toLowerCase().includes(q))) return false;
+      if (statusFilter && o.currentStatus !== statusFilter) return false;
+      if (paymentFilter === "__none") { if (o.paymentStatus) return false; }
+      else if (paymentFilter && o.paymentStatus !== paymentFilter) return false;
+      if (methodFilter && o.paymentMethod !== methodFilter) return false;
+      const d = new Date(o.orderDate);
+      if (dateFrom && d < new Date(`${dateFrom}T00:00:00`)) return false;
+      if (dateTo && d > new Date(`${dateTo}T23:59:59.999`)) return false;
+      return true;
+    })
+    .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+
+  const hasFilters = search || statusFilter || paymentFilter || methodFilter || dateFrom || dateTo;
+  const clearFilters = () => {
+    setSearch(""); setStatusFilter(""); setPaymentFilter("");
+    setMethodFilter(""); setDateFrom(""); setDateTo("");
+  };
+
   const startIndex    = (currentPage - 1) * ordersPerPage;
-  const currentOrders = orderData.slice(startIndex, startIndex + ordersPerPage);
-  const totalPages    = Math.ceil(orderData.length / ordersPerPage);
+  const currentOrders = filteredOrders.slice(startIndex, startIndex + ordersPerPage);
+  const totalPages    = Math.ceil(filteredOrders.length / ordersPerPage);
 
   const openStatusModal = (order) => {
     setSelectedOrder(order);
@@ -485,6 +532,58 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
             Detail
           </button>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-end gap-2 mx-2 mb-4">
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Search</span>
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Ref, name, phone, email…"
+            className="w-56 px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm"
+          />
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Status</span>
+          <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            {[...STATUS_FLOW, "Cancelled"].map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Payment</span>
+          <select value={paymentFilter} onChange={e => setPaymentFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            {paymentStatuses.map(s => <option key={s} value={s}>{s}</option>)}
+            <option value="__none">Not set</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Method</span>
+          <select value={methodFilter} onChange={e => setMethodFilter(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm">
+            <option value="">All</option>
+            {paymentMethods.map(m => <option key={m} value={m}>{m}</option>)}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">From</span>
+          <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm" />
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">To</span>
+          <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+            className="px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-sm" />
+        </label>
+        {hasFilters && <button onClick={clearFilters} className="smbut">Clear</button>}
+        <span className="ml-auto text-xs text-gray-500 dark:text-slate-400">
+          {filteredOrders.length} of {orderData.length} orders
+        </span>
       </div>
 
       {viewMode === "table"

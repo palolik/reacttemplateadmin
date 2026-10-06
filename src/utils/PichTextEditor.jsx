@@ -1,7 +1,11 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { base_url } from "../config/config";
+import { ThemeContext } from "../Layout/Provider/ThemeProvider";
 
 const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task description here..." }) => {
+  const { theme } = useContext(ThemeContext) || {};
+  const themeRef      = useRef(theme);
+  themeRef.current    = theme;
   const iframeRef     = useRef(null);
   const imageInputRef = useRef(null);
   const [activeBlock, setActiveBlock] = useState("p");
@@ -96,6 +100,13 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
               z-index: 10000;
               pointer-events: all;
             }
+            /* Dark theme — toggled from the admin's ThemeContext via the "dark" class on <html>. */
+            html.dark { color-scheme: dark; background: #0f172a; }
+            html.dark body { color: #e2e8f0; background: #0f172a; }
+            html.dark body:empty:before { color: #64748b; }
+            html.dark blockquote { color: #94a3b8; }
+            html.dark a { color: #60a5fa; }
+            html.dark .resize-handle { border-color: #0f172a; }
           </style>
         </head>
         <body data-placeholder="${placeholder}" contenteditable="true">${value}</body>
@@ -103,6 +114,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
     `);
     doc.close();
     doc.designMode = "on";
+    doc.documentElement.classList.toggle("dark", themeRef.current === "dark");
 
     const injectResizer = () => {
       const win = iframe.contentWindow;
@@ -316,6 +328,11 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
     };
   }, []);
 
+  // Keep the editable area in step with the admin light/dark toggle.
+  useEffect(() => {
+    iframeRef.current?.contentDocument?.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
   function cleanEmptyNodes(body) {
     body.querySelectorAll("p, div, h1, h2, h3, h4").forEach(node => {
       if (!node.textContent.trim() && !node.querySelector("img") && node !== body) {
@@ -398,23 +415,23 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
       onMouseDown={(e) => { e.preventDefault(); exec(cmd, val); }}
       className={`px-2 py-1 rounded text-sm transition-colors ${
         activeFormats[cmd]
-          ? "bg-blue-100 text-blue-700 ring-1 ring-blue-300"
-          : "hover:bg-gray-200 text-gray-700"
+          ? "bg-blue-100 text-blue-700 ring-1 ring-blue-300 dark:bg-blue-500/20 dark:text-blue-300 dark:ring-blue-500/40"
+          : "hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300"
       }`}>
       {children}
     </button>
   );
 
-  const Sep = () => <div className="w-px h-5 bg-gray-300 mx-0.5 self-center flex-shrink-0" />;
+  const Sep = () => <div className="w-px h-5 bg-gray-300 dark:bg-slate-600 mx-0.5 self-center flex-shrink-0" />;
 
   return (
-    <div className="w-full border border-gray-200 rounded-xl overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-400 transition-all">
+    <div className="w-full border border-gray-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-100 dark:focus-within:ring-blue-500/20 focus-within:border-blue-400 transition-all">
 
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 bg-gray-50 border-b border-gray-200">
+      <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 bg-gray-50 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700">
 
         <select value={activeBlock} onChange={handleHeading}
-          className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white text-gray-700 cursor-pointer focus:outline-none focus:border-blue-300 h-7">
+          className="text-xs border border-gray-200 dark:border-slate-600 rounded px-1.5 py-1 bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 cursor-pointer focus:outline-none focus:border-blue-300 h-7">
           <option value="p">Paragraph</option>
           <option value="h1">Heading 1</option>
           <option value="h2">Heading 2</option>
@@ -426,7 +443,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
         <Sep />
 
         <select value={fontSize} onChange={handleFontSize}
-          className="text-xs border border-gray-200 rounded px-1.5 py-1 bg-white text-gray-700 cursor-pointer focus:outline-none focus:border-blue-300 h-7">
+          className="text-xs border border-gray-200 dark:border-slate-600 rounded px-1.5 py-1 bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200 cursor-pointer focus:outline-none focus:border-blue-300 h-7">
           <option value="1">Small</option>
           <option value="2">Normal</option>
           <option value="3">Medium</option>
@@ -497,7 +514,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
 
         <button type="button" title="Insert Link"
           onMouseDown={(e) => { e.preventDefault(); insertLink(); }}
-          className="px-2 py-1 rounded text-sm hover:bg-gray-200 text-gray-700 transition-colors">
+          className="px-2 py-1 rounded text-sm hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 transition-colors">
           🔗
         </button>
 
@@ -505,7 +522,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
 
         <button type="button" title="Upload image"
           onMouseDown={(e) => { e.preventDefault(); imageInputRef.current.click(); }}
-          className="px-2 py-1 rounded text-sm hover:bg-gray-200 text-gray-700 transition-colors flex items-center gap-1">
+          className="px-2 py-1 rounded text-sm hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 transition-colors flex items-center gap-1">
           <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
             <rect x="1" y="3" width="14" height="10" rx="1.5"/>
             <path d="M1 10l3.5-3.5 3 3 2.5-2.5L14 11"/>
@@ -516,7 +533,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
 
         <button type="button" title="Image from URL"
           onMouseDown={(e) => { e.preventDefault(); insertImageFromURL(); }}
-          className="px-2 py-1 rounded text-sm hover:bg-gray-200 text-gray-700 transition-colors text-xs">
+          className="px-2 py-1 rounded text-sm hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300 transition-colors text-xs">
           URL
         </button>
 
@@ -525,7 +542,7 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
         <Sep />
 
         <label title="Text Color"
-          className="flex items-center gap-0.5 text-xs text-gray-600 cursor-pointer px-1 py-1 rounded hover:bg-gray-200">
+          className="flex items-center gap-0.5 text-xs text-gray-600 dark:text-slate-300 cursor-pointer px-1 py-1 rounded hover:bg-gray-200 dark:hover:bg-slate-700">
           <span className="font-semibold">A</span>
           <input type="color" defaultValue="#000000"
             onChange={(e) => exec("foreColor", e.target.value)}
@@ -538,15 +555,15 @@ const RichTextEditor = ({ value = "", onChange, placeholder = "Write your task d
       </div>
 
       {/* iframe */}
-      <iframe ref={iframeRef} title="editor" className="w-full bg-white"
+      <iframe ref={iframeRef} title="editor" className="w-full bg-white dark:bg-slate-900"
         style={{ minHeight: "300px", maxHeight: "420px", border: "none", display: "block" }} />
 
       {/* Hint */}
-      <div className="px-3 py-1.5 bg-gray-50 border-t border-gray-100 flex items-center gap-1.5">
+      <div className="px-3 py-1.5 bg-gray-50 dark:bg-slate-800 border-t border-gray-100 dark:border-slate-700 flex items-center gap-1.5">
         <svg className="w-3 h-3 text-gray-400" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
           <rect x="1" y="3" width="14" height="10" rx="1.5"/>
         </svg>
-        <span className="text-xs text-gray-400">
+        <span className="text-xs text-gray-400 dark:text-slate-500">
           Click an image to select · drag to move · drag blue handles to resize
         </span>
       </div>
