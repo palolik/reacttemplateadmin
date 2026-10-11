@@ -152,20 +152,23 @@ const Banners = () => {
         </div>
 
         {/* Table */}
-        <div className="tabst">
-          <div>Banner Name</div>
+        <div className="tabst text-center">
+          <div>Banner Name</div>      
+                
           <div>Order</div>
+           <div>Link</div> 
           <div>Web Banner</div>
           <div>Phone Banner</div>
           <div>Status</div>
           <div>Action</div>
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           {banners.map((banner) => (
             <div key={banner._id} className="tabc">
               <div>{banner.bannername}</div>
               <div>{banner.bannerorder}</div>
+              <div>{banner.link}</div>
               <div>
                 {banner.webbanner && (
                   <img className="w-[120px] h-[45px] object-cover rounded"
@@ -178,10 +181,10 @@ const Banners = () => {
                     src={`${base_url}${banner.phonebanner}`} alt="Phone Banner" />
                 )}
               </div>
-              <div>
+              <div className="">
                 <button
                   onClick={() => handleToggleActive(banner)}
-                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                  className={`text-xs w-20  text-center px-2 py-0.5 rounded-full font-medium ${
                     banner.active === false ? "bg-gray-200 dark:bg-slate-800 text-gray-600 dark:text-slate-300" : "bg-green-100 text-green-700"
                   }`}
                 >

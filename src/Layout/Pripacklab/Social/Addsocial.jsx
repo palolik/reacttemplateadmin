@@ -53,7 +53,7 @@ const AddSocial = () => {
       });
       const data = await response.json();
       if (data.insertedId) {
-        Swal.fire("New Social Media Added!", "Successfully added.", "success");
+        Swal.fire("New  SocialMedia Added!", "Successfully added.", "success");
         form.reset();
         setShowForm(false);
         setIma([...ima, { ...postData, _id: data.insertedId }]);
