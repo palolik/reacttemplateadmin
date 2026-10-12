@@ -28,6 +28,7 @@ import Invoice from "../Layout/Pripacklab/Income/invoice";
 import OrderLabel from "../Layout/POrders/AllOrders/OrderLabel";
 import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
 import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
+import EventAnalytics from "../Layout/Pripacklab/EventAnalytics/EventAnalytics";
 import AboutUs from "../Layout/Pripacklab/AboutUs/AboutUs";
 import PCustomers from "../Layout/Pripacklab/Customers/Customers";
 import Suppliers from "../Layout/Pripacklab/Suppliers/Suppliers";
@@ -93,6 +94,10 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/geolocation',
         element: <GeoLocation />
+      },
+      {
+        path: '/pripacklab/eventanalytics',
+        element: <EventAnalytics />
       },
       {
         path: '/pripacklab/expense',

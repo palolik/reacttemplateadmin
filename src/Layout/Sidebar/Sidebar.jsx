@@ -7,7 +7,7 @@ import {
     FiGrid, FiUsers, FiMapPin, FiBox, FiShoppingCart,
     FiDollarSign, FiTrendingUp, FiMessageSquare, FiFileText,
     FiChevronDown, FiChevronLeft, FiChevronRight, FiLogOut,
-    FiSun, FiMoon, FiHeadphones,
+    FiSun, FiMoon, FiHeadphones, FiBarChart2,
 } from 'react-icons/fi';
 import { TbTruckDelivery } from "react-icons/tb";
 import { base_url } from '../../config/config';
@@ -53,6 +53,12 @@ const SECTIONS = [
         label: 'Overview',
         icon: FiGrid,
         items: [{ id: 19, name: 'Dashboard', path: '/pripacklab/dashboard' }],
+    },
+    {
+        id: 'analytics',
+        label: 'Event Analytics',
+        icon: FiBarChart2,
+        items: [{ id: 25, name: 'Event Analytics', path: '/pripacklab/eventanalytics' }],
     },
     {
         id: 'support',

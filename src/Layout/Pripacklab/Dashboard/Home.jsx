@@ -142,7 +142,7 @@ const Dashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
-                  <Tooltip formatter={v => `${v.toLocaleString()}৳`} />
+                  <Tooltip cursor={false} formatter={v => `${v.toLocaleString()}৳`} />
                   <Legend />
                   <Bar dataKey="income" fill="#4f46e5" radius={[4, 4, 0, 0]} name="Income" />
                   <Bar dataKey="expense" fill="#06b6d4" radius={[4, 4, 0, 0]} name="Expense" />
@@ -160,7 +160,7 @@ const Dashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" tickFormatter={v => `${v}৳`} />
                   <YAxis type="category" dataKey="_id" tick={{ fontSize: 11 }} />
-                  <Tooltip formatter={v => `$${v.toLocaleString()}`} />
+                  <Tooltip cursor={false} formatter={v => `$${v.toLocaleString()}`} />
                   <Bar dataKey="total" radius={[0, 4, 4, 0]}>
                     {stats.incomeByCategory.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Bar>
@@ -177,7 +177,7 @@ const Dashboard = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" tickFormatter={v => `${v}৳`} />
                   <YAxis type="category" dataKey="_id" tick={{ fontSize: 11 }} />
-                  <Tooltip formatter={v => `$${v.toLocaleString()}`} />
+                  <Tooltip cursor={false} formatter={v => `$${v.toLocaleString()}`} />
                   <Bar dataKey="total" radius={[0, 4, 4, 0]}>
                     {stats.expenseByCategory.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Bar>

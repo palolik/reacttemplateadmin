@@ -38,7 +38,7 @@ const HomeChart = ({ selectedMonth }) => {
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis dataKey="day" tick={{ fontSize: 10 }} />
           <YAxis tick={{ fontSize: 10 }} />
-          <Tooltip />
+          <Tooltip cursor={false} />
           <Bar dataKey="views" fill="#121445" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
