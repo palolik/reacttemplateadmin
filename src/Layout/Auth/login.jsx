@@ -41,7 +41,7 @@ const Login = () => {
 
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
-      <div className="bg-white shadow-lg rounded-lg w-full sm:w-96 p-6">
+      <div className="bg-red-600 shadow-lg rounded-lg w-full sm:w-96 p-6">
         <div className="text-2xl text-center font-bold mb-10">Sign In</div>
 
         <form onSubmit={handleLogin}>
@@ -97,16 +97,19 @@ const Login = () => {
           </label>
 
           <input
-            className="btn my-2 w-full bg-blue-500 border-none text-white"
+            className="btn my-2 w-full bg-yellow-300 border-none text-black"
             type="submit"
             value="Sign In"
           />
+         
 
           {error && <div className="text-red-500 text-center mt-2">{error}</div>}
 
  
         </form>
+      
       </div>
+         <p className="mt-3">Do you not have an account yet? </p>
     </div>
   );
 };

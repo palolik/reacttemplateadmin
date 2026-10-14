@@ -3,6 +3,7 @@ import '../../styles/sidebar.css';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../Provider/Authprovider';
 import { ThemeContext } from '../Provider/ThemeProvider';
+import logo from '../../assets/T-toys.jpeg'
 import {
     FiGrid, FiUsers, FiMapPin, FiBox, FiShoppingCart,
     FiDollarSign, FiTrendingUp, FiMessageSquare, FiFileText,
@@ -225,13 +226,17 @@ const Sidebar = () => {
             </button>
 
             <div className={`stop ${collapsed ? 'justify-center px-0' : ''}`}>
-                <div className="slogo">P</div>
-                {!collapsed && (
+                <div className="w-[14px]  h-10 lg:w-48 flex flex-col justify-center lg:h-10 object-contain">
+                    <img className='w-24' src={logo} alt="" />
+                   
+                    {!collapsed && (
                     <div className="min-w-0">
-                        <p className="stitle">PriPackLab</p>
-                        <p className="ssubtitle">Admin Panel</p>
+                       
+                        <p className="ssubtitle text-">Admin Panel</p>
                     </div>
                 )}
+                </div>
+               
             </div>
 
             <nav className="sscroll flex-1 py-3 px-2">

@@ -69,7 +69,7 @@ const AdminSupport = () => {
 
       <div className="overflow-x-auto border rounded-lg shadow-sm">
         <table className="min-w-full text-sm text-left border-collapse">
-          <thead className="bg-gray-100 dark:bg-slate-800">
+          <thead className="bg-yellow-400 dark:bg-slate-800">
             <tr>
               <th className="px-4 py-3 border-b">#</th>
               <th className="px-4 py-3 border-b">Support ID (Email)</th>

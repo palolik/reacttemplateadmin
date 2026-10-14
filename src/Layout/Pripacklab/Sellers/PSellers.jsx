@@ -140,7 +140,7 @@ const PSellers = () => {
         {/* ===== SELLER TABLE ===== */}
         <div className="overflow-x-auto">
           <table className="table-auto w-full border">
-            <thead className="bg-gray-100 dark:bg-slate-800">
+            <thead className="bg-yellow-400 dark:bg-yellow-400">
               <tr className="text-center font-semibold">
                 <th>Name</th>
                 <th>Email</th>

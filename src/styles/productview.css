@@ -30,7 +30,7 @@
 }
 
 .hdr{
-    @apply w-full h-16 flex items-center px-6 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 text-lg font-semibold text-slate-800 dark:text-slate-100 tracking-tight shrink-0;
+    @apply w-full h-16 flex items-center px-6 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-slate-800 text-2xl font-semibold text-red-500 dark:text-slate-100 tracking-tight shrink-0;
 }
 /* this part is all for labeling  */
 .lbl{
@@ -70,7 +70,7 @@
 /*  table details goes here , table details goes here  */
 
 .tabst{
-    @apply px-4  w-full border flex flex-row font-semibold  items-center justify-between border-sky-100 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 ;
+    @apply px-4  w-full border flex flex-row font-semibold  items-center justify-between border-sky-100 dark:border-slate-700 rounded-md bg-yellow-400 dark:bg-slate-900 text-slate-800 dark:text-slate-100 ;
 }
 .tabc{
     @apply p-2   flex flex-row  items-center justify-between border-sky-100 dark:border-slate-800 rounded-md text-slate-700 dark:text-slate-200 ;
@@ -91,7 +91,7 @@
 
 /*  button details goes here , button details goes here  */
 .smbut{
-    @apply btn btn-xs bg-black text-white hover:bg-[#121242] dark:bg-slate-700 dark:hover:bg-slate-600 ;
+    @apply btn btn-xs bg-blue-700 text-white hover:bg-blue-600 dark:bg-slate-700 dark:hover:bg-slate-600 ;
 }
 
 .srch{

@@ -339,7 +339,7 @@ const PProductlist = () => {
       {/* Column headers */}
       <div className="grid  grid-cols-[150px_500px_auto_400px_100px]  gap-0 px-0 mb-2">
         {["Image", "Product Info", "Gallery", "Variants", "Actions"].map(h => (
-          <div key={h} className="text-[9px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 px-4">{h}</div>
+          <div key={h} className="text-[14px]  flex items-center h-10 font-bold uppercase tracking-widest bg-yellow-400 text-gray-500 dark:text-slate-400 px-4">{h}</div>
         ))}
       </div>
 
