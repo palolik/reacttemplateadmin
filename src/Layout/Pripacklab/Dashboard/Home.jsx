@@ -17,7 +17,7 @@ const StatCard = ({ label, value, color = '#4f46e5', icon: Icon }) => (
   <motion.div
     whileHover={{ scale: 1.04 }}
     transition={{ type: 'spring', stiffness: 200 }}
-    className="bg-white dark:bg-slate-900 shadow-md rounded-xl p-4 flex flex-col gap-3 border border-gray-100 dark:border-slate-700"
+    className="bg-orange-300 dark:bg-slate-900 shadow-md rounded-xl p-4 flex flex-col gap-3 border border-gray-100 dark:border-slate-700"
   >
     <div className="flex justify-between items-center">
       <span className="text-sm text-gray-500 dark:text-slate-400 font-medium">{label}</span>
@@ -84,7 +84,7 @@ const Dashboard = () => {
             <SectionTitle title="Recent Orders" />
             <div className="bg-white dark:bg-slate-900  shadow-md overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-600 dark:bg-slate-800 dark:text-slate-300 uppercase text-xs">
+                <thead className="bg-blue-400 text-gray-600 dark:bg-slate-800 dark:text-slate-300 uppercase text-xs">
                   <tr>
                     <th className="px-1 py-1 text-left">Buyer</th>
                     <th className="px-1 py-1 text-left">Items</th>
