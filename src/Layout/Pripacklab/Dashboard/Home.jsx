@@ -67,7 +67,7 @@ const Dashboard = () => {
     <div className="w-full">
       <div className="hdr">Dashboard</div>
 
-      <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 p-2">
+      <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 px-6 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
           <motion.div
             className="grid grid-cols-4 gap-4"
@@ -82,9 +82,9 @@ const Dashboard = () => {
 
           <div>
             <SectionTitle title="Recent Orders" />
-            <div className="bg-white dark:bg-slate-900  shadow-md overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-600 dark:bg-slate-800 dark:text-slate-300 uppercase text-xs">
+            <div className="ptable-wrap">
+              <table className="ptable">
+                <thead>
                   <tr>
                     <th className="px-1 py-1 text-left">Buyer</th>
                     <th className="px-1 py-1 text-left">Items</th>

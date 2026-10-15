@@ -147,7 +147,7 @@ const PExpense = () => {
     <div className="w-full">
       <div className="hdr">Expense</div>
 
-      <div className="w-full p-2">
+      <div className="w-full px-6 py-4">
 
         {/* Toolbar */}
         <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex flex-row justify-between items-center">

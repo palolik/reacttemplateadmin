@@ -370,10 +370,10 @@ const SellerProductCrud = ({ seller }) => {
         </button>
       </div>
 
-      <div className="overflow-x-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl">
-        <table className="table-auto w-full">
-          <thead className="bg-gray-100 dark:bg-slate-800">
-            <tr className="text-center font-semibold">
+      <div className="ptable-wrap">
+        <table className="ptable">
+          <thead>
+            <tr>
               <th>Image</th>
               <th>Name</th>
               <th>Category</th>

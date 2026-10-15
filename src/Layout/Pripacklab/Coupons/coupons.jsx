@@ -169,10 +169,10 @@ const Coupon = () => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100 dark:bg-slate-800">
-              <tr className="text-center font-semibold">
+        <div className="ptable-wrap">
+          <table className="ptable">
+            <thead>
+              <tr>
                 <th className="px-2 py-2">Name</th>
                 <th className="px-2 py-2">Code</th>
                 <th className="px-2 py-2">Discount</th>

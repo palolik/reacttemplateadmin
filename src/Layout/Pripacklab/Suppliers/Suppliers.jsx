@@ -175,9 +175,10 @@ const Suppliers = () => {
 };
 
     return (
-        <div>
-            <h2 className="text-2xl mt-4 mx-4">Suppliers</h2>
-            <div className="my-4 px-4 flex justify-end items-center ">
+        <div className="w-full">
+            <div className="hdr">Suppliers</div>
+            <div className="px-6 py-4">
+            <div className="mb-4 flex justify-end items-center ">
                 <button className="bg-black text-sm text-white p-2  rounded-2xl" onClick=
                     {() => {
                         setEditingSupplier(null);
@@ -260,11 +261,11 @@ const Suppliers = () => {
 
 
             {/* Supplier Table */}
-            <div className="overflow-x-auto">
-                <table className="table w-full border">
+            <div className="ptable-wrap">
+                <table className="ptable">
                     {/* head */}
-                    <thead className="bg-gray-100 dark:bg-slate-800">
-                        <tr className="text-center font-semibold">
+                    <thead>
+                        <tr>
                             <th>Serial Number</th>
                             <th>Name</th>
                             <th>Address</th>
@@ -311,6 +312,7 @@ const Suppliers = () => {
 
 
 
+            </div>
         </div>
 
     )

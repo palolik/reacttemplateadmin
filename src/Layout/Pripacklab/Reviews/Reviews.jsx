@@ -162,8 +162,9 @@ const PReviews = () => {
   return (
     <div className="w-full">
       <div className="hdr">All Reviews</div>
+      <div className="px-6 py-4">
 
-      <div className="bg-white dark:bg-slate-900 pl-4 m-2 flex flex-row justify-between items-center">
+      <div className="bg-white dark:bg-slate-900 mb-2 flex flex-row justify-between items-center">
         <div>
           <button className="smbut mr-2">Import</button>
           <button className="smbut" onClick={exportData}>Export</button>
@@ -182,7 +183,7 @@ const PReviews = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-end gap-2 mx-2 mb-3">
+      <div className="flex flex-wrap items-end gap-2 mb-3">
         <label className="flex flex-col gap-1">
           <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Rating</span>
           <select value={ratingFilter} onChange={e => setRatingFilter(e.target.value)}
@@ -236,7 +237,7 @@ const PReviews = () => {
         <div>Actions</div>
       </div>
 
-      <div className="flex flex-col m-2">
+      <div className="flex flex-col">
         {currentItems.length === 0 && (
           <div className="text-center text-gray-400 dark:text-slate-400 py-8">No reviews found.</div>
         )}
@@ -348,6 +349,7 @@ const PReviews = () => {
           onClose={() => setLightboxFiles(null)}
         />
       )}
+      </div>
     </div>
   );
 };

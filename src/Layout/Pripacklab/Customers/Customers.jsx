@@ -18,7 +18,7 @@ const PCustomers = () => {
     <div className="w-full">
       <div className="hdr">All Customers</div>
 
-      <div className="w-full p-2">
+      <div className="w-full px-6 py-4">
         <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
           <span className="text-sm text-gray-500 dark:text-slate-400">{customers.length} customer(s)</span>
         </div>

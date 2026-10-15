@@ -122,7 +122,7 @@ const PCategory = () => {
     <div className="w-full">
       <div className="hdr">Category</div>
 
-      <div className="w-full p-2">
+      <div className="w-full px-6 py-4">
         {/* Toolbar */}
         <div className="bg-white dark:bg-slate-900 pl-2 mb-2 flex justify-between items-center">
           <button className="smbut" onClick={() => setIsAddModalOpen(true)}>+ Add Category</button>

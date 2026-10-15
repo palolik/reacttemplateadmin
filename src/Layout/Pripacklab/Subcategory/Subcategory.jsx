@@ -140,7 +140,7 @@ const PSubcategory = () => {
     <div className='w-full flex flex-col'>
       <div className='hdr'>Sub Category</div>
 
-      <div className="w-full p-4">
+      <div className="w-full px-6 py-4">
         {/* Toolbar */}
         <div className="mb-4 flex justify-between items-center">
           <p className="text-sm text-gray-500 dark:text-slate-400">

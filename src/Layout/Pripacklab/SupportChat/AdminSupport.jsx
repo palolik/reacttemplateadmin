@@ -66,10 +66,11 @@ const AdminSupport = () => {
   return (
       <div className="w-full">
             <div className="hdr">Support Chat</div>
+      <div className="px-6 py-4">
 
-      <div className="overflow-x-auto border rounded-lg shadow-sm">
-        <table className="min-w-full text-sm text-left border-collapse">
-          <thead className="bg-gray-100 dark:bg-slate-800">
+      <div className="ptable-wrap">
+        <table className="ptable">
+          <thead>
             <tr>
               <th className="px-4 py-3 border-b">#</th>
               <th className="px-4 py-3 border-b">Support ID (Email)</th>
@@ -136,6 +137,7 @@ const AdminSupport = () => {
             />
           );
         })}
+      </div>
       </div>
     </div>
   );

@@ -206,10 +206,10 @@ const Delivery = () => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100 dark:bg-slate-800">
-              <tr className="text-center font-semibold">
+        <div className="ptable-wrap">
+          <table className="ptable">
+            <thead>
+              <tr>
                 <th className="px-3 py-2">Area</th>
                 <th className="px-3 py-2">Charge (৳)</th>
                 <th className="px-3 py-2">Period</th>

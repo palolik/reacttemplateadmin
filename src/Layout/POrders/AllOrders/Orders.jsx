@@ -231,10 +231,10 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
   const [expandedId, setExpandedId] = useState(null);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-x-auto">
-      <table className="w-full text-sm min-w-[860px]">
+    <div className="ptable-wrap">
+      <table className="ptable min-w-[860px]">
         <thead>
-          <tr className="bg-gray-50 dark:bg-slate-900 border-b border-gray-200 dark:border-slate-700">
+          <tr>
             {["Order ID", "Date", "Customer", "Items", "Total", "Payment", "Status", "Actions"].map(h => (
               <th key={h} className="text-left px-4 py-3 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 whitespace-nowrap">
                 {h}
@@ -505,6 +505,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
   return (
     <div className="w-full ">
  <div className="hdr">All Orders</div>
+      <div className="px-6 py-4">
       <div className="flex items-center justify-between mb-5">
       
 
@@ -534,7 +535,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-end gap-2 mx-2 mb-4">
+      <div className="flex flex-wrap items-end gap-2 mb-4">
         <label className="flex flex-col gap-1">
           <span className="text-[11px] font-semibold text-gray-500 dark:text-slate-400">Search</span>
           <input
@@ -641,6 +642,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

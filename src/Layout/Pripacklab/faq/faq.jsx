@@ -85,10 +85,10 @@ const FaqAll = () => {
       </div>
 
       {/* ===== FAQ TABLE ===== */}
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border">
-          <thead className="bg-gray-100 dark:bg-slate-800">
-            <tr className="text-center font-semibold">
+      <div className="ptable-wrap">
+        <table className="ptable">
+          <thead>
+            <tr>
               <th>Question</th>
               <th>Question (Bangla)</th>
               <th>Answer</th>

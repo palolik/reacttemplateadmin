@@ -103,7 +103,7 @@ const Process = () => {
     }
   };
 
-  const getCatName = (id) => cats.find((c) => c._id === id)?.catname || id;
+  const getCatName = (id) => cats.find((c) => c._id === id)?.catname;
 
   const ProcessForm = ({ onSubmit, defaultValues = {}, submitLabel }) => (
     <form onSubmit={onSubmit} className="flex flex-col gap-3">
@@ -157,10 +157,10 @@ const Process = () => {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border text-sm">
-            <thead className="bg-gray-100 dark:bg-slate-800">
-              <tr className="text-center font-semibold">
+        <div className="ptable-wrap">
+          <table className="ptable">
+            <thead>
+              <tr>
                 <th className="px-3 py-2">Category</th>
                 <th className="px-3 py-2">Step 1</th>
                 <th className="px-3 py-2">Step 2</th>
@@ -179,9 +179,19 @@ const Process = () => {
                 processes.map((p) => (
                   <tr key={p._id} className="text-center border-b hover:bg-gray-50 dark:hover:bg-slate-800/60">
                     <td className="px-3 py-2">
-                      <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-medium">
-                        {getCatName(p.category)}
-                      </span>
+                      {getCatName(p.category) ? (
+                        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full font-medium">
+                          {getCatName(p.category)}
+                        </span>
+                      ) : (
+                        // The category was deleted; editing lets the admin pick a new one.
+                        <span
+                          className="bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full font-medium"
+                          title="This category no longer exists. Edit to pick another."
+                        >
+                          {cats.length ? "Deleted category" : "…"}
+                        </span>
+                      )}
                     </td>
                     <td className="px-3 py-2 text-left">{p.step1}</td>
                     <td className="px-3 py-2 text-left">{p.step2}</td>

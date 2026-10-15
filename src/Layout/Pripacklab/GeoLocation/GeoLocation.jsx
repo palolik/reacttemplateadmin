@@ -26,14 +26,14 @@ function downloadTemplate(filename, content) {
 
 const DISTRICT_TEMPLATE = [
   "name,nameBn,division",
-  "Dhaka,ঢাকা,Dhaka Division",
-  "Chattogram,চট্টগ্রাম,Chattogram Division",
-  "Khulna,খুলনা,Khulna Division",
-  "Rajshahi,রাজশাহী,Rajshahi Division",
-  "Sylhet,সিলেট,Sylhet Division",
-  "Barishal,বরিশাল,Barishal Division",
-  "Rangpur,রংপুর,Rangpur Division",
-  "Mymensingh,ময়মনসিংহ,Mymensingh Division",
+  "Dhaka,ঢাকা,Dhaka",
+  "Chattogram,চট্টগ্রাম,Chattogram",
+  "Khulna,খুলনা,Khulna",
+  "Rajshahi,রাজশাহী,Rajshahi",
+  "Sylhet,সিলেট,Sylhet",
+  "Barishal,বরিশাল,Barishal",
+  "Rangpur,রংপুর,Rangpur",
+  "Mymensingh,ময়মনসিংহ,Mymensingh",
 ].join("\n");
 
 const AREA_TEMPLATE = [
@@ -105,6 +105,7 @@ const CSVImporter = ({ label, templateContent, templateFilename, onImport, onDon
 };
 
 const GeoLocation = () => {
+  const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [areas, setAreas] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
@@ -131,6 +132,10 @@ const GeoLocation = () => {
 
   useEffect(() => {
     fetchDistricts();
+    fetch(`${base_url}/divisions`)
+      .then(res => res.json())
+      .then(data => setDivisions(Array.isArray(data) ? data : []))
+      .catch(error => console.error('Error fetching divisions:', error));
   }, []);
 
   useEffect(() => {
@@ -144,7 +149,7 @@ const GeoLocation = () => {
     const districtData = {
       name: form.name.value.trim(),
       nameBn: form.nameBn.value.trim(),
-      division: form.division.value.trim(),
+      division: form.division.value,
     };
 
     const url = editingDistrict
@@ -277,7 +282,7 @@ const GeoLocation = () => {
     <div className="w-full">
       <div className="hdr">Geo Location</div>
 
-      <div className="w-full p-2 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      <div className="w-full px-6 py-4 grid grid-cols-1 lg:grid-cols-2 gap-3">
 
         {/* Districts */}
         <div>
@@ -312,7 +317,7 @@ const GeoLocation = () => {
               >
                 <div>{d.name}</div>
                 <div>{d.nameBn}</div>
-                <div>{d.division}</div>
+                <div>{d.divisionInfo?.name || '—'}</div>
                 <div className="flex gap-1">
                   <button onClick={(e) => { e.stopPropagation(); setEditingDistrict(d); setIsAddDistrictOpen(true); }} className="smbut">Edit</button>
                   <button onClick={(e) => { e.stopPropagation(); handleDeleteDistrict(d._id); }} className="smbut">Delete</button>
@@ -397,7 +402,12 @@ const GeoLocation = () => {
             </label>
             <label>
               <span>Division</span>
-              <input name="division" type="text" defaultValue={editingDistrict?.division || ""} className="priinput" />
+              <select name="division" defaultValue={editingDistrict?.division || ""} className="pridrop" required>
+                <option value="" disabled>Select division</option>
+                {divisions.map((dv) => (
+                  <option key={dv._id} value={dv._id}>{dv.name}</option>
+                ))}
+              </select>
             </label>
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">

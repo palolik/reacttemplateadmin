@@ -69,18 +69,73 @@
 
 /*  table details goes here , table details goes here  */
 
+/* Shared look for every admin table, modelled on the All Orders table.
+   .ptable-wrap + .ptable style real <table>s; .tabst/.tabc give the
+   div-based tables (header row + rows) the same look.
+   Colours and alignment sit in :where() (zero specificity) so a page's own
+   utility classes, e.g. a highlighted row or a centred empty state, still win. */
+.ptable-wrap{
+    @apply w-full overflow-x-auto rounded-2xl border border-gray-300 dark:border-slate-700 shadow-sm;
+}
+:where(.ptable-wrap){
+    @apply bg-white dark:bg-slate-900;
+}
+.ptable{
+    @apply w-full text-sm border-collapse;
+}
+.ptable thead tr{
+    @apply border-b border-gray-300 dark:border-slate-700;
+}
+.ptable th{
+    @apply px-4 py-3 bg-gray-50 dark:bg-slate-800/60 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 whitespace-nowrap;
+}
+:where(.ptable th){
+    @apply text-left;
+}
+.ptable td{
+    @apply px-4 py-3 align-middle;
+}
+:where(.ptable td){
+    @apply text-left text-gray-700 dark:text-slate-200;
+}
+.ptable tbody tr{
+    @apply border-b border-gray-200 dark:border-slate-700 transition-colors;
+}
+.ptable tbody tr:last-child{
+    @apply border-b-0;
+}
+:where(.ptable tbody tr:hover){
+    @apply bg-gray-50 dark:bg-slate-800/60;
+}
+
 .tabst{
-    @apply px-4  w-full border flex flex-row font-semibold  items-center justify-between border-sky-100 dark:border-slate-700 rounded-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 ;
+    @apply px-4 py-3 w-full flex flex-row items-center justify-between border border-gray-300 dark:border-slate-700 rounded-t-2xl bg-gray-50 dark:bg-slate-800/60 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400;
+}
+.tabst > div{
+    @apply flex items-center w-40;
 }
 .tabc{
-    @apply p-2   flex flex-row  items-center justify-between border-sky-100 dark:border-slate-800 rounded-md text-slate-700 dark:text-slate-200 ;
+    @apply px-4 py-3 flex flex-row items-center justify-between border-x border-b border-x-gray-300 border-b-gray-200 dark:border-slate-700 text-sm transition-colors;
+}
+:where(.tabc){
+    @apply bg-white dark:bg-slate-900 text-gray-700 dark:text-slate-200;
+}
+:where(.tabc:hover){
+    @apply bg-gray-50 dark:bg-slate-800/60;
+}
+.tabc:last-child{
+    @apply rounded-b-2xl border-b-gray-300 dark:border-b-slate-700;
 }
 
 .tabc td{
-    @apply  flex flex-row  items-center justify-center border-sky-100 dark:border-slate-800 w-40 ;
+    @apply  flex flex-row  items-center justify-center w-40 ;
 }
 .tabc div{
-    @apply  flex  items-center justify-center border-sky-100 dark:border-slate-800 w-40 ;
+    @apply  flex  items-center justify-center w-40 ;
+}
+/* Cells line up under the header labels; nested blocks keep centring. */
+.tabc > div{
+    @apply justify-start text-left;
 }
 .tabc p{
     @apply text-sm font-semibold;

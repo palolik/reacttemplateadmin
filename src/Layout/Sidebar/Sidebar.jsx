@@ -13,7 +13,16 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { base_url } from '../../config/config';
 
 const COLLAPSE_KEY = 'sidebar-collapsed';
+const SEEN_KEY = 'sidebar-seen-counts';
 const COUNTS_REFRESH_MS = 30000;
+
+const loadSeen = () => {
+    try {
+        return JSON.parse(localStorage.getItem(SEEN_KEY)) || {};
+    } catch {
+        return {};
+    }
+};
 
 // Which /admin/sidebarcounts field shows as a badge on which menu path.
 const BADGE_KEYS = {
@@ -218,7 +227,31 @@ const Sidebar = () => {
         return () => clearInterval(timer);
     }, [hasAccess, location.pathname]);
 
-    const countFor = (path) => counts[BADGE_KEYS[path]] || 0;
+    // Totals already seen per badge key. Visiting a menu item marks its current
+    // total as seen, so the badge only shows what arrived since the last visit.
+    const [seen, setSeen] = useState(loadSeen);
+
+    useEffect(() => {
+        const activeKey = BADGE_KEYS[location.pathname];
+        setSeen((prev) => {
+            const next = { ...prev };
+            Object.keys(counts).forEach((key) => {
+                // Items resolved since the last visit lower the total; drop the
+                // seen mark with it so new arrivals still show.
+                if (key === activeKey || (next[key] || 0) > counts[key]) next[key] = counts[key];
+            });
+            return next;
+        });
+    }, [counts, location.pathname]);
+
+    useEffect(() => {
+        localStorage.setItem(SEEN_KEY, JSON.stringify(seen));
+    }, [seen]);
+
+    const countFor = (path) => {
+        const key = BADGE_KEYS[path];
+        return Math.max(0, (counts[key] || 0) - (seen[key] || 0));
+    };
 
     return (
         <div className={`smain relative transition-[width] duration-200 ease-in-out ${collapsed ? 'w-16' : 'w-64'}`}>

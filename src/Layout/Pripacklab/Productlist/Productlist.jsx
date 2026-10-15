@@ -127,26 +127,26 @@ const ProductRow = ({ p, onDelete, onEdit }) => {
       <div className="grid grid-cols-[150px_500px_auto_400px_100px] gap-0 items-stretch">
 
         {/* ── Image strip ── */}
-        <div className="w-24 flex-shrink-0 bg-gray-50 dark:bg-slate-900 relative">
+        <div className="w-full h-full min-h-[110px] bg-gray-50 dark:bg-slate-900 relative overflow-hidden">
           {images.length > 0 ? (
             <>
               <img
                 src={toImageUrl(images[imgIdx])}
                 alt={p.productName}
-                className="w-[140px] h-full min-h-[90px] object-cover"
+                className="absolute inset-0 w-full h-full object-cover"
                 onError={e => { e.target.src = ""; e.target.className = "hidden"; }}
               />
               {images.length > 1 && (
                 <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-1">
                   {images.map((_, i) => (
-                    <button key={i} onClick={() => setImgIdx(i)}
+                    <button key={i} onClick={e => { e.stopPropagation(); setImgIdx(i); }}
                       className={`w-1.5 h-1.5 rounded-full transition-all ${i === imgIdx ? "bg-white scale-125" : "bg-white/50"}`} />
                   ))}
                 </div>
               )}
             </>
           ) : (
-            <div className="w-24 h-full min-h-[90px] flex items-center justify-center text-gray-300 dark:text-slate-400 text-[10px]">No image</div>
+            <div className="absolute inset-0 flex items-center justify-center text-gray-300 dark:text-slate-400 text-[10px]">No image</div>
           )}
         </div>
 
@@ -319,6 +319,8 @@ const PProductlist = () => {
       )}
       <div className="hdr">Product List</div>
 
+      <div className="px-6 py-4">
+
       {/* Toolbar */}
       <div className="flex items-center justify-between mb-4 px-1">
         <p className="text-sm text-gray-400 dark:text-slate-400 font-medium">{filtered.length} products</p>
@@ -367,6 +369,7 @@ const PProductlist = () => {
           disabled={currentPage === totalPages || totalPages === 0}
           className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >Next →</button>
+      </div>
       </div>
     </div>
   );
