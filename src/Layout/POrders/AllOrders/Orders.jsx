@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import '../../../styles/productview.css'
 import { useEffect, useState } from "react";
 import { base_url } from '../../../config/config';
@@ -479,7 +480,7 @@ const PAllOrders = () => {
       }
     } catch (err) {
       console.error(err);
-      alert("Failed to update status");
+      Swal.fire("Error!", "Failed to update status.", "error");
     }
   };
 const updatePaymentStatus = async (orderId, paymentStatus) => {
@@ -497,7 +498,7 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
     }
   } catch (err) {
     console.error(err);
-    alert("Failed to update payment status");
+    Swal.fire("Error!", "Failed to update payment status.", "error");
   }
 };
 

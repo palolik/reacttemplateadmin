@@ -220,11 +220,11 @@ const PAddproducts = () => {
                 Swal.fire({ title: 'Product Added!', text: 'Successfully added a new product.', icon: 'success' });
                 resetForm();
             } else {
-                alert('Failed to add product');
+                Swal.fire("Error!", "Failed to add product.", "error");
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while adding the product');
+            Swal.fire("Error!", "An error occurred while adding the product.", "error");
         }
     };
 

@@ -192,11 +192,11 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                 onSaved();
                 onClose();
             } else {
-                alert("Failed to update product");
+                Swal.fire("Error!", "Failed to update product.", "error");
             }
         } catch (err) {
             console.error(err);
-            alert("An error occurred");
+            Swal.fire("Error!", "An error occurred.", "error");
         } finally {
             setSaving(false);
         }
