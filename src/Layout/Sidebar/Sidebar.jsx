@@ -7,7 +7,7 @@ import {
     FiGrid, FiUsers, FiMapPin, FiBox, FiShoppingCart,
     FiDollarSign, FiTrendingUp, FiMessageSquare, FiFileText,
     FiChevronDown, FiChevronLeft, FiChevronRight, FiLogOut,
-    FiSun, FiMoon, FiHeadphones, FiBarChart2,
+    FiSun, FiMoon, FiHeadphones, FiBarChart2, FiMail,
 } from 'react-icons/fi';
 import { TbTruckDelivery } from "react-icons/tb";
 import { base_url } from '../../config/config';
@@ -74,6 +74,15 @@ const SECTIONS = [
         label: 'Support Chat',
         icon: FiHeadphones,
         items: [{ id: 14, name: 'Support Chat', path: '/pripacklab/support' }],
+    },
+    {
+        id: 'mail',
+        label: 'Mail',
+        icon: FiMail,
+        items: [
+            { id: 26, name: 'Inbox', path: '/pripacklab/mail/inbox' },
+            { id: 27, name: 'Sent', path: '/pripacklab/mail/sent' },
+        ],
     },
     {
         id: 'Seller Center',

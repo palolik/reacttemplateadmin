@@ -1,6 +1,7 @@
 
 import {
   createBrowserRouter,
+  Navigate,
 } from "react-router-dom";
 import Main from "../Layout/main";
 import PSubcategory from "../Layout/Pripacklab/Subcategory/Subcategory";
@@ -33,6 +34,7 @@ import AboutUs from "../Layout/Pripacklab/AboutUs/AboutUs";
 import PCustomers from "../Layout/Pripacklab/Customers/Customers";
 import Suppliers from "../Layout/Pripacklab/Suppliers/Suppliers";
 import PCombos from "../Layout/Pripacklab/Combos/Combos";
+import Mail from "../Layout/Pripacklab/Mail/Mail";
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +100,14 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/eventanalytics',
         element: <EventAnalytics />
+      },
+      {
+        path: '/pripacklab/mail',
+        element: <Navigate to="/pripacklab/mail/inbox" replace />
+      },
+      {
+        path: '/pripacklab/mail/:folder',
+        element: <Mail />
       },
       {
         path: '/pripacklab/expense',
