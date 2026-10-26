@@ -11,9 +11,9 @@ import {
   FiDollarSign, FiTrendingDown, FiTrendingUp, FiEye,
 } from "react-icons/fi";
 
-const COLORS = ['#4f46e5', '#06b6d4', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
+const COLORS = ['#ef4444', '#ff6467', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
 
-const StatCard = ({ label, value, color = '#4f46e5', icon: Icon }) => (
+const StatCard = ({ label, value, color = '#ef4444', icon: Icon }) => (
   <motion.div
     whileHover={{ scale: 1.04 }}
     transition={{ type: 'spring', stiffness: 200 }}
@@ -51,14 +51,14 @@ const Dashboard = () => {
   if (!stats) return <div className="p-10 text-center text-red-500">Failed to load dashboard data.</div>;
 
   const topStatCards = [
-    { label: 'Total Products', value: stats.totalProducts, icon: FiBox, color: '#4f46e5' },
-    { label: 'Total Orders', value: stats.totalOrders, icon: FiShoppingCart, color: '#06b6d4' },
+    { label: 'Total Products', value: stats.totalProducts, icon: FiBox, color: '#ef4444' },
+    { label: 'Total Orders', value: stats.totalOrders, icon: FiShoppingCart, color: '#ff6467' },
     { label: 'Total Customers', value: stats.totalCustomers, icon: FiUsers, color: '#8b5cf6' },
     { label: 'Total Reviews', value: stats.totalReviews, icon: FiStar, color: '#f59e0b' },
     { label: 'Total Income', value: `${stats.totalIncome.toLocaleString()}৳`, icon: FiDollarSign, color: '#10b981' },
     { label: 'Total Expenses', value: `${stats.totalExpense.toLocaleString()}৳`, icon: FiTrendingDown, color: '#ef4444' },
     { label: 'Net Profit', value: `${stats.netProfit.toLocaleString()}৳`, icon: FiTrendingUp, color: '#10b981' },
-    { label: 'Product Views', value: stats.totalProductViews, icon: FiEye, color: '#06b6d4' },
+    { label: 'Product Views', value: stats.totalProductViews, icon: FiEye, color: '#ff6467' },
   ];
 
   const orderPieData = Object.entries(stats.orderStatusMap || {}).map(([name, value]) => ({ name, value }));
@@ -67,7 +67,7 @@ const Dashboard = () => {
     <div className="w-full">
       <div className="hdr">Dashboard</div>
 
-      <div className=" bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 px-6 py-4">
+      <div className=" bg-gradient-to-br from-red-700 via-red-400 to-red-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 px-6 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
           <motion.div
             className="grid grid-cols-4 gap-4"
@@ -111,7 +111,7 @@ const Dashboard = () => {
                       <td className="px-1 py-1">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium
                       ${order.currentStatus === 'delivered' ? 'bg-green-100 text-green-700' :
-                            order.currentStatus === 'Placed' ? 'bg-blue-100 text-blue-700' :
+                            order.currentStatus === 'Placed' ? 'bg-red-100 text-red-700' :
                               'bg-yellow-100 text-yellow-700'}`}>
                           {order.currentStatus}
                         </span>
@@ -144,8 +144,8 @@ const Dashboard = () => {
                   <YAxis />
                   <Tooltip cursor={false} formatter={v => `${v.toLocaleString()}৳`} />
                   <Legend />
-                  <Bar dataKey="income" fill="#4f46e5" radius={[4, 4, 0, 0]} name="Income" />
-                  <Bar dataKey="expense" fill="#06b6d4" radius={[4, 4, 0, 0]} name="Expense" />
+                  <Bar dataKey="income" fill="#ef4444" radius={[4, 4, 0, 0]} name="Income" />
+                  <Bar dataKey="expense" fill="#ff6467" radius={[4, 4, 0, 0]} name="Expense" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -240,13 +240,13 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2 shrink-0">
                     <div className="w-20 h-1.5 bg-gray-100 dark:bg-slate-800 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-indigo-500 rounded-full"
+                        className="h-full bg-red-500 rounded-full"
                         style={{
                           width: `${Math.round((product.viewCount / (stats.topViewedProducts[0]?.viewCount || 1)) * 100)}%`
                         }}
                       />
                     </div>
-                    <span className="text-xs font-semibold text-indigo-600 w-8 text-right">{product.viewCount}</span>
+                    <span className="text-xs font-semibold text-red-600 w-8 text-right">{product.viewCount}</span>
                   </div>
 
                 </div>

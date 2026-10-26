@@ -11,7 +11,7 @@
 }
 
 .slogo {
-    @apply w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shrink-0;
+    @apply w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-red-400 flex items-center justify-center text-white font-bold text-sm shrink-0;
 }
 
 .stitle {
@@ -42,7 +42,7 @@
 }
 
 .snav {
-    @apply flex items-center gap-2.5 h-10 px-3 mb-1 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
+    @apply flex items-center gap-2.5 h-10 px-3 mb-1 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-red-200 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
 }
 
 .snav-active {
@@ -50,7 +50,7 @@
 }
 
 .scat {
-    @apply w-full flex items-center justify-between h-10 px-3 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer select-none;
+    @apply w-full flex items-center justify-between h-10 px-3 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-red-200 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer select-none;
 }
 
 .scat-active {
@@ -78,7 +78,7 @@
 }
 
 .stheme {
-    @apply flex items-center gap-2 w-full mt-1 px-3 h-9 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
+    @apply flex items-center gap-2 w-full mt-1 px-3 h-9 rounded-lg text-[13px] font-medium text-gray-600 dark:text-slate-300 hover:bg-red-200 dark:hover:bg-slate-800/70 hover:text-gray-900 dark:hover:text-white transition-colors;
 }
 
 .slogout {

@@ -77,7 +77,7 @@ export const toastSuccess = (title) => {
 };
 
 export const toastError = (text) => {
-  Swal.fire({ icon: "error", title: "Error", text, confirmButtonColor: "#4f46e5" });
+  Swal.fire({ icon: "error", title: "Error", text, confirmButtonColor: "#ef4444" });
 };
 
 // Resolves true only when the confirm button is clicked.
@@ -88,7 +88,7 @@ export const confirmAction = ({ title = "Are you sure?", text, confirmText = "Ye
     icon: "warning",
     showCancelButton: true,
     focusCancel,
-    confirmButtonColor: danger ? "#ef4444" : "#4f46e5",
+    confirmButtonColor: danger ? "#ef4444" : "#ef4444",
     cancelButtonColor: "#14b8a6",
     confirmButtonText: confirmText,
     cancelButtonText: cancelText,

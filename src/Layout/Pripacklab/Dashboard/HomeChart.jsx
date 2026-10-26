@@ -30,7 +30,7 @@ const HomeChart = ({ selectedMonth }) => {
     <div className="w-full flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide">{selectedMonth} Views</p>
-        <p className="text-xs text-gray-500 dark:text-slate-400">Total: <span className="font-bold text-indigo-600">{totalViews}</span></p>
+        <p className="text-xs text-gray-500 dark:text-slate-400">Total: <span className="font-bold text-red-600">{totalViews}</span></p>
       </div>
       {/* ✅ width="100%" and small fixed height so it fits the grid cell */}
       <ResponsiveContainer width="100%" height={200}>
@@ -39,7 +39,7 @@ const HomeChart = ({ selectedMonth }) => {
           <XAxis dataKey="day" tick={{ fontSize: 10 }} />
           <YAxis tick={{ fontSize: 10 }} />
           <Tooltip cursor={false} />
-          <Bar dataKey="views" fill="#121445" radius={[3, 3, 0, 0]} />
+          <Bar dataKey="views" fill="#F44336" radius={[3, 3, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

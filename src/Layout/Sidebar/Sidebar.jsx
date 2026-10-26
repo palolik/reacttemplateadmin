@@ -276,7 +276,7 @@ const Sidebar = () => {
                 <div className="slogo">P</div>
                 {!collapsed && (
                     <div className="min-w-0">
-                        <p className="stitle">PriPackLab</p>
+                        <p className="stitle">T-toys</p>
                         <p className="ssubtitle">Admin Panel</p>
                     </div>
                 )}

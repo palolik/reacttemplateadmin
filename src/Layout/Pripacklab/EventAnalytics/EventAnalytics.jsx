@@ -8,7 +8,7 @@ import { ThemeContext } from '../../Provider/ThemeProvider';
 // matches: indigo-600 accent, white / slate-900 surfaces.
 const embedTheme = (mode) => ({
   mode,
-  primary: '#4f46e5',
+  primary: '#ef4444',
   bg: mode === 'dark' ? '#0f172a' : '#ffffff',
 });
 

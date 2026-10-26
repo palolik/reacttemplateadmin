@@ -59,7 +59,7 @@ export default function NotifyModal({ api, customers, onClose, onSent }) {
           icon: sent > 0 ? "success" : "warning",
           title: summary,
           text: `${notFound} not found.`,
-          confirmButtonColor: "#4f46e5",
+          confirmButtonColor: "#ef4444",
         });
       } else {
         toastSuccess(summary);
