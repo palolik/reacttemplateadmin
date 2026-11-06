@@ -161,7 +161,7 @@ const PSubcategory = () => {
               <div className="flex items-center justify-between border-b border-gray-100 dark:border-slate-700 pb-2">
                 <div className="flex items-center gap-2">
                   <img
-                    src={`${base_url}${cat.iconpic}`}
+                    src={`${base_url}${cat.homepic}`}
                     className="w-8 h-8 object-cover rounded-full"
                     alt={cat.catname}
                   />

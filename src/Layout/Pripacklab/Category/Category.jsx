@@ -23,13 +23,11 @@ const PCategory = () => {
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [pagecoverFile, setPagecoverFile] = useState(null);
-  const [iconpicFile, setIconpicFile] = useState(null);
   const [homepicFile, setHomepicFile] = useState(null);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editCatData, setEditCatData] = useState({ _id: "", catname: "", pagecover: "", iconpic: "", homepic: "" });
+  const [editCatData, setEditCatData] = useState({ _id: "", catname: "", pagecover: "", homepic: "" });
   const [editPagecoverFile, setEditPagecoverFile] = useState(null);
-  const [editIconpicFile, setEditIconpicFile] = useState(null);
   const [editHomepicFile, setEditHomepicFile] = useState(null);
 
   useEffect(() => {
@@ -66,7 +64,6 @@ const PCategory = () => {
     formData.append("catname", form.catname.value.trim());
     formData.append("catnameBn", form.catnameBn.value.trim());
     if (pagecoverFile) formData.append("pagecover", pagecoverFile);
-    if (iconpicFile) formData.append("iconpic", iconpicFile);
     if (homepicFile) formData.append("homepic", homepicFile);
 
     try {
@@ -76,7 +73,6 @@ const PCategory = () => {
         Swal.fire("Added!", "New category added successfully!", "success");
         form.reset();
         setPagecoverFile(null);
-        setIconpicFile(null);
         setHomepicFile(null);
         setIsAddModalOpen(false);
         fetch(`${base_url}/cat`).then(r => r.json()).then(setCats);
@@ -89,7 +85,6 @@ const PCategory = () => {
   const handleEdit = (cat) => {
     setEditCatData(cat);
     setEditPagecoverFile(null);
-    setEditIconpicFile(null);
     setEditHomepicFile(null);
     setIsEditModalOpen(true);
   };
@@ -101,7 +96,6 @@ const PCategory = () => {
     formData.append("catname", form.catname.value.trim());
     formData.append("catnameBn", form.catnameBn.value.trim());
     if (editPagecoverFile) formData.append("pagecover", editPagecoverFile);
-    if (editIconpicFile) formData.append("iconpic", editIconpicFile);
     if (editHomepicFile) formData.append("homepic", editHomepicFile);
 
     try {
@@ -133,7 +127,6 @@ const PCategory = () => {
           <div>Category</div>
           <div>Bangla Name</div>
           <div>Cover</div>
-          <div>Icon</div>
           <div>Home Cover</div>
           <div>Action</div>
         </div>
@@ -144,7 +137,6 @@ const PCategory = () => {
               <div>{cat.catname}</div>
               <div>{cat.catnameBn || "—"}</div>
               <div><img className="w-[100px] h-[40px] object-cover rounded" src={`${base_url}${cat.pagecover}`} alt="Cover" /></div>
-              <div><img className="w-[40px] h-[40px] object-cover rounded" src={`${base_url}${cat.iconpic}`} alt="Icon" /></div>
               <div><img className="w-[100px] h-[40px] object-cover rounded" src={`${base_url}${cat.homepic}`} alt="Home" /></div>
               <div className="flex gap-1">
                 <button onClick={() => handleEdit(cat)} className="smbut">Edit</button>
@@ -169,9 +161,7 @@ const PCategory = () => {
             </div>
             <FileInput label="Cover Picture (1400x350)px" file={pagecoverFile}
               onChange={(e) => setPagecoverFile(e.target.files[0])} />
-            <FileInput label="Icon Picture (16x16)px" file={iconpicFile}
-              onChange={(e) => setIconpicFile(e.target.files[0])} />
-            <FileInput label="Home Picture (200x200)px" file={homepicFile}
+            <FileInput label="Home Picture (600x600)px" file={homepicFile}
               onChange={(e) => setHomepicFile(e.target.files[0])} />
             <div className="flex gap-2 mt-2">
               <button type="submit" className="pributton flex-1">Add Category</button>
@@ -197,9 +187,6 @@ const PCategory = () => {
             <FileInputEdit label="Cover Picture" file={editPagecoverFile}
               existingUrl={editCatData.pagecover} previewClass="w-[160px] h-[60px]"
               onChange={(e) => setEditPagecoverFile(e.target.files[0])} />
-            <FileInputEdit label="Icon Picture" file={editIconpicFile}
-              existingUrl={editCatData.iconpic} previewClass="w-[50px] h-[50px]"
-              onChange={(e) => setEditIconpicFile(e.target.files[0])} />
             <FileInputEdit label="Home Picture" file={editHomepicFile}
               existingUrl={editCatData.homepic} previewClass="w-[160px] h-[60px]"
               onChange={(e) => setEditHomepicFile(e.target.files[0])} />
