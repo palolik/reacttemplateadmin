@@ -163,6 +163,14 @@ const ProductRow = ({ p, onDelete, onEdit }) => {
             {p.sellerId && (
               <span className="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full font-semibold">Seller: {p.sellerName || p.sellerId}</span>
             )}
+            {p.status === "incomplete" && (
+              <span
+                className="text-[10px] bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-semibold"
+                title="No product image yet, so it is hidden on the website. Add an image to publish it."
+              >
+                Incomplete · hidden
+              </span>
+            )}
           </div>
 
           <p className="font-mono text-[10px] text-gray-400 dark:text-slate-400">#{p._id.slice(-8).toUpperCase()}</p>
