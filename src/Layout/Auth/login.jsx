@@ -42,6 +42,7 @@ const Login = () => {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
       <div className="bg-white shadow-lg rounded-lg w-full sm:w-96 p-6">
+        <img src="/assets/logo.png" alt="PriPackLab" className="w-48 mx-auto mb-6" />
         <div className="text-2xl text-center font-bold mb-10">Sign In</div>
 
         <form onSubmit={handleLogin}>

@@ -14,8 +14,19 @@ const Modal = ({ title, onClose, children }) => (
   </div>
 );
 
+// Server errors come back as { message }; show them like a row error instead of "0 / 0".
+async function uploadCsv(path, file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${base_url}${path}`, { method: 'POST', body: formData });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) return { errors: [{ error: data.message || `Upload failed (${res.status})` }] };
+  return data;
+}
+
 function downloadTemplate(filename, content) {
-  const blob = new Blob([content], { type: 'text/csv' });
+  // BOM so Excel opens the Bangla names as UTF-8.
+  const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -90,6 +101,9 @@ const CSVImporter = ({ label, templateContent, templateFilename, onImport, onDon
             {result.inserted ?? 0} inserted{result.updated != null ? `, ${result.updated} updated` : ''}{result.skipped ? `, ${result.skipped} skipped` : ''}
             {' '}/ {result.total ?? 0} total
           </span>
+          {result.createdDivisions?.length ? (
+            <div className="mt-1">New divisions created: {result.createdDivisions.join(', ')}</div>
+          ) : null}
           {result.errors?.length ? (
             <ul className="mt-1 space-y-0.5">
               {result.errors.slice(0, 5).map((e, i) => (
@@ -244,18 +258,14 @@ const GeoLocation = () => {
   };
 
   const handleImportDistricts = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const res = await fetch(`${base_url}/importdistricts`, { method: 'POST', body: formData });
-    return res.json();
+    const result = await uploadCsv('/importdistricts', file);
+    if (result.createdDivisions?.length) {
+      fetch(`${base_url}/divisions`).then(res => res.json()).then(setDivisions).catch(() => {});
+    }
+    return result;
   };
 
-  const handleImportAreas = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const res = await fetch(`${base_url}/importareas`, { method: 'POST', body: formData });
-    return res.json();
-  };
+  const handleImportAreas = (file) => uploadCsv('/importareas', file);
 
   const handleDeleteArea = (_id) => {
     Swal.fire({

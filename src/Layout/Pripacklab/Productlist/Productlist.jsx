@@ -253,30 +253,53 @@ const ProductRow = ({ p, onDelete, onEdit }) => {
   );
 };
 
+const PRODUCTS_PER_PAGE = 10;
+
+// Products are fetched one page at a time; search runs on the server.
 const PProductlist = () => {
   const [productData, setProductData] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   const [editProduct, setEditProduct] = useState(null);
-  const productsPerPage = 7;
+  const [reloadKey, setReloadKey] = useState(0);
+
+  // Wait for typing to pause before searching, and start again from page 1.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setQuery(search.trim());
+      setCurrentPage(1);
+    }, 350);
+    return () => clearTimeout(t);
+  }, [search]);
 
   useEffect(() => {
-    fetch(`${base_url}/getproducts`)
+    const controller = new AbortController();
+    const params = new URLSearchParams({ page: currentPage, limit: PRODUCTS_PER_PAGE });
+    if (query) params.set("q", query);
+    setLoading(true);
+    fetch(`${base_url}/getproducts?${params}`, { signal: controller.signal })
       .then(res => res.json())
-      .then(data => setProductData(data))
-      .catch(err => console.error("Error fetching products:", err));
-  }, []);
+      .then(data => {
+        setProductData(data.products || []);
+        setTotal(data.total || 0);
+        setTotalPages(data.totalPages || 1);
+        // Deleting the last item on the last page leaves it empty: step back one page.
+        if (!data.products?.length && currentPage > 1) setCurrentPage(p => p - 1);
+        setLoading(false);
+      })
+      .catch(err => {
+        if (err.name === "AbortError") return;
+        console.error("Error fetching products:", err);
+        setLoading(false);
+      });
+    return () => controller.abort();
+  }, [currentPage, query, reloadKey]);
 
-  const filtered = productData.filter(p =>
-    [p.productName, p.category, p.subCategory, p.productSupplier]
-      .some(v => v?.toLowerCase().includes(search.toLowerCase()))
-  );
-
-  const totalPages = Math.ceil(filtered.length / productsPerPage);
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const currentProducts = filtered.slice(startIndex, startIndex + productsPerPage);
-
-  useEffect(() => { setCurrentPage(1); }, [search]);
+  const reload = () => setReloadKey(k => k + 1);
 
   const handleDelete = (_id) => {
     Swal.fire({
@@ -294,19 +317,21 @@ const PProductlist = () => {
           .then(data => {
             if (data.deletedCount > 0) {
               Swal.fire("Deleted!", "Product has been removed.", "success");
-              setProductData(prev => prev.filter(p => p._id !== _id));
+              reload();
             }
           });
       }
     });
   };
 
-  const handleSaved = () => {
-    fetch(`${base_url}/getproducts`)
-      .then(res => res.json())
-      .then(data => setProductData(data))
-      .catch(console.error);
-  };
+  const handleSaved = reload;
+
+  // Page numbers around the current one, with gaps shown as "…".
+  const pageItems = (() => {
+    const pages = new Set([1, totalPages, currentPage - 1, currentPage, currentPage + 1]);
+    const sorted = [...pages].filter(p => p >= 1 && p <= totalPages).sort((a, b) => a - b);
+    return sorted.flatMap((p, i) => (i > 0 && p - sorted[i - 1] > 1 ? ["…", p] : [p]));
+  })();
 
   return (
     <div className="w-full">
@@ -323,7 +348,7 @@ const PProductlist = () => {
 
       {/* Toolbar */}
       <div className="flex items-center justify-between mb-4 px-1">
-        <p className="text-sm text-gray-400 dark:text-slate-400 font-medium">{filtered.length} products</p>
+        <p className="text-sm text-gray-400 dark:text-slate-400 font-medium">{total} products{query ? ` matching "${query}"` : ""}</p>
         <label className="input input-bordered flex input-sm items-center gap-2 w-[280px]">
           <input
             type="text"
@@ -347,12 +372,12 @@ const PProductlist = () => {
 
       {/* Rows */}
       <div className="flex flex-col">
-        {currentProducts.length === 0 ? (
+        {productData.length === 0 ? (
           <div className="text-center text-gray-400 dark:text-slate-400 py-16 bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700">
-            No products found.
+            {loading ? "Loading products…" : "No products found."}
           </div>
         ) : (
-          currentProducts.map(p => <ProductRow key={p._id} p={p} onDelete={handleDelete} onEdit={() => setEditProduct(p)} />)
+          productData.map(p => <ProductRow key={p._id} p={p} onDelete={handleDelete} onEdit={() => setEditProduct(p)} />)
         )}
       </div>
 
@@ -363,10 +388,24 @@ const PProductlist = () => {
           disabled={currentPage === 1}
           className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >← Prev</button>
-        <span className="text-sm text-gray-500 dark:text-slate-400 font-medium">{currentPage} / {totalPages || 1}</span>
+        {pageItems.map((p, i) =>
+          p === "…" ? (
+            <span key={`gap-${i}`} className="text-sm text-gray-400 dark:text-slate-500">…</span>
+          ) : (
+            <button
+              key={p}
+              onClick={() => setCurrentPage(p)}
+              className={`text-sm min-w-[36px] px-2 py-1.5 rounded-lg border transition ${
+                p === currentPage
+                  ? "bg-gray-900 text-white border-gray-900 dark:bg-slate-100 dark:text-slate-900"
+                  : "border-gray-200 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-800/60"
+              }`}
+            >{p}</button>
+          )
+        )}
         <button
           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-          disabled={currentPage === totalPages || totalPages === 0}
+          disabled={currentPage >= totalPages}
           className="text-sm px-4 py-1.5 rounded-lg border border-gray-200 dark:border-slate-700 disabled:opacity-40 hover:bg-gray-100 dark:hover:bg-slate-800/60 transition"
         >Next →</button>
       </div>

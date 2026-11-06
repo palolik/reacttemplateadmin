@@ -64,7 +64,6 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/productlist',
         element: <PProductlist />,
-        loader: ()=> fetch(`${base_url}/getproducts`),
       },
       {
         path: '/pripacklab/addproducts',

@@ -11,7 +11,7 @@
 }
 
 .slogo {
-    @apply w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm shrink-0;
+    @apply w-8 h-8 rounded-lg object-contain shrink-0;
 }
 
 .stitle {

@@ -6,6 +6,50 @@ import {
 
 } from "../../../config/config";
 import { FileInput, FileInputEdit } from "../../../utils/FileFields";
+import { AD_SIZES } from "../../../config/adSizes";
+
+// Recommended artwork size for the chosen placement, shown under the location picker.
+const AdSizeHint = ({ location }) => {
+  const spec = AD_SIZES[location];
+  if (!spec) return null;
+  return (
+    <div className="rounded-md border border-sky-200 bg-sky-50 dark:border-sky-900 dark:bg-sky-950/40 px-3 py-2 text-xs text-sky-800 dark:text-sky-200">
+      Design at <b>{spec.size}</b> (ratio {spec.ratio}). {spec.shown}.
+    </div>
+  );
+};
+
+// All placements at a glance, each drawn at its real ratio.
+const AdSizeGuide = () => (
+  <div className="mb-5">
+    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2">Ad image sizes</p>
+    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
+      {Object.entries(AD_SIZES)
+        .filter(([key]) => key !== "hrs")
+        .map(([key, spec]) => {
+          const [w, h] = spec.size.split(" × ").map(n => parseInt(n, 10));
+          return (
+            <div key={key} className="rounded-lg border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3 flex flex-col gap-2">
+              <div className="h-16 flex items-center justify-center">
+                <div
+                  className="bg-gradient-to-br from-indigo-100 to-cyan-100 dark:from-indigo-900/50 dark:to-cyan-900/50 border border-dashed border-indigo-300 dark:border-indigo-700 rounded max-h-full max-w-full"
+                  style={{ aspectRatio: `${w} / ${h}`, height: w / h > 3 ? "auto" : "100%", width: w / h > 3 ? "100%" : "auto" }}
+                />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-800 dark:text-slate-100">
+                  {key === "hls" ? "Home sidebars" : spec.label}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-slate-300">{spec.size} · {spec.ratio}</p>
+                <p className="text-[11px] text-gray-400 dark:text-slate-500">{spec.shown}</p>
+              </div>
+            </div>
+          );
+        })}
+    </div>
+  </div>
+);
+
 const Advertise = () => {
   const [ima, setIma] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -16,6 +60,7 @@ const Advertise = () => {
     _id: "", imglink: "", location: "", rdlink: "", startdate: "", tilldate: "",
   });
   const [editImageFile, setEditImageFile] = useState(null);
+  const [addLocation, setAddLocation] = useState("");
 
   const fetchAdvertisements = () => {
     fetch(`${base_url}/advertise`)
@@ -179,8 +224,10 @@ const Advertise = () => {
       <div className="hdr">Advertisement</div>
 
       <div className="relative px-6 py-4">
+        <AdSizeGuide />
+
         <div className="flex justify-end items-center mb-4">
-          <button onClick={() => setShowForm(true)} className="smbut">
+          <button onClick={() => { setAddLocation(""); setShowForm(true); }} className="smbut">
             + Add New Advertisement
           </button>
         </div>
@@ -264,6 +311,7 @@ const Advertise = () => {
                   className="pridrop"
                   required
                   defaultValue=""
+                  onChange={(e) => setAddLocation(e.target.value)}
                 >
                   <option value="" disabled>
                     Select Ad Location
@@ -275,6 +323,7 @@ const Advertise = () => {
                   <option value="Homepage Banner">Homepage Banner</option>
                   <option value="Popup">Popup</option>
                 </select>
+                <AdSizeHint location={addLocation} />
                 <input
                   name="rdlink"
                   type="text"
@@ -327,6 +376,7 @@ const Advertise = () => {
                   className="pridrop"
                   required
                   defaultValue={editAdData.location}
+                  onChange={(e) => setEditAdData(d => ({ ...d, location: e.target.value }))}
                 >
                   <option value="" disabled>
                     Select Ad Location
@@ -338,6 +388,7 @@ const Advertise = () => {
                   <option value="Homepage Banner">Homepage Banner</option>
                   <option value="Popup">Popup</option>
                 </select>
+                <AdSizeHint location={editAdData.location} />
                 <input
                   name="rdlink"
                   type="text"

@@ -273,7 +273,7 @@ const Sidebar = () => {
             </button>
 
             <div className={`stop ${collapsed ? 'justify-center px-0' : ''}`}>
-                <div className="slogo">P</div>
+                <img src="/assets/ion.png" alt="PriPackLab" className="slogo" />
                 {!collapsed && (
                     <div className="min-w-0">
                         <p className="stitle">PriPackLab</p>
