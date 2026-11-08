@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { AuthContext } from "../Provider/Authprovider";
 import { base_url } from "../../config/config";
@@ -10,6 +10,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [params] = useSearchParams();
+  const expired = params.get("expired") === "1";
+  // Only same-site paths, so the link can't send someone to another site.
+  const nextParam = params.get("next") || "";
+  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") && !nextParam.startsWith("/login") ? nextParam : "/";
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,7 +34,7 @@ const Login = () => {
 
       if (data.success && data.token) {
         login(data.token);
-        navigate(`/`); 
+        navigate(next, { replace: true });
       } else {
         setError(data.message || "Login failed. Please try again.");
       }
@@ -44,6 +49,12 @@ const Login = () => {
       <div className="bg-white shadow-lg rounded-lg w-full sm:w-96 p-6">
         <img src="/assets/logo.png" alt="PriPackLab" className="w-48 mx-auto mb-6" />
         <div className="text-2xl text-center font-bold mb-10">Sign In</div>
+
+        {expired && !error && (
+          <div className="mb-4 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-sm text-center px-3 py-2">
+            Your session expired. Please log in again.
+          </div>
+        )}
 
         <form onSubmit={handleLogin}>
           <label className="input input-bordered text-black bg-white flex items-center gap-2 mb-4">

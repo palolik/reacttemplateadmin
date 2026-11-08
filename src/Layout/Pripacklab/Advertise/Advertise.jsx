@@ -23,7 +23,7 @@ const AdSizeHint = ({ location }) => {
 const AdSizeGuide = () => (
   <div className="mb-5">
     <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-2">Ad image sizes</p>
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-7 gap-3">
       {Object.entries(AD_SIZES)
         .filter(([key]) => key !== "hrs")
         .map(([key, spec]) => {
@@ -269,7 +269,7 @@ const Advertise = () => {
             value={ad.status || "pending"}
             onChange={(e) => handleStatusChange(ad._id, e.target.value)}
             className={`border rounded px-2 py-1 text-sm cursor-pointer ${
-              ad.status === "approved" ? "bg-green-100 text-green-800"
+              ad.status === "active" ? "bg-green-100 text-green-800"
               : ad.status === "rejected" ? "bg-red-100 text-red-800"
               : "bg-yellow-100 text-yellow-800"
             }`}
@@ -319,9 +319,11 @@ const Advertise = () => {
                   <option value="Header">Header</option>
                   <option value="hls">home left Sidebar</option>
                   <option value="hrs">home right Sidebar</option>
+                  <option value="Between Rows">Between Rows</option>
                   <option value="Footer">Footer</option>
                   <option value="Homepage Banner">Homepage Banner</option>
                   <option value="Popup">Popup</option>
+                  <option value="Profile">Profile</option>
                 </select>
                 <AdSizeHint location={addLocation} />
                 <input
@@ -384,9 +386,11 @@ const Advertise = () => {
                   <option value="Header">Header</option>
                   <option value="hls">home left Sidebar</option>
                   <option value="hrs">home right Sidebar</option>
+                  <option value="Between Rows">Between Rows</option>
                   <option value="Footer">Footer</option>
                   <option value="Homepage Banner">Homepage Banner</option>
                   <option value="Popup">Popup</option>
+                  <option value="Profile">Profile</option>
                 </select>
                 <AdSizeHint location={editAdData.location} />
                 <input

@@ -1,3 +1,4 @@
+import './utils/installStaffSession' // must stay first: guards requests made by route loaders
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'

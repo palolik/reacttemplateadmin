@@ -21,6 +21,12 @@ export const AD_SIZES = {
     size: "1456 × 180 px",
     shown: "Home page, under the hero banner: 728 × 90 on desktop, full width × 60 on phones",
   },
+  "Between Rows": {
+    label: "Between Rows",
+    ratio: "5:1",
+    size: "2000 × 400 px",
+    shown: "Home page, after every 2 product rows, as wide as the product rows (about 1000 × 200 on desktop, 375 × 75 on phones). Several ads take turns, one per gap",
+  },
   Footer: {
     label: "Footer",
     ratio: "728:90 (≈ 8:1)",
@@ -29,14 +35,20 @@ export const AD_SIZES = {
   },
   hls: {
     label: "Home left sidebar",
-    ratio: "6:5",
-    size: "600 × 500 px",
-    shown: "Home page, after the second product row (left and right side by side): 300 × 250",
+    ratio: "1:4 (tall)",
+    size: "360 × 1440 px",
+    shown: "Home page, a tall strip beside the product rows (left or right), following the scroll: 160 × 640 (up to 180 × 720 on large screens). Only on screens 1280 px and wider",
   },
   hrs: {
     label: "Home right sidebar",
-    ratio: "6:5",
-    size: "600 × 500 px",
-    shown: "Home page, after the second product row (left and right side by side): 300 × 250",
+    ratio: "1:4 (tall)",
+    size: "360 × 1440 px",
+    shown: "Home page, a tall strip beside the product rows (left or right), following the scroll: 160 × 640 (up to 180 × 720 on large screens). Only on screens 1280 px and wider",
+  },
+  Profile: {
+    label: "Profile",
+    ratio: "1:1",
+    size: "700 × 700 px",
+    shown: "Customer, seller and supplier profile pages, under the profile card: about 320–350 px square on desktop, full width on phones. Several ads: a random one per visit",
   },
 };

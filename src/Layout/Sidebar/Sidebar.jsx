@@ -97,7 +97,6 @@ const SECTIONS = [
         icon: FiUsers,
         items: [
             { id: 20, name: 'Seller List', path: '/pripacklab/sellers' },
-            { id: 28, name: 'Seller Orders', path: '/pripacklab/sellerorders' },
             { id: 29, name: 'Partner Chat', path: '/pripacklab/partnerchat' },
         ],
     },
@@ -125,6 +124,7 @@ const SECTIONS = [
         icon: FiShoppingCart,
         items: [
             { id: 5, name: 'All Orders', path: '/pripacklab/allorders' },
+            { id: 28, name: 'Seller Orders', path: '/pripacklab/sellerorders' },
             { id: 6, name: 'Delivery Charge', path: '/pripacklab/delivery' },
             { id: 7, name: 'Coupons', path: '/pripacklab/coupons' },
         ],

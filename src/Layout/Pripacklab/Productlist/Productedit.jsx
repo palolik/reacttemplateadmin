@@ -90,28 +90,35 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         setValueInputs(prev => { const n = { ...prev }; delete n[name]; return n; });
     };
 
+    // Changing criteria values rebuilds the variants, keeping the existing ones
+    // (price, discount, active state) whose label still matches.
+    const updateCriteria = (nextCriteria) => {
+        setCriteria(nextCriteria);
+        setVariants(prev => buildVariants(nextCriteria, prev));
+    };
+
     const handleAddValue = (criteriaName) => {
         const val = (valueInputs[criteriaName] || "").trim();
         if (!val) return;
-        setCriteria(prev => prev.map(c =>
+        updateCriteria(criteria.map(c =>
             c.name === criteriaName && !c.values.includes(val)
                 ? { ...c, values: [...c.values, val] }
                 : c
         ));
         setValueInputs(prev => ({ ...prev, [criteriaName]: "" }));
-        setVariants([]); // force re-generate
     };
 
     const handleRemoveValue = (criteriaName, val) => {
-        setCriteria(prev => prev.map(c =>
+        updateCriteria(criteria.map(c =>
             c.name === criteriaName ? { ...c, values: c.values.filter(v => v !== val) } : c
         ));
-        setVariants([]);
     };
 
-    const generateVariants = () => {
-        const active = criteria.filter(c => c.values.length > 0);
-        if (!active.length) return;
+    const generateVariants = () => setVariants(prev => buildVariants(criteria, prev));
+
+    const buildVariants = (criteriaList, prevVariants) => {
+        const active = criteriaList.filter(c => c.values.length > 0);
+        if (!active.length) return prevVariants;
 
         let combinations = [{}];
         active.forEach(({ name, values }) => {
@@ -121,9 +128,9 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         });
 
         const existingMap = {};
-        variants.forEach(v => { existingMap[v.label] = v; });
+        prevVariants.forEach(v => { existingMap[v.label] = v; });
 
-        setVariants(combinations.map((combo, i) => {
+        return combinations.map((combo, i) => {
             const label = Object.values(combo).join(" / ");
             const existing = existingMap[label];
             return {
@@ -136,7 +143,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                 discount:    existing?.discount    || "",
                 is_active:   existing?.is_active   ?? true,
             };
-        }));
+        });
     };
 
     const handleVariantChange = (id, field, value) => {

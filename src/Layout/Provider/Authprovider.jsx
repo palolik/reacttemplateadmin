@@ -1,40 +1,36 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { jwtDecode } from "jwt-decode";
+import { clearStaffSession, getStaffToken, isTokenValid, saveStaffToken } from "../../utils/staffSession";
 
 export const AuthContext = createContext(null);
 
+// `token` is the one from login; renewals only update storage, and every
+// request reads the current token from there (see utils/staffSession.js).
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
-    const [loading, setLoading] = useState(true); // <-- NEW
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("authToken");
-        const storedUser = localStorage.getItem("authUser");
-
-        if (storedToken && storedUser) {
+        const storedToken = getStaffToken();
+        if (isTokenValid(storedToken)) {
             setToken(storedToken);
-            setUser(JSON.parse(storedUser)); 
+            setUser(jwtDecode(storedToken));
+        } else {
+            clearStaffSession(); // expired: Main sends the person to /login
         }
-
-        setLoading(false); // <-- when done checking localStorage
+        setLoading(false);
     }, []);
 
     const login = (authToken) => {
-        const decodedUser = jwtDecode(authToken);
-        
-        localStorage.setItem("authToken", authToken);
-        localStorage.setItem("authUser", JSON.stringify(decodedUser)); 
-
+        saveStaffToken(authToken);
         setToken(authToken);
-        setUser(decodedUser);
+        setUser(jwtDecode(authToken));
     };
 
     const logout = () => {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("authUser");
-
+        clearStaffSession();
         setToken(null);
         setUser(null);
     };
