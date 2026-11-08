@@ -31,11 +31,18 @@ const BADGE_KEYS = {
     '/pripacklab/coupons': 'usedCoupons',
     '/pripacklab/comments': 'unansweredComments',
     '/pripacklab/reviews': 'pendingReviews',
+    '/pripacklab/sellers': 'pendingSellers',
+    '/pripacklab/suppliers': 'pendingSuppliers',
+    '/pripacklab/sellerorders': 'sellerOrders',
+    '/pripacklab/partnerchat': 'unreadPartnerChats',
 };
 
 // Counts that need action and should surface on a closed section header.
 // Coupon usage is a running total, so it stays on its own item only.
-const ROLLUP_KEYS = ['newOrders', 'unreadChats', 'unansweredComments', 'pendingReviews'];
+const ROLLUP_KEYS = [
+    'newOrders', 'unreadChats', 'unansweredComments', 'pendingReviews',
+    'pendingSellers', 'pendingSuppliers', 'sellerOrders', 'unreadPartnerChats',
+];
 
 const Badge = ({ count }) => {
     if (!count) return null;
@@ -88,7 +95,11 @@ const SECTIONS = [
         id: 'Seller Center',
         label: 'Seller Center',
         icon: FiUsers,
-        items: [{ id: 20, name: 'Seller List', path: '/pripacklab/sellers' }],
+        items: [
+            { id: 20, name: 'Seller List', path: '/pripacklab/sellers' },
+            { id: 28, name: 'Seller Orders', path: '/pripacklab/sellerorders' },
+            { id: 29, name: 'Partner Chat', path: '/pripacklab/partnerchat' },
+        ],
     },
     {
         id: 'geolocation',

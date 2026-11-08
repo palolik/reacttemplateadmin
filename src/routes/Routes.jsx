@@ -27,12 +27,13 @@ import { base_url } from "../config/config";
 import PaymentMethod from "../Layout/Pripacklab/PaymentMethod/paymentmethod";
 import Invoice from "../Layout/Pripacklab/Income/invoice";
 import OrderLabel from "../Layout/POrders/AllOrders/OrderLabel";
-import PSellers from "../Layout/Pripacklab/Sellers/PSellers";
+import PPartners from "../Layout/Pripacklab/Partners/PPartners";
+import PPartnerChat from "../Layout/Pripacklab/Partners/PPartnerChat";
+import PSellerOrders from "../Layout/Pripacklab/Sellers/PSellerOrders";
 import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
 import EventAnalytics from "../Layout/Pripacklab/EventAnalytics/EventAnalytics";
 import AboutUs from "../Layout/Pripacklab/AboutUs/AboutUs";
 import PCustomers from "../Layout/Pripacklab/Customers/Customers";
-import Suppliers from "../Layout/Pripacklab/Suppliers/Suppliers";
 import PCombos from "../Layout/Pripacklab/Combos/Combos";
 import Mail from "../Layout/Pripacklab/Mail/Mail";
 
@@ -86,11 +87,19 @@ export const router = createBrowserRouter([
       },
       {
         path: '/pripacklab/sellers',
-        element: <PSellers />
+        element: <PPartners kind="seller" key="seller" />
+      },
+      {
+        path: '/pripacklab/sellerorders',
+        element: <PSellerOrders />
+      },
+      {
+        path: '/pripacklab/partnerchat',
+        element: <PPartnerChat />
       },
       {
         path: '/pripacklab/suppliers',
-        element: <Suppliers />
+        element: <PPartners kind="supplier" key="supplier" />
       },
       {
         path: '/pripacklab/geolocation',

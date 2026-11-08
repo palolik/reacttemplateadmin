@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import RichTextEditor from '../../../utils/PichTextEditor';
 import Swal from 'sweetalert2';
 import { base_url } from '../../../config/config';
+import { staffRequest } from '../Partners/partnerAdminApi';
 
 const PRESET_CRITERIA = ['Size', 'Cut', 'Color', 'Material', 'Quantity', 'Weight'];
 
@@ -47,8 +48,7 @@ const PAddproducts = () => {
             })
             .catch(err => console.error('Error fetching categories:', err));
 
-        fetch(`${base_url}/sellers`)
-            .then(res => res.json())
+        staffRequest('/sellers')
             .then(data => setSellers(Array.isArray(data) ? data : []))
             .catch(err => console.error('Error fetching sellers:', err));
     }, []);
@@ -125,6 +125,7 @@ const PAddproducts = () => {
             combination: combo,
             label: Object.values(combo).join(' / '),
             price: '',
+            sellerPrice: '',
             profit: '',
             discount: '',
             is_active: true
@@ -203,7 +204,8 @@ const PAddproducts = () => {
         formData.append('deliveryTime', productData.deliveryTime);
         formData.append('tags', JSON.stringify(tagNames));
         formData.append('criteria', JSON.stringify(criteria));
-        formData.append('variants', JSON.stringify(variants));
+        // Seller prices are private: saved to /admin/sellerprices, never in the product.
+        formData.append('variants', JSON.stringify(variants.map(v => ({ ...v, sellerPrice: undefined }))));
 
         if (sellerId) {
             const selectedSeller = sellers.find(s => s._id === sellerId);
@@ -217,6 +219,17 @@ const PAddproducts = () => {
         try {
             const response = await fetch(`${base_url}/addproduct`, { method: 'POST', body: formData });
             if (response.ok) {
+                const { insertedId } = await response.json().catch(() => ({}));
+                const prices = Object.fromEntries(variants.filter(v => Number(v.sellerPrice) > 0).map(v => [v.label, Number(v.sellerPrice)]));
+                if (insertedId && Object.keys(prices).length) {
+                    try {
+                        await staffRequest(`/admin/sellerprices/${insertedId}`, { method: 'PUT', body: { prices } });
+                    } catch (err) {
+                        Swal.fire('Product added', `Seller prices were not saved: ${err.message} Edit the product to set them.`, 'warning');
+                        resetForm();
+                        return;
+                    }
+                }
                 Swal.fire({ title: 'Product Added!', text: 'Successfully added a new product.', icon: 'success' });
                 resetForm();
             } else {
@@ -454,10 +467,11 @@ const PAddproducts = () => {
                             {/* Header */}
                             <div
                                 className="grid gap-2 text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wide border-b pb-2"
-                                style={{ gridTemplateColumns: '30% 20% 20% 20% 10%' }}
+                                style={{ gridTemplateColumns: '26% 16% 16% 16% 16% 10%' }}
                             >
                                 <span>Variant</span>
                                 <span>Price</span>
+                                <span>Seller Price</span>
                                 <span>Profit</span>
                                 <span>Discount</span>
                                 <span>Active</span>
@@ -469,7 +483,7 @@ const PAddproducts = () => {
                                     <div
                                         key={v.id}
                                         className={`grid gap-2 items-center py-2 border-b border-gray-50 transition-opacity ${!v.is_active ? 'opacity-40' : ''}`}
-                                             style={{ gridTemplateColumns: '30% 20% 20% 20% 10%' }}
+                                             style={{ gridTemplateColumns: '26% 16% 16% 16% 16% 10%' }}
                                     >
                                         <span className="text-sm text-gray-700 dark:text-slate-300 font-medium truncate" title={v.label}>{v.label}</span>
 
@@ -479,6 +493,15 @@ const PAddproducts = () => {
                                             className="flin text-sm px-2 py-1"
                                             value={v.price}
                                             onChange={e => handleVariantChange(v.id, 'price', e.target.value)}
+                                            disabled={!v.is_active}
+                                        />
+                                        <input
+                                            type="number"
+                                            placeholder="0"
+                                            title="What sellers pay for this variant"
+                                            className="flin text-sm px-2 py-1"
+                                            value={v.sellerPrice}
+                                            onChange={e => handleVariantChange(v.id, 'sellerPrice', e.target.value)}
                                             disabled={!v.is_active}
                                         />
                                         <input

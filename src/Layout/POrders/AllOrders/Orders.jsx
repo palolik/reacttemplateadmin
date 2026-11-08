@@ -3,6 +3,15 @@ import '../../../styles/productview.css'
 import { useEffect, useState } from "react";
 import { base_url } from '../../../config/config';
 import { downloadInvoice } from "./downloadinvoice";
+import OrderSupplierTransfer from "../../Pripacklab/Partners/OrderSupplierTransfer";
+import { SUPPLIER_STATUS_BADGE } from "../../Pripacklab/Partners/partnerAdminApi";
+
+// Supplier name + progress for orders transferred to a supplier.
+const SupplierChip = ({ order }) => (order.supplier ? (
+  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${SUPPLIER_STATUS_BADGE[order.supplierStatus] || "bg-gray-100 text-gray-600"}`} title={`Supplier: ${order.supplier.name}`}>
+    {order.supplier.name} · {order.supplierStatus}
+  </span>
+) : null);
 
 const statusColors = {
   Placed:       { bg: "bg-blue-100",   text: "text-blue-700"   },
@@ -23,7 +32,7 @@ const StatusBadge = ({ status }) => {
 };
 
 
-const TabsView = ({ orders, openStatusModal }) => {
+const TabsView = ({ orders, openStatusModal, openSupplierModal }) => {
   const [selectedIdx, setActiveIdx] = useState(0);
   // Filters can shrink the list under the selection, so fall back to the first order.
   const activeIdx = selectedIdx < orders.length ? selectedIdx : 0;
@@ -92,6 +101,11 @@ const TabsView = ({ orders, openStatusModal }) => {
               className="text-xs bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-3 py-1.5 rounded-lg transition font-medium">
               🏷️ Print Label
             </button>
+            <button onClick={() => openSupplierModal(order)}
+              className="text-xs bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-3 py-1.5 rounded-lg transition font-medium">
+              🏭 Supplier
+            </button>
+            <SupplierChip order={order} />
           </div>
         </div>
 
@@ -228,7 +242,7 @@ const ORDER_STATUS_COLOR = {
   "Cancelled":  "bg-red-100 text-red-700",
 };
 
-const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
+const TableView = ({ orders, openStatusModal, updatePaymentStatus, openSupplierModal }) => {
   const [expandedId, setExpandedId] = useState(null);
 
   return (
@@ -327,7 +341,14 @@ const TableView = ({ orders, openStatusModal, updatePaymentStatus }) => {
                     >
                       Label
                     </button>
+                    <button
+                      onClick={() => openSupplierModal(order)}
+                      className="text-[10px] bg-white dark:bg-slate-900 border border-gray-300 dark:border-slate-600 hover:border-gray-500 text-gray-600 dark:text-slate-300 px-2 py-1 rounded-lg transition"
+                    >
+                      Supplier
+                    </button>
                   </div>
+                  <div className="mt-1"><SupplierChip order={order} /></div>
                 </td>
               </tr>
 
@@ -398,6 +419,7 @@ const PAllOrders = () => {
   const [note, setNote]                       = useState("");
   const [statusErrors, setStatusErrors]       = useState({ status: "", note: "" });
   const [orderData, setOrderData]             = useState([]);
+  const [supplierOrder, setSupplierOrder]     = useState(null);
   const [viewMode, setViewMode]               = useState("table");
   const ordersPerPage = 10;
   const [currentPage, setCurrentPage]         = useState(1);
@@ -589,9 +611,15 @@ const updatePaymentStatus = async (orderId, paymentStatus) => {
       </div>
 
       {viewMode === "table"
-        ? <TableView orders={currentOrders} openStatusModal={openStatusModal} updatePaymentStatus={updatePaymentStatus} />
-        : <TabsView  orders={currentOrders} openStatusModal={openStatusModal} />
-      }
+        ? <TableView orders={currentOrders} openStatusModal={openStatusModal} updatePaymentStatus={updatePaymentStatus} openSupplierModal={setSupplierOrder} />
+        : <TabsView  orders={currentOrders} openStatusModal={openStatusModal} openSupplierModal={setSupplierOrder} />}
+      {supplierOrder && (
+        <OrderSupplierTransfer
+          order={supplierOrder}
+          onClose={() => setSupplierOrder(null)}
+          onTransferred={(patch) => setOrderData((prev) => prev.map((o) => (o._id === supplierOrder._id ? { ...o, ...patch } : o)))}
+        />
+      )}
 
       <div className="flex items-center justify-center gap-3 mt-5">
         <button

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { base_url } from "../../../config/config";
+import { staffRequest } from "../Partners/partnerAdminApi";
 import Swal from "sweetalert2";
 import RichTextEditor from "../../../utils/PichTextEditor";
 
@@ -56,11 +57,15 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
             .then(d => { setCategories(d.categories); setSubcategories(d.subcategories); })
             .catch(console.error);
 
-        fetch(`${base_url}/sellers`)
-            .then(r => r.json())
+        staffRequest("/sellers")
             .then(d => setSellers(Array.isArray(d) ? d : []))
             .catch(console.error);
-    }, []);
+
+        // Seller prices live outside the product doc; merge them in by variant label.
+        staffRequest(`/admin/sellerprices/${p._id}`)
+            .then(({ prices }) => setVariants(prev => prev.map(v => ({ ...v, sellerPrice: prices?.[v.label] ?? "" }))))
+            .catch(console.error);
+    }, [p._id]);
 
     useEffect(() => {
         if (form.category) {
@@ -126,6 +131,7 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                 combination: combo,
                 label,
                 price:       existing?.price       || "",
+                sellerPrice: existing?.sellerPrice || "",
                 profit:      existing?.profit      || "",
                 discount:    existing?.discount    || "",
                 is_active:   existing?.is_active   ?? true,
@@ -171,7 +177,8 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
         formData.append("deliveryTime",       form.deliveryTime);
         formData.append("tags",              JSON.stringify(tags));
         formData.append("criteria",          JSON.stringify(criteria));
-        formData.append("variants",          JSON.stringify(variants));
+        // Seller prices are private: saved to /admin/sellerprices, never in the product.
+        formData.append("variants",          JSON.stringify(variants.map(v => ({ ...v, sellerPrice: undefined }))));
         formData.append("existingPics",      JSON.stringify(existingPics));
 
         const selectedSeller = sellers.find(s => s._id === form.sellerId);
@@ -188,6 +195,14 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
             });
 
             if (res.ok) {
+                const prices = Object.fromEntries(variants.filter(v => Number(v.sellerPrice) > 0).map(v => [v.label, Number(v.sellerPrice)]));
+                try {
+                    await staffRequest(`/admin/sellerprices/${p._id}`, { method: "PUT", body: { prices } });
+                } catch (err) {
+                    Swal.fire("Product saved", `Seller prices were not saved: ${err.message}`, "warning");
+                    onSaved();
+                    return;
+                }
                 Swal.fire({ title: "Saved!", text: "Product updated successfully.", icon: "success" });
                 onSaved();
                 onClose();
@@ -397,13 +412,13 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
 
                             <div className="border border-gray-100 dark:border-slate-700 rounded-xl overflow-hidden">
                                 <div className="grid gap-2 px-3 py-2 bg-gray-50 dark:bg-slate-900 text-[10px] font-bold uppercase tracking-wide text-gray-400 dark:text-slate-400"
-                                    style={{ gridTemplateColumns: "1fr 80px 80px 70px 50px" }}>
-                                    <span>Combination</span><span>Price</span><span>Profit</span><span>Discount</span><span>Active</span>
+                                    style={{ gridTemplateColumns: "1fr 80px 80px 80px 70px 50px" }}>
+                                    <span>Combination</span><span>Price</span><span>Seller</span><span>Profit</span><span>Discount</span><span>Active</span>
                                 </div>
                                 {variants.map(v => (
                                     <div key={v.id}
                                         className={`grid gap-2 px-3 py-2 border-t border-gray-100 dark:border-slate-700 items-center ${!v.is_active ? "opacity-40" : ""}`}
-                                        style={{ gridTemplateColumns: "1fr 80px 80px 70px 50px" }}>
+                                        style={{ gridTemplateColumns: "1fr 80px 80px 80px 70px 50px" }}>
                                         <div className="flex flex-wrap gap-1">
                                             {Object.values(v.combination).map((val, i) => (
                                                 <span key={i} className="bg-gray-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs text-gray-700 dark:text-slate-300 font-medium">{val}</span>
@@ -411,6 +426,9 @@ const EditProductDrawer = ({ p, onClose, onSaved }) => {
                                         </div>
                                         <input type="number" placeholder="0" className="flin text-xs px-2 py-1"
                                             value={v.price} onChange={e => handleVariantChange(v.id, "price", e.target.value)}
+                                            disabled={!v.is_active} />
+                                        <input type="number" placeholder="0" title="What sellers pay for this variant" className="flin text-xs px-2 py-1"
+                                            value={v.sellerPrice ?? ""} onChange={e => handleVariantChange(v.id, "sellerPrice", e.target.value)}
                                             disabled={!v.is_active} />
                                         <input type="number" placeholder="0" className="flin text-xs px-2 py-1"
                                             value={v.profit} onChange={e => handleVariantChange(v.id, "profit", e.target.value)}
