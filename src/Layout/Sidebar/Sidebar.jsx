@@ -77,6 +77,12 @@ const SECTIONS = [
         items: [{ id: 25, name: 'Event Analytics', path: '/pripacklab/eventanalytics' }],
     },
     {
+        id: 'deliveryportal',
+        label: 'Delivery Portal',
+        icon: TbTruckDelivery,
+        items: [{ id: 30, name: 'Delivery Portal', path: '/pripacklab/deliveryportal' }],
+    },
+    {
         id: 'support',
         label: 'Support Chat',
         icon: FiHeadphones,
