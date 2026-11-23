@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { base_url } from "../../../config/config";
 import { staffRequest, taka, fetchApprovedSuppliers, SUPPLIER_STATUS_BADGE } from "../Partners/partnerAdminApi";
@@ -73,14 +73,34 @@ const OrderDetail = ({ order, suppliers, onClose, onChanged }) => {
             </thead>
             <tbody>
               {order.items.map((item, i) => (
-                <tr key={i}>
-                  <td>{item.image && <img src={`${base_url}${item.image}`} alt="" className="w-10 h-10 object-cover rounded" />}</td>
-                  <td>{item.productName}<span className="text-gray-400"> · {item.variantLabel || "Standard"}</span><br /><span className="text-xs text-gray-400">{item.category}</span></td>
-                  <td>{item.units}</td>
-                  <td>{taka(item.sellerPrice)}</td>
-                  <td>{taka(item.sellingPrice)}</td>
-                  <td className="font-semibold">{taka(item.costTotal)}</td>
-                </tr>
+                <Fragment key={i}>
+                  <tr>
+                    <td>{item.image && <img src={`${base_url}${item.image}`} alt="" className="w-10 h-10 object-cover rounded" />}</td>
+                    <td>{item.productName}<span className="text-gray-400"> · {item.variantLabel || "Standard"}</span><br /><span className="text-xs text-gray-400">{item.category}</span></td>
+                    <td>{item.units}</td>
+                    <td>{taka(item.sellerPrice)}</td>
+                    <td>{taka(item.sellingPrice)}</td>
+                    <td className="font-semibold">{taka(item.costTotal)}</td>
+                  </tr>
+                  {(item.unitDetails || []).length > 0 && (
+                    <tr>
+                      <td></td>
+                      <td colSpan={5} className="text-left">
+                        <div className="flex flex-col gap-1 py-1">
+                          {item.unitDetails.map((u, ui) => (
+                            <div key={ui} className="text-xs flex gap-2 items-start">
+                              <span className="font-semibold text-teal-600">Unit {ui + 1}</span>
+                              <span className="flex-1" dangerouslySetInnerHTML={{ __html: u.description || "" }} />
+                              {u.filePath
+                                ? <a href={`${base_url}${u.filePath}`} target="_blank" rel="noreferrer" className="text-teal-600 underline shrink-0">📎 Open file</a>
+                                : <span className="text-amber-600 shrink-0">No file</span>}
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))}
             </tbody>
           </table>

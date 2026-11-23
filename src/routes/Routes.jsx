@@ -30,6 +30,7 @@ import OrderLabel from "../Layout/POrders/AllOrders/OrderLabel";
 import PPartners from "../Layout/Pripacklab/Partners/PPartners";
 import PPartnerChat from "../Layout/Pripacklab/Partners/PPartnerChat";
 import PSellerOrders from "../Layout/Pripacklab/Sellers/PSellerOrders";
+import PSellerPayments from "../Layout/Pripacklab/Sellers/PSellerPayments";
 import GeoLocation from "../Layout/Pripacklab/GeoLocation/GeoLocation";
 import EventAnalytics from "../Layout/Pripacklab/EventAnalytics/EventAnalytics";
 import DeliveryPortal from "../Layout/Pripacklab/DeliveryPortal/DeliveryPortal";
@@ -93,6 +94,10 @@ export const router = createBrowserRouter([
       {
         path: '/pripacklab/sellerorders',
         element: <PSellerOrders />
+      },
+      {
+        path: '/pripacklab/sellerpayments',
+        element: <PSellerPayments />
       },
       {
         path: '/pripacklab/partnerchat',

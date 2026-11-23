@@ -34,6 +34,7 @@ const BADGE_KEYS = {
     '/pripacklab/sellers': 'pendingSellers',
     '/pripacklab/suppliers': 'pendingSuppliers',
     '/pripacklab/sellerorders': 'sellerOrders',
+    '/pripacklab/sellerpayments': 'sellerPayments',
     '/pripacklab/partnerchat': 'unreadPartnerChats',
 };
 
@@ -131,6 +132,7 @@ const SECTIONS = [
         items: [
             { id: 5, name: 'All Orders', path: '/pripacklab/allorders' },
             { id: 28, name: 'Seller Orders', path: '/pripacklab/sellerorders' },
+            { id: 31, name: 'Seller Payments', path: '/pripacklab/sellerpayments' },
             { id: 6, name: 'Delivery Charge', path: '/pripacklab/delivery' },
             { id: 7, name: 'Coupons', path: '/pripacklab/coupons' },
         ],
