@@ -13,11 +13,128 @@ const STATUS_BADGE = {
   Cancelled: "bg-red-100 text-red-700",
 };
 
+const DIVISIONS = ["Dhaka", "Chattogram", "Rajshahi", "Khulna", "Barishal", "Sylhet", "Rangpur", "Mymensingh"];
+
 const formatDate = (d) => new Date(d).toLocaleString("en-GB", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
+// Books a CC-Delivery rider: pickup from the assigned supplier, deliver to
+// the order's customer (or seller, for a 'self' order). Pickup fields are
+// only required the first time for a given supplier — the backend caches
+// the address and reuses it after that, which is why pickup starts
+// collapsed instead of being shown as a hard requirement up front.
+const RequestRiderForm = ({ order, onClose, onRequested }) => {
+  const [showPickup, setShowPickup] = useState(false);
+  const [pickup, setPickup] = useState({
+    division: DIVISIONS[0],
+    district: order.supplier?.address || "",
+    upazila: "",
+    address_line: order.supplier?.address || "",
+    contact_name: order.supplier?.name || "",
+    contact_phone: order.supplier?.phone || "",
+  });
+  const [delivery, setDelivery] = useState({
+    division: DIVISIONS[0],
+    district: "",
+    upazila: "",
+    address_line: order.orderFor === "customer" ? (order.customer?.address || "") : "",
+  });
+  const [busy, setBusy] = useState(false);
+
+  const field = (obj, setObj, key, label, wide = false) => (
+    <label className={`flex flex-col gap-0.5 text-xs ${wide ? "col-span-2" : ""}`}>
+      <span className="text-gray-400 font-semibold uppercase tracking-wide">{label}</span>
+      <input
+        className="input input-bordered input-sm"
+        value={obj[key]}
+        onChange={(e) => setObj({ ...obj, [key]: e.target.value })}
+      />
+    </label>
+  );
+
+  const divisionField = (obj, setObj, label) => (
+    <label className="flex flex-col gap-0.5 text-xs">
+      <span className="text-gray-400 font-semibold uppercase tracking-wide">{label}</span>
+      <select
+        className="select select-bordered select-sm"
+        value={obj.division}
+        onChange={(e) => setObj({ ...obj, division: e.target.value })}
+      >
+        {DIVISIONS.map((d) => <option key={d} value={d}>{d}</option>)}
+      </select>
+    </label>
+  );
+
+  const submit = async () => {
+    if (!delivery.district.trim() || !delivery.upazila.trim() || !delivery.address_line.trim()) {
+      Swal.fire("Missing details", "Delivery district, upazila and address are required.", "warning");
+      return;
+    }
+    setBusy(true);
+    try {
+      const body = { delivery };
+      if (showPickup) body.pickup = pickup;
+      await staffRequest(`/admin/sellerorders/${order._id}/request-rider`, { method: "POST", body });
+      await Swal.fire("Rider requested", "", "success");
+      onRequested();
+      onClose();
+    } catch (err) {
+      Swal.fire("Could not request rider", err.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4" onClick={onClose}>
+      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-xl p-6 w-full max-w-lg relative max-h-[90vh] overflow-y-auto dark:text-slate-300" onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-3 right-3 text-gray-500 dark:text-slate-400 hover:text-red-500 text-xl">✕</button>
+        <h3 className="text-lg font-semibold dark:text-slate-100 mb-1">Request rider for #{order.referenceCode}</h3>
+        <p className="text-xs text-gray-400 mb-4">
+          Rider picks up from {order.supplier?.name || "the supplier"} and delivers to{" "}
+          {order.orderFor === "customer" ? (order.customer?.name || "the customer") : "the seller"}.
+        </p>
+
+        <button
+          type="button"
+          onClick={() => setShowPickup((v) => !v)}
+          className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-1"
+        >
+          {showPickup ? "▾" : "▸"} Pickup address
+        </button>
+        <p className="text-xs text-gray-400 mb-2">
+          Only needed the first time for this supplier — leave collapsed if it was already saved on an earlier order.
+        </p>
+        {showPickup && (
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            {divisionField(pickup, setPickup, "Division")}
+            {field(pickup, setPickup, "district", "District")}
+            {field(pickup, setPickup, "upazila", "Upazila")}
+            {field(pickup, setPickup, "address_line", "Address", true)}
+            {field(pickup, setPickup, "contact_name", "Contact name")}
+            {field(pickup, setPickup, "contact_phone", "Contact phone")}
+          </div>
+        )}
+
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">Delivery address</p>
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          {divisionField(delivery, setDelivery, "Division")}
+          {field(delivery, setDelivery, "district", "District")}
+          {field(delivery, setDelivery, "upazila", "Upazila")}
+          {field(delivery, setDelivery, "address_line", "Address", true)}
+        </div>
+
+        <button disabled={busy} onClick={submit} className="btn btn-sm btn-info text-white w-full">
+          {busy ? "Requesting..." : "Request Rider"}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const OrderDetail = ({ order, suppliers, onClose, onChanged }) => {
   const [supplierId, setSupplierId] = useState(order.supplier?._id || "");
   const [busy, setBusy] = useState(false);
+  const [showRiderForm, setShowRiderForm] = useState(false);
 
   const act = async (action, extra = {}) => {
     const { value: note, isConfirmed } = await Swal.fire({
@@ -120,6 +237,13 @@ const OrderDetail = ({ order, suppliers, onClose, onChanged }) => {
             )}
           </p>
         )}
+        {order.ccDelivery && (
+          <p className="text-sm mt-2 bg-cyan-50 border border-cyan-200 rounded-lg px-3 py-2">
+            <b>Rider:</b> {order.ccDelivery.trackingId || order.ccDelivery.orderNumber}
+            {" · "}
+            <span className="text-cyan-700">{(order.ccDelivery.status || "booked").replace(/_/g, " ")}</span>
+          </p>
+        )}
 
         <div className="mt-4">
           <p className="text-xs font-semibold text-gray-400 uppercase mb-1">History</p>
@@ -146,8 +270,11 @@ const OrderDetail = ({ order, suppliers, onClose, onChanged }) => {
               </button>
             </>
           )}
-          {order.supplierStatus === "Pickup Requested" && (
-            <button disabled={busy} onClick={() => act("pickedup")} className="btn btn-sm btn-info text-white">Mark picked up</button>
+          {order.supplierStatus === "Pickup Requested" && !order.ccDelivery && (
+            <>
+              <button disabled={busy} onClick={() => setShowRiderForm(true)} className="btn btn-sm btn-info text-white">Request rider</button>
+              <button disabled={busy} onClick={() => act("pickedup")} className="btn btn-sm btn-ghost">Mark picked up manually</button>
+            </>
           )}
           {order.status === "Transferred to Supplier" && (
             <button disabled={busy} onClick={() => act("deliver")} className="btn btn-sm btn-success">Mark delivered</button>
@@ -157,6 +284,9 @@ const OrderDetail = ({ order, suppliers, onClose, onChanged }) => {
           )}
         </div>
       </div>
+      {showRiderForm && (
+        <RequestRiderForm order={order} onClose={() => setShowRiderForm(false)} onRequested={onChanged} />
+      )}
     </div>
   );
 };
